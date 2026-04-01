@@ -268,6 +268,21 @@ function updateUsersForTeam(users, teamForm, teamId) {
 
 export function AppProvider({ children }) {
   const [state, setState] = useState(loadInitialState);
+  const seed = useMemo(buildSeedState, []);
+
+  useEffect(() => {
+    if (state.seedSignature === seed.seedSignature) {
+      return;
+    }
+
+    setState({
+      ...seed,
+      authUserId: null,
+      page: "users",
+      modal: null,
+      notice: "Seed data refreshed.",
+    });
+  }, [seed.seedSignature, state.seedSignature]);
 
   const currentUser = useMemo(() => getUserById(state.users, state.authUserId), [state.users, state.authUserId]);
 
