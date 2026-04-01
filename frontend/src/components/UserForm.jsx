@@ -33,7 +33,7 @@ export default function UserForm({ open, mode, user, teams, canCreateAdmin, onCl
         password: "",
         role: user.role,
         status: user.status,
-        permissions: user.permissions.filter((permission) => permission !== "ALL_ACCESS"),
+        permissions: user.permissions.filter((permission) => permission !== "ALL ACCESS"),
         team_id: user.team_id || "",
         seniority_role: user.seniority_role,
       });

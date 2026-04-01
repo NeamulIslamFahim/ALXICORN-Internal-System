@@ -10,7 +10,7 @@ const STORAGE_KEYS = {
 };
 
 export const ROLE_OPTIONS = {
-  SUPER_ADMIN: "SUPER_ADMIN",
+  SUPER_ADMIN: "SUPER ADMIN",
   ADMIN: "ADMIN",
   EMPLOYEE: "EMPLOYEE",
 };
@@ -28,10 +28,33 @@ export const SENIORITY_OPTIONS = {
   LEAD: "LEAD",
 };
 
-export const PERMISSION_OPTIONS = ["USER_CREATE", "USER_EDIT", "USER_DEACTIVATE", "TEAM_MANAGE"];
+export const PERMISSION_OPTIONS = ["USER CREATE", "USER EDIT", "USER DEACTIVATE", "TEAM MANAGE"];
 
 const AppContext = createContext(null);
 const SEED_SIGNATURE_KEY = "um_seed_signature";
+const ROLE_LOOKUP = {
+  SUPER_ADMIN: ROLE_OPTIONS.SUPER_ADMIN,
+  ADMIN: ROLE_OPTIONS.ADMIN,
+  EMPLOYEE: ROLE_OPTIONS.EMPLOYEE,
+};
+const STATUS_LOOKUP = {
+  ACTIVE: STATUS_OPTIONS.ACTIVE,
+  INACTIVE: STATUS_OPTIONS.INACTIVE,
+  TERMINATED: STATUS_OPTIONS.TERMINATED,
+};
+const SENIORITY_LOOKUP = {
+  JUNIOR: SENIORITY_OPTIONS.JUNIOR,
+  MID: SENIORITY_OPTIONS.MID,
+  SENIOR: SENIORITY_OPTIONS.SENIOR,
+  LEAD: SENIORITY_OPTIONS.LEAD,
+};
+const PERMISSION_LOOKUP = {
+  USER_CREATE: "USER CREATE",
+  USER_EDIT: "USER EDIT",
+  USER_DEACTIVATE: "USER DEACTIVATE",
+  TEAM_MANAGE: "TEAM MANAGE",
+  ALL_ACCESS: "ALL ACCESS",
+};
 
 function normalizeToken(value) {
   // Turn seed values like "SUPER ADMIN" into "SUPER_ADMIN".
@@ -45,25 +68,25 @@ function normalizeToken(value) {
 function normalizeRole(value) {
   // Make sure role names match the app constants.
   const normalized = normalizeToken(value).replace(/_+/g, "_");
-  return Object.values(ROLE_OPTIONS).includes(normalized) ? normalized : ROLE_OPTIONS.EMPLOYEE;
+  return ROLE_LOOKUP[normalized] || ROLE_OPTIONS.EMPLOYEE;
 }
 
 function normalizeStatus(value) {
   // Make sure status names match the app constants.
   const normalized = normalizeToken(value);
-  return Object.values(STATUS_OPTIONS).includes(normalized) ? normalized : STATUS_OPTIONS.ACTIVE;
+  return STATUS_LOOKUP[normalized] || STATUS_OPTIONS.ACTIVE;
 }
 
 function normalizeSeniority(value) {
   // Keep seniority values in a fixed uppercase format.
   const normalized = normalizeToken(value);
-  return Object.values(SENIORITY_OPTIONS).includes(normalized) ? normalized : SENIORITY_OPTIONS.JUNIOR;
+  return SENIORITY_LOOKUP[normalized] || SENIORITY_OPTIONS.JUNIOR;
 }
 
 function normalizePermission(value) {
   // Normalize permission names from the JSON seed file.
   const normalized = normalizeToken(value);
-  return normalized === "ALL_ACCESS" || PERMISSION_OPTIONS.includes(normalized) ? normalized : normalized;
+  return PERMISSION_LOOKUP[normalized] || String(value || "").trim().toUpperCase();
 }
 
 function normalizeSeedData(seed) {
@@ -108,8 +131,8 @@ function normalizeSeedData(seed) {
     : [];
 
   users.forEach((user) => {
-    if (user.role === ROLE_OPTIONS.SUPER_ADMIN && !user.permissions.includes("ALL_ACCESS")) {
-      user.permissions = ["ALL_ACCESS"];
+    if (user.role === ROLE_OPTIONS.SUPER_ADMIN && !user.permissions.includes("ALL ACCESS")) {
+      user.permissions = ["ALL ACCESS"];
     }
   });
 
@@ -307,12 +330,12 @@ export function AppProvider({ children }) {
         currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || currentUser?.role === ROLE_OPTIONS.ADMIN,
       // Only approved roles can manage teams.
       canManageTeams:
-        currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || canUse(currentUser, "TEAM_MANAGE"),
+        currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || canUse(currentUser, "TEAM MANAGE"),
       // Edit permission depends on role permissions or Super Admin access.
-      canEditUsers: currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || canUse(currentUser, "USER_EDIT"),
+      canEditUsers: currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || canUse(currentUser, "USER EDIT"),
       // Deactivate permission depends on role permissions or Super Admin access.
       canDeactivateUsers:
-        currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || canUse(currentUser, "USER_DEACTIVATE"),
+        currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || canUse(currentUser, "USER DEACTIVATE"),
       // Employees, Admins, and Super Admins can open their allowed pages.
       canViewTeams:
         currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN ||
@@ -417,7 +440,7 @@ export function AppProvider({ children }) {
                     form.role === ROLE_OPTIONS.ADMIN
                       ? form.permissions
                       : user.role === ROLE_OPTIONS.SUPER_ADMIN
-                        ? ["ALL_ACCESS"]
+                        ? ["ALL ACCESS"]
                         : [],
                   team_id: form.team_id || null,
                   seniority_role: form.seniority_role,
@@ -436,7 +459,7 @@ export function AppProvider({ children }) {
                 form.role === ROLE_OPTIONS.ADMIN
                   ? form.permissions
                   : form.role === ROLE_OPTIONS.SUPER_ADMIN
-                    ? ["ALL_ACCESS"]
+                    ? ["ALL ACCESS"]
                     : [],
               team_id: form.team_id || null,
               seniority_role: form.seniority_role,

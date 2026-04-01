@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useApp } from "../context/AppContext";
+import { ROLE_OPTIONS, useApp } from "../context/AppContext";
 
 // Login screen.
 export default function LoginPage() {
@@ -9,7 +9,10 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   // Keep demo logins in sync with the loaded seed users.
   const demoLogins = users.filter(
-    (user) => user.role === "SUPER ADMIN" || user.role === "ADMIN" || user.role === "EMPLOYEE"
+    (user) =>
+      user.role === ROLE_OPTIONS.SUPER_ADMIN ||
+      user.role === ROLE_OPTIONS.ADMIN ||
+      user.role === ROLE_OPTIONS.EMPLOYEE
   );
 
   // Try to log in with the entered email and password.
