@@ -1,6 +1,6 @@
-import seedData from "../../data/seedData.json";
-import { makeId, nowStamp } from "../../utils/localStorageHelper";
-import { PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS } from "./constants";
+import seedData from "./data/seedData.json";
+import { makeId, nowStamp } from "./utils/localStorageHelper";
+import { ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS } from "./constants";
 
 const ROLE_LOOKUP = {
   SUPER_ADMIN: ROLE_OPTIONS.SUPER_ADMIN,

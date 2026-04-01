@@ -1,12 +1,12 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import {
   PAGE_OPTIONS,
-  createUserManagementFactory,
   PERMISSION_OPTIONS,
   ROLE_OPTIONS,
   SENIORITY_OPTIONS,
   STATUS_OPTIONS,
-} from "../modules/userManagement";
+  createUserManagementFactory,
+} from "../index";
 
 const AppContext = createContext(null);
 
@@ -55,6 +55,7 @@ export function AppProvider({ children }) {
       toggleUserStatus: (userId) => setState((prev) => store.toggleUserStatus(prev, userId)),
       saveTeam: (form) => setState((prev) => store.saveTeam(prev, form)),
       deleteTeam: (teamId) => setState((prev) => store.deleteTeam(prev, teamId)),
+      exportSeedData: (filename) => store.exportSeedData(state, filename),
     }),
     [currentUser, permissions, state, store]
   );

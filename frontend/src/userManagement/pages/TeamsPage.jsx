@@ -5,7 +5,17 @@ import TeamForm from "../components/TeamForm";
 
 // Teams page.
 export default function TeamsPage() {
-  const { teams, users, modal, permissions, openTeamModal, closeTeamModal, saveTeam, deleteTeam } = useApp();
+  const {
+    teams,
+    users,
+    modal,
+    permissions,
+    openTeamModal,
+    closeTeamModal,
+    saveTeam,
+    deleteTeam,
+    exportSeedData,
+  } = useApp();
 
   return (
     <section className="page-card">
@@ -13,14 +23,19 @@ export default function TeamsPage() {
         title="Teams"
         note="Create teams and assign members."
         action={
-          <button
-            type="button"
-            className="primary-button"
-            onClick={() => openTeamModal("create")}
-            disabled={!permissions.canManageTeams}
-          >
-            Create Team
-          </button>
+          <div className="header-actions">
+            <button type="button" className="ghost-button" onClick={() => exportSeedData("seedData.json")}>
+              Download JSON
+            </button>
+            <button
+              type="button"
+              className="primary-button"
+              onClick={() => openTeamModal("create")}
+              disabled={!permissions.canManageTeams}
+            >
+              Create Team
+            </button>
+          </div>
         }
       />
 

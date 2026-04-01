@@ -18,6 +18,7 @@ export default function UsersPage() {
     saveUser,
     deleteUser,
     toggleUserStatus,
+    exportSeedData,
   } = useApp();
 
   const [search, setSearch] = useState("");
@@ -46,14 +47,16 @@ export default function UsersPage() {
         title="Users"
         note="Search and manage accounts."
         action={
-          <button
-            type="button"
-            className="primary-button"
-            onClick={() => openUserModal("create")}
-            disabled={!permissions.canCreateEmployee && !permissions.canCreateAdmin}
-          >
-            Create User
-          </button>
+          <div className="header-actions">
+            <button
+              type="button"
+              className="primary-button"
+              onClick={() => openUserModal("create")}
+              disabled={!permissions.canCreateEmployee && !permissions.canCreateAdmin}
+            >
+              Create User
+            </button>
+          </div>
         }
       />
 

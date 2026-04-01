@@ -1,13 +1,6 @@
-import seedData from "../../data/seedData.json";
-import { makeId, nowStamp, readJSON, writeJSON } from "../../utils/localStorageHelper";
-import {
-  PAGE_OPTIONS,
-  PERMISSION_OPTIONS,
-  ROLE_OPTIONS,
-  SENIORITY_OPTIONS,
-  STATUS_OPTIONS,
-  STORAGE_KEYS,
-} from "./constants";
+import seedData from "./data/seedData.json";
+import { downloadJSON, makeId, nowStamp, readJSON, writeJSON } from "./utils/localStorageHelper";
+import { PAGE_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS, STORAGE_KEYS } from "./constants";
 import { buildSeedSignature, normalizeSeedData } from "./normalizers";
 
 function isValidUser(user) {
@@ -307,7 +300,11 @@ export class UserManagementStore {
     const nextStatus =
       target.status === STATUS_OPTIONS.ACTIVE ? STATUS_OPTIONS.INACTIVE : STATUS_OPTIONS.ACTIVE;
 
-    if (target.role === ROLE_OPTIONS.SUPER_ADMIN && nextStatus !== STATUS_OPTIONS.ACTIVE && countActiveSuperAdmins(state.users) <= 1) {
+    if (
+      target.role === ROLE_OPTIONS.SUPER_ADMIN &&
+      nextStatus !== STATUS_OPTIONS.ACTIVE &&
+      countActiveSuperAdmins(state.users) <= 1
+    ) {
       return { ...state, notice: "Last Super Admin cannot be deactivated." };
     }
 
@@ -358,5 +355,12 @@ export class UserManagementStore {
     writeJSON(STORAGE_KEYS.authUserId, state.authUserId);
     writeJSON(STORAGE_KEYS.page, state.page);
     writeJSON(STORAGE_KEYS.seedSignature, state.seedSignature);
+  }
+
+  exportSeedData(state, filename = "seedData.json") {
+    downloadJSON(filename, {
+      users: state.users,
+      teams: state.teams,
+    });
   }
 }

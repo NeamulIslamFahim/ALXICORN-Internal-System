@@ -6,4 +6,4 @@ export {
   STATUS_OPTIONS,
   UserManagementStore,
   createUserManagementFactory,
-} from "../modules/userManagement";
+} from "../index";

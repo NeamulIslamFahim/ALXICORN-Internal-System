@@ -30,3 +30,23 @@ export function nowStamp() {
   // Store dates in one standard format.
   return new Date().toISOString();
 }
+
+export function downloadJSON(filename, data) {
+  // Let the user download the current app data as a JSON file.
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  const fileName = filename || "seedData.json";
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = fileName;
+  link.style.display = "none";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+}
