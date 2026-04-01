@@ -34,6 +34,7 @@ const AppContext = createContext(null);
 const SEED_SIGNATURE_KEY = "um_seed_signature";
 
 function normalizeToken(value) {
+  // Turn seed values like "SUPER ADMIN" into "SUPER_ADMIN".
   return String(value || "")
     .trim()
     .toUpperCase()
@@ -42,26 +43,31 @@ function normalizeToken(value) {
 }
 
 function normalizeRole(value) {
+  // Make sure role names match the app constants.
   const normalized = normalizeToken(value).replace(/_+/g, "_");
   return Object.values(ROLE_OPTIONS).includes(normalized) ? normalized : ROLE_OPTIONS.EMPLOYEE;
 }
 
 function normalizeStatus(value) {
+  // Make sure status names match the app constants.
   const normalized = normalizeToken(value);
   return Object.values(STATUS_OPTIONS).includes(normalized) ? normalized : STATUS_OPTIONS.ACTIVE;
 }
 
 function normalizeSeniority(value) {
+  // Keep seniority values in a fixed uppercase format.
   const normalized = normalizeToken(value);
   return Object.values(SENIORITY_OPTIONS).includes(normalized) ? normalized : SENIORITY_OPTIONS.JUNIOR;
 }
 
 function normalizePermission(value) {
+  // Normalize permission names from the JSON seed file.
   const normalized = normalizeToken(value);
   return normalized === "ALL_ACCESS" || PERMISSION_OPTIONS.includes(normalized) ? normalized : normalized;
 }
 
 function normalizeSeedData(seed) {
+  // Clean the JSON seed so the rest of the app can use one format.
   const teams = Array.isArray(seed?.teams)
     ? seed.teams
         .filter(Boolean)
@@ -110,6 +116,7 @@ function normalizeSeedData(seed) {
   const userIds = new Set(users.map((user) => user.id));
 
   const nextTeams = teams.map((team) => {
+    // Keep team members valid and make sure the lead is included.
     const members = team.members.filter((member) => userIds.has(member.user_id));
     const leadExists = team.team_lead_id && userIds.has(team.team_lead_id);
     const leadId = leadExists ? team.team_lead_id : members[0]?.user_id || null;
@@ -143,6 +150,7 @@ function normalizeSeedData(seed) {
 }
 
 function buildSeedSignature(seed) {
+  // A small string that changes when the seed data changes.
   return JSON.stringify({
     users: seed.users,
     teams: seed.teams,
@@ -150,6 +158,7 @@ function buildSeedSignature(seed) {
 }
 
 function buildSeedState() {
+  // Build the initial state from the JSON seed file.
   const normalizedSeed = normalizeSeedData(seedData);
 
   return {
@@ -178,6 +187,7 @@ function isValidTeam(team) {
 }
 
 function loadInitialState() {
+  // Use saved browser data when it still matches the current seed.
   const seed = buildSeedState();
   const storedSignature = readJSON(SEED_SIGNATURE_KEY, "");
   const storedUsers = readJSON(STORAGE_KEYS.users, null);
@@ -267,10 +277,12 @@ function updateUsersForTeam(users, teamForm, teamId) {
 }
 
 export function AppProvider({ children }) {
+  // All app state lives here in one place.
   const [state, setState] = useState(loadInitialState);
   const seed = useMemo(buildSeedState, []);
 
   useEffect(() => {
+    // If the seed changes, reset to the new seed data.
     if (state.seedSignature === seed.seedSignature) {
       return;
     }
@@ -288,14 +300,20 @@ export function AppProvider({ children }) {
 
   const permissions = useMemo(
     () => ({
+      // Super Admin can create Admin accounts.
       canCreateAdmin: currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN,
+      // Super Admin and Admin can create Employee accounts.
       canCreateEmployee:
         currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || currentUser?.role === ROLE_OPTIONS.ADMIN,
+      // Only approved roles can manage teams.
       canManageTeams:
         currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || canUse(currentUser, "TEAM_MANAGE"),
+      // Edit permission depends on role permissions or Super Admin access.
       canEditUsers: currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || canUse(currentUser, "USER_EDIT"),
+      // Deactivate permission depends on role permissions or Super Admin access.
       canDeactivateUsers:
         currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || canUse(currentUser, "USER_DEACTIVATE"),
+      // Employees, Admins, and Super Admins can open their allowed pages.
       canViewTeams:
         currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN ||
         currentUser?.role === ROLE_OPTIONS.ADMIN ||
@@ -305,6 +323,7 @@ export function AppProvider({ children }) {
   );
 
   useEffect(() => {
+    // Keep the browser storage updated after every change.
     writeJSON(STORAGE_KEYS.users, state.users);
     writeJSON(STORAGE_KEYS.teams, state.teams);
     writeJSON(STORAGE_KEYS.authUserId, state.authUserId);
@@ -313,6 +332,7 @@ export function AppProvider({ children }) {
   }, [state.users, state.teams, state.authUserId, state.page, state.seedSignature]);
 
   function login(email, password) {
+    // Find a matching active user by email and password.
     const user = state.users.find(
       (item) =>
         item.email.trim().toLowerCase() === email.trim().toLowerCase() &&
@@ -365,6 +385,7 @@ export function AppProvider({ children }) {
   }
 
   function saveUser(form) {
+    // Create a new user or update an existing one.
     setState((prev) => {
       const authUser = getUserById(prev.users, prev.authUserId);
       const isEdit = Boolean(form.id);
@@ -434,6 +455,7 @@ export function AppProvider({ children }) {
   }
 
   function deleteUser(userId) {
+    // Remove a user and clean up any team links.
     setState((prev) => {
       const target = prev.users.find((user) => user.id === userId);
       if (!target) {
@@ -462,6 +484,7 @@ export function AppProvider({ children }) {
   }
 
   function toggleUserStatus(userId) {
+    // Flip between ACTIVE and INACTIVE.
     setState((prev) => {
       const target = prev.users.find((user) => user.id === userId);
       if (!target) {
@@ -494,6 +517,7 @@ export function AppProvider({ children }) {
   }
 
   function saveTeam(form) {
+    // Create or update a team and sync member data.
     setState((prev) => {
       const teamId = form.id || makeId("team");
       const nextUsers = updateUsersForTeam(prev.users, form, teamId);
@@ -510,6 +534,7 @@ export function AppProvider({ children }) {
   }
 
   function deleteTeam(teamId) {
+    // Delete one team and clear its user assignments.
     setState((prev) => {
       const nextTeams = prev.teams.filter((team) => team.id !== teamId);
       const nextUsers = prev.users.map((user) =>

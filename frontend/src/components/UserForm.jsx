@@ -20,6 +20,7 @@ export default function UserForm({ open, mode, user, teams, canCreateAdmin, onCl
   });
 
   useEffect(() => {
+    // When the modal opens, fill the form with either blank values or the selected user.
     if (!open) {
       return;
     }
@@ -60,6 +61,7 @@ export default function UserForm({ open, mode, user, teams, canCreateAdmin, onCl
     ? [ROLE_OPTIONS.ADMIN, ROLE_OPTIONS.EMPLOYEE]
     : [ROLE_OPTIONS.EMPLOYEE];
 
+  // Send the current form values back to the page.
   function submit(event) {
     event.preventDefault();
     onSubmit(form);
@@ -78,6 +80,7 @@ export default function UserForm({ open, mode, user, teams, canCreateAdmin, onCl
           </button>
         </div>
 
+        {/* Main form body keeps the fields scrollable inside the popup. */}
         <form className="modal-form" onSubmit={submit}>
           <div className="modal-body">
             <FormField label="Name">
@@ -148,6 +151,7 @@ export default function UserForm({ open, mode, user, teams, canCreateAdmin, onCl
             </FormField>
 
             {form.role === ROLE_OPTIONS.ADMIN ? (
+              // Only Admin users need the permission selector.
               <FormField label="Permissions">
                 <PermissionSelector
                   value={form.permissions}
@@ -158,6 +162,7 @@ export default function UserForm({ open, mode, user, teams, canCreateAdmin, onCl
             ) : null}
 
             {isEdit ? (
+              // Only edit mode allows changing the saved status.
               <FormField label="Status">
                 <select value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })}>
                   {Object.values(STATUS_OPTIONS).map((status) => (
@@ -170,6 +175,7 @@ export default function UserForm({ open, mode, user, teams, canCreateAdmin, onCl
             ) : null}
           </div>
 
+          {/* Footer actions stay fixed at the bottom of the modal. */}
           <div className="modal-actions">
             <span className="modal-note">
               {isEdit ? "Update the saved user." : "Fill the fields and save the user."}

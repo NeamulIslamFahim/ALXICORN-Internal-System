@@ -1,5 +1,6 @@
 // Simple reusable page header.
 export default function PageHeader({ title, action, note }) {
+  // This keeps every page title in the same layout.
   return (
     <div className="page-head">
       <div>

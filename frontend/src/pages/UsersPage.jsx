@@ -6,6 +6,7 @@ import UserForm from "../components/UserForm";
 
 // Users page.
 export default function UsersPage() {
+  // Read the users, teams, and user actions from the app context.
   const {
     users,
     teams,
@@ -23,6 +24,7 @@ export default function UsersPage() {
   const [roleFilter, setRoleFilter] = useState("ALL");
   const [statusFilter, setStatusFilter] = useState("ALL");
 
+  // Filter the table as the user types or changes dropdowns.
   const filteredUsers = useMemo(() => {
     const query = search.trim().toLowerCase();
 
@@ -77,10 +79,10 @@ export default function UsersPage() {
         </select>
       </div>
 
-      <div className="hint-box">
-        {currentUser ? `${currentUser.full_name} · ${currentUser.role}` : "No user"}
-      </div>
+      {/* Small helper text so the active user is obvious. */}
+      <div className="hint-box">{currentUser ? `${currentUser.full_name} · ${currentUser.role}` : "No user"}</div>
 
+      {/* Table shows the current filtered user list. */}
       <UserTable
         users={filteredUsers}
         teams={teams}
@@ -91,6 +93,7 @@ export default function UsersPage() {
         canDeactivate={permissions.canDeactivateUsers}
       />
 
+      {/* Modal opens only when the user button is clicked. */}
       <UserForm
         open={modal?.type === "user"}
         mode={modal?.mode}

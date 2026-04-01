@@ -1,8 +1,10 @@
 function StatusBadge({ status }) {
+  // Turn the raw status text into a colored badge.
   return <span className={`status-badge status-${status.toLowerCase()}`}>{status}</span>;
 }
 
 function roleLabel(role) {
+  // Replace the underscore so role text looks cleaner in the table.
   return role.replace("_", " ");
 }
 
@@ -40,6 +42,7 @@ export default function UserTable({
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
+              {/* Each row shows one user record. */}
               <td>{user.full_name}</td>
               <td>{user.email}</td>
               <td>{roleLabel(user.role)}</td>
@@ -50,6 +53,7 @@ export default function UserTable({
               <td>{user.seniority_role}</td>
               <td>{user.permissions.length ? user.permissions.join(", ") : "-"}</td>
               <td>
+                {/* Action buttons stay together in one row. */}
                 <div className="button-row">
                   {/* Buttons are disabled when the current user has no permission. */}
                   <button

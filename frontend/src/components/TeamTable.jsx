@@ -20,10 +20,12 @@ export default function TeamTable({ teams, users, onEdit, onDelete, canManageTea
         <tbody>
           {teams.map((team) => (
             <tr key={team.id}>
+              {/* Each row shows one team. */}
               <td>{team.name}</td>
               <td>{getUserName(team.team_lead_id)}</td>
               <td>{team.members.length}</td>
               <td>
+                {/* Action buttons stay in one line for easier scanning. */}
                 <div className="button-row">
                   {/* Only users with team permissions can change the table. */}
                   <button type="button" className="action-button" onClick={() => onEdit(team)} disabled={!canManageTeams}>

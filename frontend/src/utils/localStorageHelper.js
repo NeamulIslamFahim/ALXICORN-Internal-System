@@ -1,4 +1,5 @@
 export function readJSON(key, fallback) {
+  // Read a JSON value safely from localStorage.
   try {
     const value = localStorage.getItem(key);
     return value ? JSON.parse(value) : fallback;
@@ -8,6 +9,7 @@ export function readJSON(key, fallback) {
 }
 
 export function writeJSON(key, value) {
+  // Save a JSON value safely so the app does not crash on storage errors.
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch {
@@ -16,6 +18,7 @@ export function writeJSON(key, value) {
 }
 
 export function makeId(prefix = "id") {
+  // Create a simple unique id for new users and teams.
   if (typeof crypto !== "undefined" && crypto.randomUUID) {
     return `${prefix}-${crypto.randomUUID()}`;
   }
@@ -24,5 +27,6 @@ export function makeId(prefix = "id") {
 }
 
 export function nowStamp() {
+  // Store dates in one standard format.
   return new Date().toISOString();
 }

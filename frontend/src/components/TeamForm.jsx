@@ -43,6 +43,7 @@ export default function TeamForm({ open, mode, team, users, onClose, onSubmit })
     return null;
   }
 
+  // Add one user to the team member list.
   function addMember(userId, seniorityRole) {
     if (!userId) {
       return;
@@ -58,14 +59,15 @@ export default function TeamForm({ open, mode, team, users, onClose, onSubmit })
     });
   }
 
+  // Remove one user from the team member list.
   function removeMember(userId) {
-    // Remove one user from the member list.
     setForm({
       ...form,
       members: form.members.filter((member) => member.user_id !== userId),
     });
   }
 
+  // Save the team form values.
   function submit(event) {
     event.preventDefault();
     onSubmit(form);
@@ -81,6 +83,7 @@ export default function TeamForm({ open, mode, team, users, onClose, onSubmit })
           </button>
         </div>
 
+        {/* Team fields stay inside the popup and scroll when needed. */}
         <form className="modal-form" onSubmit={submit}>
           <div className="modal-body">
             <FormField label="Team name">
@@ -101,6 +104,7 @@ export default function TeamForm({ open, mode, team, users, onClose, onSubmit })
             </FormField>
 
             <div className="member-editor">
+              {/* Team members are managed one by one here. */}
               <span>Members</span>
               <MemberAdder users={availableUsers} onAdd={addMember} />
               <div className="member-list">

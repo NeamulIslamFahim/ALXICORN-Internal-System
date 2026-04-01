@@ -3,13 +3,16 @@ import { useApp } from "../context/AppContext";
 
 // Login screen.
 export default function LoginPage() {
+  // Login, notice, and the loaded users come from the shared app state.
   const { login, notice, users } = useApp();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  // Keep demo logins in sync with the loaded seed users.
   const demoLogins = users.filter(
-    (user) => user.role === "SUPER_ADMIN" || user.role === "ADMIN" || user.role === "EMPLOYEE"
+    (user) => user.role === "SUPER ADMIN" || user.role === "ADMIN" || user.role === "EMPLOYEE"
   );
 
+  // Try to log in with the entered email and password.
   function submit(event) {
     event.preventDefault();
     const result = login(form.email, form.password);
@@ -25,6 +28,7 @@ export default function LoginPage() {
   return (
     <main className="auth-page">
       <section className="auth-shell">
+        {/* The card only contains the sign-in form now. */}
         <form className="auth-form" onSubmit={submit}>
           <div className="auth-form-head">
             <p className="eyebrow">Secure access</p>

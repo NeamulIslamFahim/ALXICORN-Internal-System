@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./styles.css";
 
-// Render the whole React app into the root element.
+// Mount the React app inside the root HTML element.
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <App />
