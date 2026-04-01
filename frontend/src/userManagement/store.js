@@ -1,96 +1,96 @@
 import seedData from "./data/seedData.json";
 import { downloadJSON, makeId, nowStamp, readJSON, writeJSON } from "./utils/localStorageHelper";
 import { PAGE_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS, STORAGE_KEYS } from "./constants";
-import { buildSeedSignature, normalizeSeedData } from "./normalizers";
-
-function isValidUser(user) {
-  return (
-    user &&
-    typeof user === "object" &&
-    typeof user.email === "string" &&
-    typeof user.password === "string" &&
-    Object.values(ROLE_OPTIONS).includes(user.role) &&
-    Object.values(STATUS_OPTIONS).includes(user.status)
-  );
-}
-
-function isValidTeam(team) {
-  return team && typeof team === "object" && typeof team.name === "string" && Array.isArray(team.members);
-}
-
-function getUserById(users, userId) {
-  return users.find((user) => user.id === userId) || null;
-}
-
-function countActiveSuperAdmins(users) {
-  return users.filter(
-    (user) => user.role === ROLE_OPTIONS.SUPER_ADMIN && user.status === STATUS_OPTIONS.ACTIVE
-  ).length;
-}
-
-function canUse(user, permission) {
-  if (!user) {
-    return false;
-  }
-
-  if (user.role === ROLE_OPTIONS.SUPER_ADMIN) {
-    return true;
-  }
-
-  return user.permissions.includes(permission);
-}
-
-function saveTeamMembers(teams, teamForm, teamId) {
-  const nextMembers = teamForm.members.map((member) => ({
-    user_id: member.user_id,
-    seniority_role: member.seniority_role,
-  }));
-
-  if (teamForm.team_lead_id && !nextMembers.some((member) => member.user_id === teamForm.team_lead_id)) {
-    nextMembers.unshift({
-      user_id: teamForm.team_lead_id,
-      seniority_role: SENIORITY_OPTIONS.LEAD,
-    });
-  }
-
-  return [
-    ...teams.filter((team) => team.id !== teamId),
-    {
-      id: teamId,
-      name: teamForm.name,
-      team_lead_id: teamForm.team_lead_id,
-      members: nextMembers,
-    },
-  ];
-}
-
-function updateUsersForTeam(users, teamForm, teamId) {
-  const memberMap = new Map(teamForm.members.map((member) => [member.user_id, member.seniority_role]));
-  const memberIds = new Set(teamForm.members.map((member) => member.user_id));
-  memberIds.add(teamForm.team_lead_id);
-
-  return users.map((user) => {
-    if (memberIds.has(user.id)) {
-      return {
-        ...user,
-        team_id: teamId,
-        seniority_role:
-          user.id === teamForm.team_lead_id ? SENIORITY_OPTIONS.LEAD : memberMap.get(user.id) || user.seniority_role,
-      };
-    }
-
-    if (user.team_id === teamId) {
-      return { ...user, team_id: null };
-    }
-
-    return user;
-  });
-}
+import { UserManagementNormalizer } from "./normalizers";
 
 export class UserManagementStore {
   constructor(seed = seedData) {
-    this.seed = normalizeSeedData(seed);
-    this.seedSignature = buildSeedSignature(this.seed);
+    this.seed = UserManagementNormalizer.normalizeSeedData(seed);
+    this.seedSignature = UserManagementNormalizer.buildSeedSignature(this.seed);
+  }
+
+  static isValidUser(user) {
+    return (
+      user &&
+      typeof user === "object" &&
+      typeof user.email === "string" &&
+      typeof user.password === "string" &&
+      Object.values(ROLE_OPTIONS).includes(user.role) &&
+      Object.values(STATUS_OPTIONS).includes(user.status)
+    );
+  }
+
+  static isValidTeam(team) {
+    return team && typeof team === "object" && typeof team.name === "string" && Array.isArray(team.members);
+  }
+
+  static getUserById(users, userId) {
+    return users.find((user) => user.id === userId) || null;
+  }
+
+  static countActiveSuperAdmins(users) {
+    return users.filter(
+      (user) => user.role === ROLE_OPTIONS.SUPER_ADMIN && user.status === STATUS_OPTIONS.ACTIVE
+    ).length;
+  }
+
+  static canUse(user, permission) {
+    if (!user) {
+      return false;
+    }
+
+    if (user.role === ROLE_OPTIONS.SUPER_ADMIN) {
+      return true;
+    }
+
+    return user.permissions.includes(permission);
+  }
+
+  static saveTeamMembers(teams, teamForm, teamId) {
+    const nextMembers = teamForm.members.map((member) => ({
+      user_id: member.user_id,
+      seniority_role: member.seniority_role,
+    }));
+
+    if (teamForm.team_lead_id && !nextMembers.some((member) => member.user_id === teamForm.team_lead_id)) {
+      nextMembers.unshift({
+        user_id: teamForm.team_lead_id,
+        seniority_role: SENIORITY_OPTIONS.LEAD,
+      });
+    }
+
+    return [
+      ...teams.filter((team) => team.id !== teamId),
+      {
+        id: teamId,
+        name: teamForm.name,
+        team_lead_id: teamForm.team_lead_id,
+        members: nextMembers,
+      },
+    ];
+  }
+
+  static updateUsersForTeam(users, teamForm, teamId) {
+    const memberMap = new Map(teamForm.members.map((member) => [member.user_id, member.seniority_role]));
+    const memberIds = new Set(teamForm.members.map((member) => member.user_id));
+    memberIds.add(teamForm.team_lead_id);
+
+    return users.map((user) => {
+      if (memberIds.has(user.id)) {
+        return {
+          ...user,
+          team_id: teamId,
+          seniority_role:
+            user.id === teamForm.team_lead_id ? SENIORITY_OPTIONS.LEAD : memberMap.get(user.id) || user.seniority_role,
+        };
+      }
+
+      if (user.team_id === teamId) {
+        return { ...user, team_id: null };
+      }
+
+      return user;
+    });
   }
 
   createInitialState() {
@@ -98,8 +98,12 @@ export class UserManagementStore {
     const seedChanged = storedSignature !== this.seedSignature;
     const storedUsers = readJSON(STORAGE_KEYS.users, null);
     const storedTeams = readJSON(STORAGE_KEYS.teams, null);
-    const users = !seedChanged && Array.isArray(storedUsers) && storedUsers.every(isValidUser) ? storedUsers : this.seed.users;
-    const teams = !seedChanged && Array.isArray(storedTeams) && storedTeams.every(isValidTeam) ? storedTeams : this.seed.teams;
+    const users = !seedChanged && Array.isArray(storedUsers) && storedUsers.every(UserManagementStore.isValidUser)
+      ? storedUsers
+      : this.seed.users;
+    const teams = !seedChanged && Array.isArray(storedTeams) && storedTeams.every(UserManagementStore.isValidTeam)
+      ? storedTeams
+      : this.seed.teams;
 
     return {
       users,
@@ -113,7 +117,7 @@ export class UserManagementStore {
   }
 
   getCurrentUser(state) {
-    return getUserById(state.users, state.authUserId);
+    return UserManagementStore.getUserById(state.users, state.authUserId);
   }
 
   getPermissions(currentUser) {
@@ -122,10 +126,12 @@ export class UserManagementStore {
       canCreateEmployee:
         currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || currentUser?.role === ROLE_OPTIONS.ADMIN,
       canManageTeams:
-        currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || canUse(currentUser, "TEAM MANAGE"),
-      canEditUsers: currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || canUse(currentUser, "USER EDIT"),
+        currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || UserManagementStore.canUse(currentUser, "TEAM MANAGE"),
+      canEditUsers:
+        currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || UserManagementStore.canUse(currentUser, "USER EDIT"),
       canDeactivateUsers:
-        currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN || canUse(currentUser, "USER DEACTIVATE"),
+        currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN ||
+        UserManagementStore.canUse(currentUser, "USER DEACTIVATE"),
       canViewTeams:
         currentUser?.role === ROLE_OPTIONS.SUPER_ADMIN ||
         currentUser?.role === ROLE_OPTIONS.ADMIN ||
@@ -199,7 +205,7 @@ export class UserManagementStore {
   }
 
   saveUser(state, form) {
-    const authUser = getUserById(state.users, state.authUserId);
+    const authUser = UserManagementStore.getUserById(state.users, state.authUserId);
     const isEdit = Boolean(form.id);
     const current = state.users.find((user) => user.id === form.id);
 
@@ -211,7 +217,7 @@ export class UserManagementStore {
       return { ...state, notice: "Employee cannot create users." };
     }
 
-    if (isEdit && current?.role === ROLE_OPTIONS.SUPER_ADMIN && countActiveSuperAdmins(state.users) <= 1) {
+    if (isEdit && current?.role === ROLE_OPTIONS.SUPER_ADMIN && UserManagementStore.countActiveSuperAdmins(state.users) <= 1) {
       return { ...state, notice: "Last Super Admin cannot be changed." };
     }
 
@@ -271,7 +277,7 @@ export class UserManagementStore {
       return state;
     }
 
-    if (target.role === ROLE_OPTIONS.SUPER_ADMIN && countActiveSuperAdmins(state.users) <= 1) {
+    if (target.role === ROLE_OPTIONS.SUPER_ADMIN && UserManagementStore.countActiveSuperAdmins(state.users) <= 1) {
       return { ...state, notice: "Last Super Admin cannot be deleted." };
     }
 
@@ -303,7 +309,7 @@ export class UserManagementStore {
     if (
       target.role === ROLE_OPTIONS.SUPER_ADMIN &&
       nextStatus !== STATUS_OPTIONS.ACTIVE &&
-      countActiveSuperAdmins(state.users) <= 1
+      UserManagementStore.countActiveSuperAdmins(state.users) <= 1
     ) {
       return { ...state, notice: "Last Super Admin cannot be deactivated." };
     }
@@ -325,8 +331,8 @@ export class UserManagementStore {
 
   saveTeam(state, form) {
     const teamId = form.id || makeId("team");
-    const nextUsers = updateUsersForTeam(state.users, form, teamId);
-    const nextTeams = saveTeamMembers(state.teams, form, teamId);
+    const nextUsers = UserManagementStore.updateUsersForTeam(state.users, form, teamId);
+    const nextTeams = UserManagementStore.saveTeamMembers(state.teams, form, teamId);
 
     return {
       ...state,

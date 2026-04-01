@@ -1,74 +1,122 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import {
-  PAGE_OPTIONS,
-  PERMISSION_OPTIONS,
-  ROLE_OPTIONS,
-  SENIORITY_OPTIONS,
-  STATUS_OPTIONS,
-  createUserManagementFactory,
-} from "../index";
+import React, { Component, createContext } from "react";
+import { PAGE_OPTIONS, PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS, createUserManagementFactory } from "../index";
 
-const AppContext = createContext(null);
-
+export const AppContext = createContext(null);
 export { PAGE_OPTIONS, PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS };
 
-export function AppProvider({ children }) {
-  // The factory owns the business logic and the React state only renders it.
-  const store = useMemo(() => createUserManagementFactory(), []);
-  const [state, setState] = useState(() => store.createInitialState());
+export class AppProvider extends Component {
+  constructor(props) {
+    super(props);
+    this.store = createUserManagementFactory();
+    this.state = this.store.createInitialState();
 
-  useEffect(() => {
-    setState((prev) => store.syncSeedIfNeeded(prev));
-  }, [store]);
-
-  useEffect(() => {
-    store.persist(state);
-  }, [store, state]);
-
-  const currentUser = useMemo(() => store.getCurrentUser(state), [store, state]);
-  const permissions = useMemo(() => store.getPermissions(currentUser), [store, currentUser]);
-
-  const value = useMemo(
-    () => ({
-      users: state.users,
-      teams: state.teams,
-      currentUser,
-      page: state.page,
-      modal: state.modal,
-      notice: state.notice,
-      permissions,
-      login: (email, password) => {
-        const result = store.login(state, email, password);
-        if (result.ok) {
-          setState(result.state);
-        }
-        return result;
-      },
-      logout: () => setState((prev) => store.logout(prev)),
-      setPage: (page) => setState((prev) => store.setPage(prev, page)),
-      openUserModal: (mode, data = null) => setState((prev) => store.openUserModal(prev, mode, data)),
-      closeUserModal: () => setState((prev) => store.closeUserModal(prev)),
-      openTeamModal: (mode, data = null) => setState((prev) => store.openTeamModal(prev, mode, data)),
-      closeTeamModal: () => setState((prev) => store.closeTeamModal(prev)),
-      saveUser: (form) => setState((prev) => store.saveUser(prev, form)),
-      deleteUser: (userId) => setState((prev) => store.deleteUser(prev, userId)),
-      toggleUserStatus: (userId) => setState((prev) => store.toggleUserStatus(prev, userId)),
-      saveTeam: (form) => setState((prev) => store.saveTeam(prev, form)),
-      deleteTeam: (teamId) => setState((prev) => store.deleteTeam(prev, teamId)),
-      exportSeedData: (filename) => store.exportSeedData(state, filename),
-    }),
-    [currentUser, permissions, state, store]
-  );
-
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
-}
-
-export function useApp() {
-  const context = useContext(AppContext);
-
-  if (!context) {
-    throw new Error("useApp must be used inside AppProvider");
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
+    this.setPage = this.setPage.bind(this);
+    this.openUserModal = this.openUserModal.bind(this);
+    this.closeUserModal = this.closeUserModal.bind(this);
+    this.openTeamModal = this.openTeamModal.bind(this);
+    this.closeTeamModal = this.closeTeamModal.bind(this);
+    this.saveUser = this.saveUser.bind(this);
+    this.deleteUser = this.deleteUser.bind(this);
+    this.toggleUserStatus = this.toggleUserStatus.bind(this);
+    this.saveTeam = this.saveTeam.bind(this);
+    this.deleteTeam = this.deleteTeam.bind(this);
+    this.exportSeedData = this.exportSeedData.bind(this);
   }
 
-  return context;
+  componentDidMount() {
+    this.setState((prevState) => this.store.syncSeedIfNeeded(prevState));
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState !== this.state) {
+      this.store.persist(this.state);
+    }
+  }
+
+  login(email, password) {
+    const result = this.store.login(this.state, email, password);
+    if (result.ok) {
+      this.setState(result.state);
+    }
+    return result;
+  }
+
+  logout() {
+    this.setState((prevState) => this.store.logout(prevState));
+  }
+
+  setPage(page) {
+    this.setState((prevState) => this.store.setPage(prevState, page));
+  }
+
+  openUserModal(mode, data = null) {
+    this.setState((prevState) => this.store.openUserModal(prevState, mode, data));
+  }
+
+  closeUserModal() {
+    this.setState((prevState) => this.store.closeUserModal(prevState));
+  }
+
+  openTeamModal(mode, data = null) {
+    this.setState((prevState) => this.store.openTeamModal(prevState, mode, data));
+  }
+
+  closeTeamModal() {
+    this.setState((prevState) => this.store.closeTeamModal(prevState));
+  }
+
+  saveUser(form) {
+    this.setState((prevState) => this.store.saveUser(prevState, form));
+  }
+
+  deleteUser(userId) {
+    this.setState((prevState) => this.store.deleteUser(prevState, userId));
+  }
+
+  toggleUserStatus(userId) {
+    this.setState((prevState) => this.store.toggleUserStatus(prevState, userId));
+  }
+
+  saveTeam(form) {
+    this.setState((prevState) => this.store.saveTeam(prevState, form));
+  }
+
+  deleteTeam(teamId) {
+    this.setState((prevState) => this.store.deleteTeam(prevState, teamId));
+  }
+
+  exportSeedData(filename) {
+    this.store.exportSeedData(this.state, filename);
+  }
+
+  render() {
+    const currentUser = this.store.getCurrentUser(this.state);
+    const permissions = this.store.getPermissions(currentUser);
+    const value = {
+      users: this.state.users,
+      teams: this.state.teams,
+      currentUser,
+      page: this.state.page,
+      modal: this.state.modal,
+      notice: this.state.notice,
+      permissions,
+      login: this.login,
+      logout: this.logout,
+      setPage: this.setPage,
+      openUserModal: this.openUserModal,
+      closeUserModal: this.closeUserModal,
+      openTeamModal: this.openTeamModal,
+      closeTeamModal: this.closeTeamModal,
+      saveUser: this.saveUser,
+      deleteUser: this.deleteUser,
+      toggleUserStatus: this.toggleUserStatus,
+      saveTeam: this.saveTeam,
+      deleteTeam: this.deleteTeam,
+      exportSeedData: this.exportSeedData,
+    };
+
+    return <AppContext.Provider value={value}>{this.props.children}</AppContext.Provider>;
+  }
 }

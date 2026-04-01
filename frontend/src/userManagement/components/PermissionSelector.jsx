@@ -1,34 +1,36 @@
+import React, { Component } from "react";
 import { PERMISSION_OPTIONS } from "../context/AppContext";
 
 // This shows permission checkboxes for Admin users.
-export default function PermissionSelector({ value, onChange, disabled = false }) {
-  // Add or remove one permission from the selected list.
-  function togglePermission(permission) {
-    if (disabled) {
+export default class PermissionSelector extends Component {
+  togglePermission(permission) {
+    if (this.props.disabled) {
       return;
     }
 
-    const nextValue = value.includes(permission)
-      ? value.filter((item) => item !== permission)
-      : [...value, permission];
+    const nextValue = this.props.value.includes(permission)
+      ? this.props.value.filter((item) => item !== permission)
+      : [...this.props.value, permission];
 
-    onChange(nextValue);
+    this.props.onChange(nextValue);
   }
 
-  return (
-    <div className="permission-box">
-      {PERMISSION_OPTIONS.map((permission) => (
-        // Each row is a checkbox and a label for one permission.
-        <label key={permission} className="permission-item">
-          <input
-            type="checkbox"
-            checked={value.includes(permission)}
-            onChange={() => togglePermission(permission)}
-            disabled={disabled}
-          />
-          <span>{permission}</span>
-        </label>
-      ))}
-    </div>
-  );
+  render() {
+    return (
+      <div className="permission-box">
+        {PERMISSION_OPTIONS.map((permission) => (
+          // Each row is a checkbox and a label for one permission.
+          <label key={permission} className="permission-item">
+            <input
+              type="checkbox"
+              checked={this.props.value.includes(permission)}
+              onChange={() => this.togglePermission(permission)}
+              disabled={this.props.disabled}
+            />
+            <span>{permission}</span>
+          </label>
+        ))}
+      </div>
+    );
+  }
 }

@@ -1,14 +1,18 @@
+import React, { Component } from "react";
+
 // Simple reusable page header.
-export default function PageHeader({ title, action, note }) {
-  // This keeps every page title in the same layout.
-  return (
-    <div className="page-head">
-      <div>
-        <p className="eyebrow">User system</p>
-        <h2>{title}</h2>
-        {note ? <p className="page-note">{note}</p> : null}
+export default class PageHeader extends Component {
+  render() {
+    // This keeps every page title in the same layout.
+    return (
+      <div className="page-head">
+        <div>
+          <p className="eyebrow">User system</p>
+          <h2>{this.props.title}</h2>
+          {this.props.note ? <p className="page-note">{this.props.note}</p> : null}
+        </div>
+        {this.props.action}
       </div>
-      {action}
-    </div>
-  );
+    );
+  }
 }
