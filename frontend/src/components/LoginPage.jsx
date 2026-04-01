@@ -1,36 +1,44 @@
-import Badge from "./Badge";
 import { useState } from "react";
+import { useApp } from "../context/AppContext";
 
-// This is the simple login screen shown before the dashboard.
-export default function LoginPage({ onLogin, authError }) {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+// Login screen.
+export default function LoginPage() {
+  const { login, notice, users } = useApp();
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const demoLogins = users.filter(
+    (user) => user.role === "SUPER_ADMIN" || user.role === "ADMIN" || user.role === "EMPLOYEE"
+  );
 
-  // Submit the email and password to the parent component.
-  function handleSubmit(event) {
+  function submit(event) {
     event.preventDefault();
-    onLogin(formData);
+    const result = login(form.email, form.password);
+
+    if (!result.ok) {
+      setError(result.message);
+      return;
+    }
+
+    setError("");
   }
 
   return (
-    <main className="login-page">
-      <section className="login-panel">
-        <div className="login-copy">
-          <Badge tone="blue">User Management Login</Badge>
-          <h1>Sign in to manage accounts</h1>
-          <p>
-            Access the governance dashboard, onboard employees, manage roles, and review session activity from one secure entry point.
-          </p>
-        </div>
+    <main className="auth-page">
+      <section className="auth-shell">
+        <form className="auth-form" onSubmit={submit}>
+          <div className="auth-form-head">
+            <p className="eyebrow">Secure access</p>
+            <h2>Sign in</h2>
+            <p className="auth-text">Use your role email and password to continue.</p>
+          </div>
 
-        <form className="login-form" onSubmit={handleSubmit}>
           <label>
-            <span>Work email</span>
+            <span>Email</span>
             <input
               type="email"
-              name="email"
-              placeholder="admin@company.com"
-              value={formData.email}
-              onChange={(event) => setFormData({ ...formData, email: event.target.value })}
+              value={form.email}
+              onChange={(event) => setForm({ ...form, email: event.target.value })}
+              placeholder="you@example.com"
               required
             />
           </label>
@@ -39,23 +47,19 @@ export default function LoginPage({ onLogin, authError }) {
             <span>Password</span>
             <input
               type="password"
-              name="password"
-              placeholder="Enter password"
-              value={formData.password}
-              onChange={(event) => setFormData({ ...formData, password: event.target.value })}
+              value={form.password}
+              onChange={(event) => setForm({ ...form, password: event.target.value })}
+              placeholder="Password"
               required
             />
           </label>
 
           <button type="submit" className="primary-button">
-            Sign in
+            Login
           </button>
 
-          {authError ? <p className="error-note">{authError}</p> : null}
-
-          <p className="login-note">
-            Demo-only frontend sign-in for now. You can connect this to your authentication API later.
-          </p>
+          {error ? <p className="error-note">{error}</p> : null}
+          {notice ? <p className="login-note">{notice}</p> : null}
         </form>
       </section>
     </main>

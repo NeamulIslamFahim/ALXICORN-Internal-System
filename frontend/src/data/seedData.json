@@ -1,0 +1,42 @@
+{
+  "users": [
+    {
+      "id": "user-super-admin",
+      "full_name": "Super Admin",
+      "email": "superadmin@example.com",
+      "password": "SuperAdmin@123",
+      "role": "SUPER ADMIN",
+      "status": "ACTIVE",
+      "permissions": ["ALL ACCESS"],
+      "team_id": null,
+      "seniority_role": "LEAD",
+      "created_at": "2026-04-01T00:00:00.000Z"
+    },
+    {
+      "id": "user-admin",
+      "full_name": "Admin User",
+      "email": "admin@example.com",
+      "password": "Admin@123",
+      "role": "ADMIN",
+      "status": "ACTIVE",
+      "permissions": ["USER CREATE", "USER EDIT", "USER DEACTIVATE", "TEAM MANAGE"],
+      "team_id": "user-admin",
+      "seniority_role": "LEAD",
+      "created_at": "2026-04-01T00:00:00.000Z"
+    },
+    {
+      "id": "user-employee",
+      "full_name": "Asif Ahmed",
+      "email": "asif@example.com",
+      "password": "asif@123",
+      "role": "EMPLOYEE",
+      "status": "ACTIVE",
+      "permissions": [],
+      "team_id": "team-frontend",
+      "seniority_role": "MID",
+      "created_at": "2026-04-01T00:00:00.000Z"
+    }
+  ],
+  "teams": [
+  ]
+}

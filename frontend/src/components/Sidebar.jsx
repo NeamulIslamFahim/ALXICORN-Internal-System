@@ -1,30 +1,53 @@
-import Badge from "./Badge";
+import { useApp } from "../context/AppContext";
 
-const items = [
-  "Overview",
-  "Accounts"
-];
-
-// Left navigation panel for the dashboard.
+// Sidebar for navigation and logout.
 export default function Sidebar() {
+  const { currentUser, page, setPage, logout } = useApp();
+  const isEmployee = currentUser?.role === "EMPLOYEE";
+
   return (
     <aside className="sidebar">
-      <div className="brand">
-        <div className="brand-text">
-          <strong>ALXICORN</strong>
-          <span>Dashboard</span>
-        </div>
+      <div>
+        <p className="eyebrow">User system</p>
+        <h1>{currentUser?.role || "Menu"}</h1>
+        <p className="sidebar-note">{currentUser ? currentUser.full_name : ""}</p>
       </div>
 
-      <Badge tone="gold">Governance Dashboard</Badge>
-
-      <nav className="nav-list" aria-label="Primary">
-        {items.map((item) => (
-          <a key={item} href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}>
-            {item}
-          </a>
-        ))}
+      <nav className="nav-list">
+        {isEmployee ? (
+          <button
+            type="button"
+            className={page === "profile" ? "nav-button active" : "nav-button"}
+            onClick={() => setPage("profile")}
+          >
+            Profile
+          </button>
+        ) : (
+          <>
+            <button
+              type="button"
+              className={page === "users" ? "nav-button active" : "nav-button"}
+              onClick={() => setPage("users")}
+            >
+              Users
+            </button>
+            <button
+              type="button"
+              className={page === "teams" ? "nav-button active" : "nav-button"}
+              onClick={() => setPage("teams")}
+            >
+              Teams
+            </button>
+          </>
+        )}
       </nav>
+
+      <div className="sidebar-card">
+        <p className="sidebar-note">Signed in as <strong>{currentUser?.full_name}</strong></p>
+        <button type="button" className="ghost-button" onClick={logout}>
+          Logout
+        </button>
+      </div>
     </aside>
   );
 }

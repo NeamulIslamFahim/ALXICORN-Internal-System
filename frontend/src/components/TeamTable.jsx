@@ -1,25 +1,44 @@
-// This table lists the teams and their members.
-export default function TeamTable({ teams }) {
+// This table lists all teams.
+export default function TeamTable({ teams, users, onEdit, onDelete, canManageTeams }) {
+  // Show the name of the team lead instead of a raw id.
+  function getUserName(userId) {
+    const user = users.find((item) => item.id === userId);
+    return user ? user.full_name : "-";
+  }
+
   return (
     <div className="table-wrap">
-      <table>
+      <table className="data-table">
         <thead>
           <tr>
-            <th>Team</th>
-            <th>Lead</th>
+            <th>Team name</th>
+            <th>Team lead</th>
             <th>Members</th>
-            <th>Seniority mix</th>
-            <th>Scope</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {teams.map((team) => (
-            <tr key={team.name}>
+            <tr key={team.id}>
               <td>{team.name}</td>
-              <td>{team.lead}</td>
-              <td>{team.members}</td>
-              <td>{team.seniority}</td>
-              <td>{team.scope}</td>
+              <td>{getUserName(team.team_lead_id)}</td>
+              <td>{team.members.length}</td>
+              <td>
+                <div className="button-row">
+                  {/* Only users with team permissions can change the table. */}
+                  <button type="button" className="action-button" onClick={() => onEdit(team)} disabled={!canManageTeams}>
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    className="action-button danger-button"
+                    onClick={() => onDelete(team.id)}
+                    disabled={!canManageTeams}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
