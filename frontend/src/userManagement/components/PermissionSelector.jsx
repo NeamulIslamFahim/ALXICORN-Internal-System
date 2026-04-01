@@ -8,9 +8,7 @@ export default class PermissionSelector extends Component {
       return;
     }
 
-    const nextValue = this.props.value.includes(permission)
-      ? this.props.value.filter((item) => item !== permission)
-      : [...this.props.value, permission];
+    const nextValue = this.props.value.includes(permission)? this.props.value.filter((item) => item !== permission): [...this.props.value, permission];
 
     this.props.onChange(nextValue);
   }
