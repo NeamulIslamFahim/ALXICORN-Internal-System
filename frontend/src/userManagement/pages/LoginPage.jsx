@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { ROLE_OPTIONS, useApp } from "../context/AppContext";
 
-// Login screen.
+// Login page.
 export default function LoginPage() {
   // Login, notice, and the loaded users come from the shared app state.
   const { login, notice, users } = useApp();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+
   // Keep demo logins in sync with the loaded seed users.
   const demoLogins = users.filter(
     (user) =>
@@ -64,6 +65,20 @@ export default function LoginPage() {
           <button type="submit" className="primary-button">
             Login
           </button>
+
+          {/* Demo cards show the current seed users from the frontend JSON. */}
+          <div className="demo-area">
+            <p className="eyebrow">Demo logins</p>
+            <div className="demo-grid">
+              {demoLogins.map((item) => (
+                <div className="demo-card" key={item.id}>
+                  <strong>{item.role}</strong>
+                  <span>{item.email}</span>
+                  <span>{item.password}</span>
+                </div>
+              ))}
+            </div>
+          </div>
 
           {error ? <p className="error-note">{error}</p> : null}
           {notice ? <p className="login-note">{notice}</p> : null}

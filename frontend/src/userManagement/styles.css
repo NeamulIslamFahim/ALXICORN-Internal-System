@@ -1,16 +1,41 @@
 :root {
-  /* Simple color variables that are easy to reuse */
+  /* Theme map: change these tokens to update the whole app. */
+  --font-family: Arial, sans-serif;
+
   --bg-color: #0f172a;
-  --panel-color: #111827;
-  --panel-light: #1f2937;
+  --surface-color: #111827;
+  --surface-2-color: #1f2937;
+  --surface-3-color: #0b1220;
+
   --text-color: #e5eefb;
-  --muted-color: #94a3b8;
+  --text-muted: #94a3b8;
+
   --border-color: #334155;
+  --border-soft: rgba(148, 163, 184, 0.12);
+
   --primary-color: #3b82f6;
   --primary-hover: #2563eb;
+  --primary-soft: rgba(59, 130, 246, 0.15);
+
   --danger-color: #ef4444;
+  --danger-soft: rgba(239, 68, 68, 0.12);
   --success-color: #22c55e;
+  --success-soft: rgba(34, 197, 94, 0.12);
+  --warning-soft: rgba(245, 158, 11, 0.12);
+
+  --radius-sm: 12px;
   --radius: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+
+  --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.18);
+  --shadow-md: 0 14px 40px rgba(0, 0, 0, 0.24);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.35);
+
+  /* Backward-compatible aliases for older class rules. */
+  --panel-color: var(--surface-color);
+  --panel-light: var(--surface-2-color);
+  --muted-color: var(--text-muted);
 }
 
 * {
@@ -21,7 +46,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-family);
   color: var(--text-color);
   background: var(--bg-color);
 }
@@ -66,10 +91,10 @@ button:hover {
   display: grid;
   gap: 0;
   justify-items: stretch;
-  background: var(--panel-color);
+  background: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: 18px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+  box-shadow: var(--shadow-lg);
 }
 
 .auth-shell,
@@ -86,7 +111,7 @@ button:hover {
 .profile-card,
 .demo-card,
 .hint-box {
-  background: var(--panel-color);
+  background: var(--surface-color);
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
 }
@@ -121,7 +146,7 @@ button:hover {
 .hint-box,
 .notice-bar,
 .modal-note {
-  color: var(--muted-color);
+  color: var(--text-muted);
 }
 
 .eyebrow {
@@ -152,7 +177,7 @@ button:hover {
 .filter-row span,
 .form-field span {
   font-size: 0.9rem;
-  color: var(--muted-color);
+  color: var(--text-muted);
 }
 
 .auth-form input,
@@ -166,7 +191,7 @@ button:hover {
   min-height: 42px;
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  background: var(--panel-light);
+  background: var(--surface-2-color);
   color: var(--text-color);
   outline: none;
 }
@@ -192,14 +217,14 @@ button:hover {
 .danger-button,
 .nav-button,
 .action-button {
-  background: var(--panel-light);
+  background: var(--surface-2-color);
   color: var(--text-color);
 }
 
 .primary-button {
   background: var(--primary-color);
   border-color: var(--primary-color);
-  color: white;
+  color: var(--text-color);
 }
 
 .primary-button:hover {
@@ -212,13 +237,13 @@ button:hover {
 
 .danger-button {
   border-color: rgba(239, 68, 68, 0.4);
-  background: rgba(239, 68, 68, 0.12);
-  color: #fecaca;
+  background: var(--danger-soft);
+  color: color-mix(in srgb, var(--danger-color) 20%, white 80%);
 }
 
 .nav-button.active {
   border-color: var(--primary-color);
-  background: rgba(59, 130, 246, 0.15);
+  background: var(--primary-soft);
 }
 
 .button-row {
@@ -271,7 +296,7 @@ button:hover {
 
 .error-note {
   margin: 0;
-  color: #fecaca;
+  color: color-mix(in srgb, var(--danger-color) 20%, white 80%);
   font-size: 0.92rem;
 }
 
@@ -290,11 +315,11 @@ button:hover {
   padding: 12px;
   display: grid;
   gap: 4px;
-  background: var(--panel-light);
+  background: var(--surface-2-color);
 }
 
 .demo-card strong {
-  color: white;
+  color: var(--text-color);
 }
 
 /* Main app */
@@ -364,7 +389,7 @@ button:hover {
   max-height: 60vh;
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
-  background: var(--panel-light);
+  background: var(--surface-2-color);
 }
 
 .data-table {
@@ -378,14 +403,14 @@ button:hover {
   padding: 12px 14px;
   text-align: left;
   vertical-align: middle;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  border-bottom: 1px solid var(--border-soft);
 }
 
 .data-table th {
   position: sticky;
   top: 0;
-  background: #0b1220;
-  color: #cbd5e1;
+  background: var(--surface-3-color);
+  color: var(--text-color);
 }
 
 .data-table td:last-child,
@@ -405,16 +430,16 @@ button:hover {
 }
 
 .status-active {
-  background: rgba(34, 197, 94, 0.12);
-  border-color: rgba(34, 197, 94, 0.3);
-  color: #bbf7d0;
+  background: var(--success-soft);
+  border-color: color-mix(in srgb, var(--success-color) 30%, transparent);
+  color: color-mix(in srgb, var(--success-color) 50%, white 50%);
 }
 
 .status-inactive,
 .status-terminated {
-  background: rgba(239, 68, 68, 0.12);
-  border-color: rgba(239, 68, 68, 0.3);
-  color: #fecaca;
+  background: var(--danger-soft);
+  border-color: color-mix(in srgb, var(--danger-color) 30%, transparent);
+  color: color-mix(in srgb, var(--danger-color) 20%, white 80%);
 }
 
 /* Modal */
@@ -438,9 +463,9 @@ button:hover {
   padding: 22px;
   background:
     linear-gradient(180deg, rgba(17, 24, 39, 0.98), rgba(10, 15, 25, 0.98));
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid color-mix(in srgb, var(--border-color) 50%, white 50%);
   border-radius: 22px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--shadow-lg);
 }
 
 .modal-card > .modal-form {
@@ -487,7 +512,7 @@ button:hover {
   padding-top: 14px;
   border-top: 1px solid var(--border-color);
   margin-top: 2px;
-  background: rgba(10, 15, 25, 0.96);
+  background: color-mix(in srgb, var(--surface-color) 96%, black 4%);
   border-radius: 0 0 18px 18px;
 }
 
@@ -504,7 +529,7 @@ button:hover {
   padding: 12px;
   border: 1px solid rgba(148, 163, 184, 0.12);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.03);
+  background: color-mix(in srgb, var(--surface-2-color) 80%, transparent);
 }
 
 .modal-form .form-field:focus-within {
@@ -520,7 +545,7 @@ button:hover {
 
 .modal-form .form-field input,
 .modal-form .form-field select {
-  background: var(--panel-color);
+  background: var(--surface-color);
 }
 
 .modal-form .two-col,
@@ -533,7 +558,7 @@ button:hover {
   font-size: 0.82rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--muted-color);
+  color: var(--text-muted);
 }
 
 .two-col {
@@ -548,7 +573,7 @@ button:hover {
   padding: 10px;
   border: 1px solid rgba(148, 163, 184, 0.14);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.03);
+  background: color-mix(in srgb, var(--surface-2-color) 80%, transparent);
   max-height: 170px;
   overflow-y: auto;
 }
@@ -564,7 +589,7 @@ button:hover {
 }
 
 .permission-item:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: color-mix(in srgb, var(--surface-color) 92%, white 4%);
 }
 
 .permission-item input {
@@ -599,7 +624,7 @@ button:hover {
   padding: 10px 12px;
   border: 1px solid rgba(148, 163, 184, 0.14);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.03);
+  background: color-mix(in srgb, var(--surface-2-color) 80%, transparent);
 }
 
 .member-adder {
@@ -629,7 +654,7 @@ button:hover {
 }
 
 .profile-card strong {
-  color: white;
+  color: var(--text-color);
 }
 
 /* Small screens */

@@ -1,4 +1,4 @@
-import { useApp } from "../context/AppContext";
+import { PAGE_OPTIONS, useApp } from "../context/AppContext";
 
 // Sidebar for navigation and logout.
 export default function Sidebar() {
@@ -20,8 +20,8 @@ export default function Sidebar() {
         {isEmployee ? (
           <button
             type="button"
-            className={page === "profile" ? "nav-button active" : "nav-button"}
-            onClick={() => setPage("profile")}
+            className={page === PAGE_OPTIONS.PROFILE ? "nav-button active" : "nav-button"}
+            onClick={() => setPage(PAGE_OPTIONS.PROFILE)}
           >
             Profile
           </button>
@@ -29,15 +29,15 @@ export default function Sidebar() {
           <>
             <button
               type="button"
-              className={page === "users" ? "nav-button active" : "nav-button"}
-              onClick={() => setPage("users")}
+              className={page === PAGE_OPTIONS.USERS ? "nav-button active" : "nav-button"}
+              onClick={() => setPage(PAGE_OPTIONS.USERS)}
             >
               Users
             </button>
             <button
               type="button"
-              className={page === "teams" ? "nav-button active" : "nav-button"}
-              onClick={() => setPage("teams")}
+              className={page === PAGE_OPTIONS.TEAMS ? "nav-button active" : "nav-button"}
+              onClick={() => setPage(PAGE_OPTIONS.TEAMS)}
             >
               Teams
             </button>
