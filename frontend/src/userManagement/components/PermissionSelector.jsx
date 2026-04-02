@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { PERMISSION_OPTIONS } from "../context/AppContext";
+import { toggleArrayItem } from "./UIHelpers";
 
 // This shows permission checkboxes for Admin users.
 export default class PermissionSelector extends Component {
@@ -8,8 +9,7 @@ export default class PermissionSelector extends Component {
       return;
     }
 
-    const nextValue = this.props.value.includes(permission)? this.props.value.filter((item) => item !== permission): [...this.props.value, permission];
-
+    const nextValue = toggleArrayItem(this.props.value, permission);
     this.props.onChange(nextValue);
   }
 

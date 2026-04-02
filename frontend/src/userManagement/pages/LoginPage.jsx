@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { AppContext, ROLE_OPTIONS } from "../context/AppContext";
+import FormInput from "../components/FormInput";
+import FormButton from "../components/FormButton";
+import DemoCard from "../components/DemoCard";
 
 // Login page.
 export default class LoginPage extends Component {
@@ -49,42 +52,34 @@ export default class LoginPage extends Component {
               <p className="auth-text">Use your role email and password to continue.</p>
             </div>
 
-            <label>
-              <span>Email</span>
-              <input
-                type="email"
-                value={this.state.email}
-                onChange={(event) => this.setState({ email: event.target.value })}
-                placeholder="you@example.com"
-                required
-              />
-            </label>
+            <FormInput
+              label="Email"
+              type="email"
+              value={this.state.email}
+              onChange={(value) => this.setState({ email: value })}
+              placeholder="you@example.com"
+              required
+            />
 
-            <label>
-              <span>Password</span>
-              <input
-                type="password"
-                value={this.state.password}
-                onChange={(event) => this.setState({ password: event.target.value })}
-                placeholder="Password"
-                required
-              />
-            </label>
+            <FormInput
+              label="Password"
+              type="password"
+              value={this.state.password}
+              onChange={(value) => this.setState({ password: value })}
+              placeholder="Password"
+              required
+            />
 
-            <button type="submit" className="primary-button">
+            <FormButton type="submit" variant="primary">
               Login
-            </button>
+            </FormButton>
 
             {/* Demo cards show the current seed users from the frontend JSON. */}
             <div className="demo-area">
               <p className="eyebrow">Demo logins</p>
               <div className="demo-grid">
                 {demoLogins.map((item) => (
-                  <div className="demo-card" key={item.id}>
-                    <strong>{item.role}</strong>
-                    <span>{item.email}</span>
-                    <span>{item.password}</span>
-                  </div>
+                  <DemoCard key={item.id} title={item.role} lines={[item.email, item.password]} />
                 ))}
               </div>
             </div>

@@ -7,7 +7,7 @@ export default class PageHeader extends Component {
     return (
       <div className="page-head">
         <div>
-          <p className="eyebrow">User system</p>
+          <p className="eyebrow">{this.props.eyebrow || "User system"}</p>
           <h2>{this.props.title}</h2>
           {this.props.note ? <p className="page-note">{this.props.note}</p> : null}
         </div>

@@ -3,6 +3,10 @@ import { AppContext, ROLE_OPTIONS } from "../context/AppContext";
 import PageHeader from "../components/PageHeader";
 import UserTable from "../components/UserTable";
 import UserForm from "../components/UserForm";
+import FormInput from "../components/FormInput";
+import FormSelect from "../components/FormSelect";
+import FormButton from "../components/FormButton";
+import { filterUsers } from "../components/UIHelpers";
 
 // Users page.
 export default class UsersPage extends Component {
@@ -30,19 +34,9 @@ export default class UsersPage extends Component {
       saveUser,
       deleteUser,
       toggleUserStatus,
-      exportSeedData,
     } = this.context;
 
-    const query = this.state.search.trim().toLowerCase();
-    const filteredUsers = users.filter((user) => {
-      const matchesSearch =
-        !query ||
-        user.full_name.toLowerCase().includes(query) ||
-        user.email.toLowerCase().includes(query);
-      const matchesRole = this.state.roleFilter === "ALL" || user.role === this.state.roleFilter;
-      const matchesStatus = this.state.statusFilter === "ALL" || user.status === this.state.statusFilter;
-      return matchesSearch && matchesRole && matchesStatus;
-    });
+    const filteredUsers = filterUsers(users, this.state.search, this.state.roleFilter, this.state.statusFilter);
 
     return (
       <section className="page-card">
@@ -51,47 +45,45 @@ export default class UsersPage extends Component {
           note="Search and manage accounts."
           action={
             <div className="header-actions">
-              <button type="button" className="ghost-button" onClick={() => exportSeedData("seedData.json")}>
-                Download JSON
-              </button>
-              <button
+              <FormButton
                 type="button"
-                className="primary-button"
+                variant="primary"
                 onClick={() => openUserModal("create")}
                 disabled={!permissions.canCreateEmployee && !permissions.canCreateAdmin}
               >
                 Create User
-              </button>
+              </FormButton>
             </div>
           }
         />
 
         <div className="filter-row">
-          <input
+          <FormInput
+            label=""
             value={this.state.search}
-            onChange={(event) => this.setState({ search: event.target.value })}
+            onChange={(value) => this.setState({ search: value })}
             placeholder="Search by name or email"
           />
-          <select
+          <FormSelect
+            label=""
             value={this.state.roleFilter}
-            onChange={(event) => this.setState({ roleFilter: event.target.value })}
-          >
-            <option value="ALL">All roles</option>
-            {Object.values(ROLE_OPTIONS).map((role) => (
-              <option key={role} value={role}>
-                {role}
-              </option>
-            ))}
-          </select>
-          <select
+            onChange={(value) => this.setState({ roleFilter: value })}
+            options={[
+              { value: "ALL", label: "All roles" },
+              ...Object.values(ROLE_OPTIONS).map((role) => ({ value: role, label: role })),
+            ]}
+          />
+          <FormSelect
+            label=""
             value={this.state.statusFilter}
-            onChange={(event) => this.setState({ statusFilter: event.target.value })}
-          >
-            <option value="ALL">All status</option>
-            <option value="ACTIVE">ACTIVE</option>
-            <option value="INACTIVE">INACTIVE</option>
-            <option value="TERMINATED">TERMINATED</option>
-          </select>
+            onChange={(value) => this.setState({ statusFilter: value })}
+            options={[
+              { value: "ALL", label: "All status" },
+              { value: "ACTIVE", label: "ACTIVE" },
+              { value: "INACTIVE", label: "INACTIVE" },
+              { value: "TERMINATED", label: "TERMINATED" },
+            ]}
+          />
         </div>
 
         {/* Small helper text so the active user is obvious. */}

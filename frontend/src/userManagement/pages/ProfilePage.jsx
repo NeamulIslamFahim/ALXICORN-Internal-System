@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { AppContext } from "../context/AppContext";
+import PageHeader from "../components/PageHeader";
+import InfoCard from "../components/InfoCard";
 
 // Employee screen with only personal info.
 export default class ProfilePage extends Component {
@@ -12,30 +14,13 @@ export default class ProfilePage extends Component {
 
     return (
       <section className="page-card">
-        <div className="page-head">
-          <div>
-            <p className="eyebrow">Profile</p>
-            <h2>{currentUser?.full_name}</h2>
-          </div>
-        </div>
+        <PageHeader eyebrow="Profile" title={currentUser?.full_name} />
 
         <div className="profile-grid">
-          <div className="profile-card">
-            <span>Role</span>
-            <strong>{currentUser?.role}</strong>
-          </div>
-          <div className="profile-card">
-            <span>Email</span>
-            <strong>{currentUser?.email}</strong>
-          </div>
-          <div className="profile-card">
-            <span>Team</span>
-            <strong>{teamName}</strong>
-          </div>
-          <div className="profile-card">
-            <span>Status</span>
-            <strong>{currentUser?.status}</strong>
-          </div>
+          <InfoCard label="Role" value={currentUser?.role} />
+          <InfoCard label="Email" value={currentUser?.email} />
+          <InfoCard label="Team" value={teamName} />
+          <InfoCard label="Status" value={currentUser?.status} />
         </div>
       </section>
     );

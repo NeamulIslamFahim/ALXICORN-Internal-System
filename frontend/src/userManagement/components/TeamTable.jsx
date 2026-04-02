@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import ButtonRow from "./ButtonRow";
+import FormButton from "./FormButton";
 
 // This table lists all teams.
 export default class TeamTable extends Component {
   getUserName(userId) {
-    // Show the name of the team lead instead of a raw id.
     const user = this.props.users.find((item) => item.id === userId);
     return user ? user.full_name : "-";
   }
@@ -31,20 +32,20 @@ export default class TeamTable extends Component {
                 <td>{team.members.length}</td>
                 <td>
                   {/* Action buttons stay in one line for easier scanning. */}
-                  <div className="button-row">
+                  <ButtonRow>
                     {/* Only users with team permissions can change the table. */}
-                    <button type="button" className="action-button" onClick={() => onEdit(team)} disabled={!canManageTeams}>
+                    <FormButton type="button" variant="action" onClick={() => onEdit(team)} disabled={!canManageTeams}>
                       Edit
-                    </button>
-                    <button
+                    </FormButton>
+                    <FormButton
                       type="button"
-                      className="action-button danger-button"
+                      variant="danger"
                       onClick={() => onDelete(team.id)}
                       disabled={!canManageTeams}
                     >
                       Delete
-                    </button>
-                  </div>
+                    </FormButton>
+                  </ButtonRow>
                 </td>
               </tr>
             ))}

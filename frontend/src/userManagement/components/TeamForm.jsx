@@ -1,56 +1,15 @@
-import React, { Component } from "react";
-import FormField from "./FormField";
+import React from "react";
+import FormInput from "./FormInput";
+import FormSelect from "./FormSelect";
+import FormButton from "./FormButton";
+import Modal from "./Modal";
+import ModalForm from "./ModalForm";
+import ButtonRow from "./ButtonRow";
+import MemberAdder from "./MemberAdder";
 import { AppContext, SENIORITY_OPTIONS } from "../context/AppContext";
 
-class MemberAdder extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userId: props.users[0]?.id || "",
-      seniorityRole: SENIORITY_OPTIONS.JUNIOR,
-    };
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.users !== this.props.users) {
-      this.setState({ userId: this.props.users[0]?.id || "" });
-    }
-  }
-
-  render() {
-    return (
-      <div className="member-adder">
-        <select value={this.state.userId} onChange={(event) => this.setState({ userId: event.target.value })}>
-          {this.props.users.map((user) => (
-            <option key={user.id} value={user.id}>
-              {user.full_name}
-            </option>
-          ))}
-        </select>
-        <select
-          value={this.state.seniorityRole}
-          onChange={(event) => this.setState({ seniorityRole: event.target.value })}
-        >
-          {Object.values(SENIORITY_OPTIONS).map((level) => (
-            <option key={level} value={level}>
-              {level}
-            </option>
-          ))}
-        </select>
-        <button
-          type="button"
-          className="ghost-button"
-          onClick={() => this.props.onAdd(this.state.userId, this.state.seniorityRole)}
-        >
-          Add member
-        </button>
-      </div>
-    );
-  }
-}
-
 // This modal creates or edits one team.
-export default class TeamForm extends Component {
+export default class TeamForm extends ModalForm {
   static contextType = AppContext;
 
   constructor(props) {
@@ -62,16 +21,13 @@ export default class TeamForm extends Component {
     this.submit = this.submit.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    const shouldReset =
+  shouldResetForm(prevProps) {
+    return (
       (!prevProps.open && this.props.open) ||
       prevProps.mode !== this.props.mode ||
       prevProps.team?.id !== this.props.team?.id ||
-      prevProps.users !== this.props.users;
-
-    if (shouldReset) {
-      this.setState({ form: this.buildForm(this.props) });
-    }
+      prevProps.users !== this.props.users
+    );
   }
 
   buildForm(props) {
@@ -121,8 +77,7 @@ export default class TeamForm extends Component {
   }
 
   submit(event) {
-    event.preventDefault();
-    this.props.onSubmit(this.state.form);
+    this.submitForm(event, this.props.onSubmit);
   }
 
   render() {
@@ -134,73 +89,59 @@ export default class TeamForm extends Component {
     }
 
     return (
-      <div className="modal-backdrop">
-        <div className="modal-card">
-          <div className="modal-head">
-            <h3>{isEdit ? "Edit Team" : "Create Team"}</h3>
-            <button type="button" className="ghost-button" onClick={this.props.onClose}>
-              Close
-            </button>
-          </div>
+      <Modal
+        open={this.props.open}
+        onClose={this.props.onClose}
+        onSubmit={this.submit}
+        title={isEdit ? "Edit Team" : "Create Team"}
+      
+        footer={
+          <div className="modal-actions">
+            <ButtonRow>
+                <FormButton type="button" variant="ghost" onClick={this.props.onClose}>
+                  Cancel
+                </FormButton>
+                <FormButton type="submit" variant="primary">
+                  {isEdit ? "Save changes" : "Create team"}
+                </FormButton>
+              </ButtonRow>
+            </div>
+          }
+        >
+        <FormInput
+          label="Team name"
+          value={this.state.form.name}
+          onChange={(value) => this.setState({ form: { ...this.state.form, name: value } })}
+          required
+        />
 
-          {/* Team fields stay inside the popup and scroll when needed. */}
-          <form className="modal-form" onSubmit={this.submit}>
-            <div className="modal-body">
-              <FormField label="Team name">
-                <input
-                  value={this.state.form.name}
-                  onChange={(event) => this.setState({ form: { ...this.state.form, name: event.target.value } })}
-                  required
-                />
-              </FormField>
+        <FormSelect
+          label="Team lead"
+          value={this.state.form.team_lead_id}
+          onChange={(value) => this.setState({ form: { ...this.state.form, team_lead_id: value } })}
+          options={availableUsers.map((user) => ({ value: user.id, label: user.full_name }))}
+        />
 
-              <FormField label="Team lead">
-                <select
-                  value={this.state.form.team_lead_id}
-                  onChange={(event) =>
-                    this.setState({ form: { ...this.state.form, team_lead_id: event.target.value } })
-                  }
-                >
-                  {availableUsers.map((user) => (
-                    <option key={user.id} value={user.id}>
-                      {user.full_name}
-                    </option>
-                  ))}
-                </select>
-              </FormField>
-
-              <div className="member-editor">
-                {/* Team members are managed one by one here. */}
-                <span>Members</span>
-                <MemberAdder users={availableUsers} onAdd={(userId, seniorityRole) => this.addMember(userId, seniorityRole)} />
-                <div className="member-list">
-                  {this.state.form.members.map((member) => {
-                    const user = availableUsers.find((item) => item.id === member.user_id);
-                    return (
-                      <div className="member-chip" key={member.user_id}>
-                        <strong>{user ? user.full_name : member.user_id}</strong>
-                        <span>{member.seniority_role}</span>
-                        <button type="button" onClick={() => this.removeMember(member.user_id)}>
-                          Remove
-                        </button>
-                      </div>
-                    );
-                  })}
+        <div className="member-editor">
+          {/* Team members are managed one by one here. */}
+          <span>Members</span>
+          <MemberAdder users={availableUsers} onAdd={(userId, seniorityRole) => this.addMember(userId, seniorityRole)} />
+          <div className="member-list">
+            {this.state.form.members.map((member) => {
+              const user = availableUsers.find((item) => item.id === member.user_id);
+              return (
+                <div className="member-chip" key={member.user_id}>
+                  <strong>{user ? user.full_name : member.user_id}</strong>
+                  <span>{member.seniority_role}</span>
+                  <FormButton type="button" variant="ghost" onClick={() => this.removeMember(member.user_id)}>
+                    Remove
+                  </FormButton>
                 </div>
-              </div>
-            </div>
-
-            <div className="modal-actions">
-              <button type="button" className="ghost-button" onClick={this.props.onClose}>
-                Cancel
-              </button>
-              <button type="submit" className="primary-button">
-                {isEdit ? "Save changes" : "Create team"}
-              </button>
-            </div>
-          </form>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </Modal>
     );
   }
 }

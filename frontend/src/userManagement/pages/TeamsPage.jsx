@@ -3,6 +3,7 @@ import { AppContext } from "../context/AppContext";
 import PageHeader from "../components/PageHeader";
 import TeamTable from "../components/TeamTable";
 import TeamForm from "../components/TeamForm";
+import FormButton from "../components/FormButton";
 
 // Teams page.
 export default class TeamsPage extends Component {
@@ -18,7 +19,6 @@ export default class TeamsPage extends Component {
       closeTeamModal,
       saveTeam,
       deleteTeam,
-      exportSeedData,
     } = this.context;
 
     return (
@@ -28,17 +28,14 @@ export default class TeamsPage extends Component {
           note="Create teams and assign members."
           action={
             <div className="header-actions">
-              <button type="button" className="ghost-button" onClick={() => exportSeedData("seedData.json")}>
-                Download JSON
-              </button>
-              <button
+              <FormButton
                 type="button"
-                className="primary-button"
+                variant="primary"
                 onClick={() => openTeamModal("create")}
                 disabled={!permissions.canManageTeams}
               >
                 Create Team
-              </button>
+              </FormButton>
             </div>
           }
         />

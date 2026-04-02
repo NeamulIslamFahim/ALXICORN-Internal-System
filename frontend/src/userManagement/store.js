@@ -1,5 +1,5 @@
 import seedData from "./data/seedData.json";
-import { downloadJSON, makeId, nowStamp, readJSON, writeJSON } from "./utils/localStorageHelper";
+import { makeId, nowStamp, readJSON, writeJSON } from "./utils/localStorageHelper";
 import { PAGE_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS, STORAGE_KEYS } from "./constants";
 import { UserManagementNormalizer } from "./normalizers";
 
@@ -363,10 +363,4 @@ export class UserManagementStore {
     writeJSON(STORAGE_KEYS.seedSignature, state.seedSignature);
   }
 
-  exportSeedData(state, filename = "seedData.json") {
-    downloadJSON(filename, {
-      users: state.users,
-      teams: state.teams,
-    });
-  }
 }

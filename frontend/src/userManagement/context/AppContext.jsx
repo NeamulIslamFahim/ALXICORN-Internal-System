@@ -22,7 +22,6 @@ export class AppProvider extends Component {
     this.toggleUserStatus = this.toggleUserStatus.bind(this);
     this.saveTeam = this.saveTeam.bind(this);
     this.deleteTeam = this.deleteTeam.bind(this);
-    this.exportSeedData = this.exportSeedData.bind(this);
   }
 
   componentDidMount() {
@@ -87,10 +86,6 @@ export class AppProvider extends Component {
     this.setState((prevState) => this.store.deleteTeam(prevState, teamId));
   }
 
-  exportSeedData(filename) {
-    this.store.exportSeedData(this.state, filename);
-  }
-
   render() {
     const currentUser = this.store.getCurrentUser(this.state);
     const permissions = this.store.getPermissions(currentUser);
@@ -114,7 +109,6 @@ export class AppProvider extends Component {
       toggleUserStatus: this.toggleUserStatus,
       saveTeam: this.saveTeam,
       deleteTeam: this.deleteTeam,
-      exportSeedData: this.exportSeedData,
     };
 
     return <AppContext.Provider value={value}>{this.props.children}</AppContext.Provider>;

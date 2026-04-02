@@ -1,23 +1,17 @@
 import React, { Component } from "react";
-
-class StatusBadge extends Component {
-  render() {
-    // Turn the raw status text into a colored badge.
-    return <span className={`status-badge status-${this.props.status.toLowerCase()}`}>{this.props.status}</span>;
-  }
-}
+import StatusBadge from "./StatusBadge";
+import ButtonRow from "./ButtonRow";
+import FormButton from "./FormButton";
+import { formatRoleLabel, getLabelById } from "./UIHelpers";
 
 // This table lists all users in the system.
 export default class UserTable extends Component {
   getTeamName(teamId) {
-    // Show the team name instead of only the team id.
-    const team = this.props.teams.find((item) => item.id === teamId);
-    return team ? team.name : "-";
+    return getLabelById(this.props.teams, teamId);
   }
 
   roleLabel(role) {
-    // Replace the underscore so role text looks cleaner in the table.
-    return role.replace("_", " ");
+    return formatRoleLabel(role);
   }
 
   render() {
@@ -53,28 +47,28 @@ export default class UserTable extends Component {
                 <td>{user.permissions.length ? user.permissions.join(", ") : "-"}</td>
                 <td>
                   {/* Action buttons stay together in one row. */}
-                  <div className="button-row">
+                  <ButtonRow>
                     {/* Buttons are disabled when the current user has no permission. */}
-                    <button
+                    <FormButton
                       type="button"
-                      className="action-button"
+                      variant="action"
                       onClick={() => onToggleStatus(user.id)}
                       disabled={!canDeactivate}
                     >
                       {user.status === "ACTIVE" ? "Deactivate" : "Activate"}
-                    </button>
-                    <button type="button" className="action-button" onClick={() => onEdit(user)} disabled={!canEdit}>
+                    </FormButton>
+                    <FormButton type="button" variant="action" onClick={() => onEdit(user)} disabled={!canEdit}>
                       Edit
-                    </button>
-                    <button
+                    </FormButton>
+                    <FormButton
                       type="button"
-                      className="action-button danger-button"
+                      variant="danger"
                       onClick={() => onDelete(user.id)}
                       disabled={!canEdit}
                     >
                       Delete
-                    </button>
-                  </div>
+                    </FormButton>
+                  </ButtonRow>
                 </td>
               </tr>
             ))}

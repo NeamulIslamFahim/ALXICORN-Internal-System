@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { AppContext, PAGE_OPTIONS } from "../context/AppContext";
+import FormButton from "./FormButton";
 
 // Sidebar for navigation and logout.
 export default class Sidebar extends Component {
@@ -54,9 +55,9 @@ export default class Sidebar extends Component {
           <p className="sidebar-note">
             Signed in as <strong>{currentUser?.full_name}</strong>
           </p>
-          <button type="button" className="ghost-button" onClick={logout}>
+          <FormButton type="button" variant="ghost" onClick={logout}>
             Logout
-          </button>
+          </FormButton>
         </div>
       </aside>
     );
