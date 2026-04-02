@@ -2,11 +2,11 @@ import React from "react";
 import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import FormButton from "./FormButton";
-import Modal from "./Modal";
-import ModalForm from "./ModalForm";
+import Modal from "../layout/Modal";
+import ModalForm from "../layout/ModalForm";
 import ButtonRow from "./ButtonRow";
 import MemberAdder from "./MemberAdder";
-import { AppContext, SENIORITY_OPTIONS } from "../context/AppContext";
+import { AppContext, SENIORITY_OPTIONS } from "../../context/AppContext";
 
 // This modal creates or edits one team.
 export default class TeamForm extends ModalForm {

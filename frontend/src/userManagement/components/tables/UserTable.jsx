@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import StatusBadge from "./StatusBadge";
-import ButtonRow from "./ButtonRow";
-import FormButton from "./FormButton";
-import { formatRoleLabel, getLabelById } from "./UIHelpers";
+import ButtonRow from "../forms/ButtonRow";
+import FormButton from "../forms/FormButton";
+import { formatRoleLabel, getLabelById } from "../../utils/uiHelpers";
 
 // This table lists all users in the system.
 export default class UserTable extends Component {

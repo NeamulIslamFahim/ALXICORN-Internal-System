@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { AppContext } from "../context/AppContext";
-import PageHeader from "../components/PageHeader";
-import TeamTable from "../components/TeamTable";
-import TeamForm from "../components/TeamForm";
-import FormButton from "../components/FormButton";
+import PageHeader from "../components/layout/PageHeader";
+import TeamTable from "../components/tables/TeamTable";
+import TeamForm from "../components/forms/TeamForm";
+import FormButton from "../components/forms/FormButton";
 
 // Teams page.
 export default class TeamsPage extends Component {

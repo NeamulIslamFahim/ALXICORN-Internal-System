@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { AppContext } from "../context/AppContext";
-import PageHeader from "../components/PageHeader";
-import InfoCard from "../components/InfoCard";
+import PageHeader from "../components/layout/PageHeader";
+import InfoCard from "../components/layout/InfoCard";
 
 // Employee screen with only personal info.
 export default class ProfilePage extends Component {

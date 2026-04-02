@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import FormButton from "./FormButton";
+import FormButton from "../forms/FormButton";
 
 export default class Modal extends Component {
   render() {

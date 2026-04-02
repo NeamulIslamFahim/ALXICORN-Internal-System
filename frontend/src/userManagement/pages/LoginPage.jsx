@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { AppContext, ROLE_OPTIONS } from "../context/AppContext";
-import FormInput from "../components/FormInput";
-import FormButton from "../components/FormButton";
+import FormInput from "../components/forms/FormInput";
+import FormButton from "../components/forms/FormButton";
 
 // Login page.
 export default class LoginPage extends Component {

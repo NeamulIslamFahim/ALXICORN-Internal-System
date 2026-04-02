@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { AppContext, PAGE_OPTIONS } from "../context/AppContext";
-import FormButton from "./FormButton";
+import { AppContext, PAGE_OPTIONS } from "../../context/AppContext";
+import FormButton from "../forms/FormButton";
 
 // Sidebar for navigation and logout.
 export default class Sidebar extends Component {

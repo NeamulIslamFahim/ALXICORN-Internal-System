@@ -4,11 +4,11 @@ import FormField from "./FormField";
 import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import FormButton from "./FormButton";
-import Modal from "./Modal";
+import Modal from "../layout/Modal";
 import ButtonRow from "./ButtonRow";
-import ModalForm from "./ModalForm";
-import { optionsFromStrings } from "./UIHelpers";
-import { ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS } from "../context/AppContext";
+import ModalForm from "../layout/ModalForm";
+import { optionsFromStrings } from "../../utils/uiHelpers";
+import { ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS } from "../../context/AppContext";
 
 // Create or edit a user.
 export default class UserForm extends ModalForm {

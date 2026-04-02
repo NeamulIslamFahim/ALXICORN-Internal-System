@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { PERMISSION_OPTIONS } from "../context/AppContext";
-import { toggleArrayItem } from "./UIHelpers";
+import { PERMISSION_OPTIONS } from "../../context/AppContext";
+import { toggleArrayItem } from "../../utils/uiHelpers";
 
 // This shows permission checkboxes for Admin users.
 export default class PermissionSelector extends Component {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import ButtonRow from "./ButtonRow";
-import FormButton from "./FormButton";
+import ButtonRow from "../forms/ButtonRow";
+import FormButton from "../forms/FormButton";
 
 // This table lists all teams.
 export default class TeamTable extends Component {

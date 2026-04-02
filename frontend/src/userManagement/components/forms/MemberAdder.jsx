@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SENIORITY_OPTIONS } from "../context/AppContext";
+import { SENIORITY_OPTIONS } from "../../context/AppContext";
 
 export default class MemberAdder extends Component {
   constructor(props) {

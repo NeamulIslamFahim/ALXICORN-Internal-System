@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { AppContext, ROLE_OPTIONS } from "../context/AppContext";
-import PageHeader from "../components/PageHeader";
-import UserTable from "../components/UserTable";
-import UserForm from "../components/UserForm";
-import FormInput from "../components/FormInput";
-import FormSelect from "../components/FormSelect";
-import FormButton from "../components/FormButton";
-import { filterUsers } from "../components/UIHelpers";
+import PageHeader from "../components/layout/PageHeader";
+import UserTable from "../components/tables/UserTable";
+import UserForm from "../components/forms/UserForm";
+import FormInput from "../components/forms/FormInput";
+import FormSelect from "../components/forms/FormSelect";
+import FormButton from "../components/forms/FormButton";
+import { filterUsers } from "../utils/uiHelpers";
 
 // Users page.
 export default class UsersPage extends Component {

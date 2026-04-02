@@ -59,7 +59,11 @@ vercel --prod
 
 ## File structure
 
-- `src/App.jsx` - dashboard composition
-- `src/data/dashboardData.js` - content and requirement-driven mock data
-- `src/components/` - reusable UI pieces
-- `src/styles.css` - layout and theme
+- `frontend/src/userManagement/App.jsx` - dashboard composition
+- `frontend/src/userManagement/pages/` - route-like page screens
+- `frontend/src/userManagement/components/forms/` - form controls and modal editors
+- `frontend/src/userManagement/components/layout/` - layout and shell UI
+- `frontend/src/userManagement/components/tables/` - table views and badges
+- `frontend/src/userManagement/context/` - shared app context
+- `frontend/src/userManagement/utils/` - local storage and UI helpers
+- `frontend/src/userManagement/styles.css` - layout and theme
