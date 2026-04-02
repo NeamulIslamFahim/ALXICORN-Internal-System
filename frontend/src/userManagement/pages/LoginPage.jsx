@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { AppContext, ROLE_OPTIONS } from "../context/AppContext";
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
-import DemoCard from "../components/DemoCard";
 
 // Login page.
 export default class LoginPage extends Component {
@@ -73,16 +72,6 @@ export default class LoginPage extends Component {
             <FormButton type="submit" variant="primary">
               Login
             </FormButton>
-
-            {/* Demo cards show the current seed users from the frontend JSON. */}
-            <div className="demo-area">
-              <p className="eyebrow">Demo logins</p>
-              <div className="demo-grid">
-                {demoLogins.map((item) => (
-                  <DemoCard key={item.id} title={item.role} lines={[item.email, item.password]} />
-                ))}
-              </div>
-            </div>
 
             {this.state.error ? <p className="error-note">{this.state.error}</p> : null}
             {notice ? <p className="login-note">{notice}</p> : null}
