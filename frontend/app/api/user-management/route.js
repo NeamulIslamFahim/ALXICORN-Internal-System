@@ -11,6 +11,7 @@ const ALLOWED_ROLES = Object.values(ROLE_OPTIONS);
 const ALLOWED_STATUSES = Object.values(STATUS_OPTIONS);
 const ALLOWED_SENIORITY = Object.values(SENIORITY_OPTIONS);
 const ALLOWED_PERMISSIONS = [...PERMISSION_OPTIONS, "ALL ACCESS"];
+
 const ROUTE_CONTRACT = {
   route: "/api/user-management",
   methods: {
