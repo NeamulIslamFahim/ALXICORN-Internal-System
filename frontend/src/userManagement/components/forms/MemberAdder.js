@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { SENIORITY_OPTIONS } from "../../context/AppContext";
 import styles from "./forms.module.css";
 
+// Helper control for assembling team members without exposing the parent form internals.
 export default class MemberAdder extends Component {
   constructor(props) {
     super(props);

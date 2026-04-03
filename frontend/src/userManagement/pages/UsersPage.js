@@ -10,7 +10,7 @@ import { filterUsers } from "../utils/uiHelpers";
 import pageStyles from "./pages.module.css";
 import layoutStyles from "../components/layout/layout.module.css";
 
-// Users page.
+// Users page owns filtering, while the table stays focused on presentation.
 export default class UsersPage extends Component {
   static contextType = AppContext;
 

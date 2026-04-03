@@ -2,6 +2,7 @@ import seedData from "./data/seedData.json";
 import { makeId, nowStamp } from "./utils/localStorageHelper";
 import { ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS } from "./constants";
 
+// Normalize seed and runtime data into one predictable shape before the UI uses it.
 export class UserManagementNormalizer {
   static roleLookup = {
     SUPER_ADMIN: ROLE_OPTIONS.SUPER_ADMIN,
@@ -59,6 +60,7 @@ export class UserManagementNormalizer {
   }
 
   static normalizeSeedData(seed = seedData) {
+    // Teams are normalized first so user.team_id can be validated against known team ids.
     const teams = Array.isArray(seed?.teams)
       ? seed.teams
           .filter(Boolean)
@@ -96,6 +98,7 @@ export class UserManagementNormalizer {
           }))
       : [];
 
+    // Super admins always keep their full-access permission even if the source data omits it.
     users.forEach((user) => {
       if (user.role === ROLE_OPTIONS.SUPER_ADMIN && !user.permissions.includes("ALL ACCESS")) {
         user.permissions = ["ALL ACCESS"];
@@ -104,6 +107,7 @@ export class UserManagementNormalizer {
 
     const userIds = new Set(users.map((user) => user.id));
 
+    // Team members are rebuilt to remove invalid references and ensure the lead is listed first.
     const nextTeams = teams.map((team) => {
       const members = team.members.filter((member) => userIds.has(member.user_id));
       const leadExists = team.team_lead_id && userIds.has(team.team_lead_id);

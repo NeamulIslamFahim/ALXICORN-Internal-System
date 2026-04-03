@@ -3,6 +3,7 @@ import { makeId, nowStamp, readJSON, writeJSON } from "./utils/localStorageHelpe
 import { PAGE_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS, STORAGE_KEYS } from "./constants";
 import { UserManagementNormalizer } from "./normalizers";
 
+// The store owns all business rules so the UI stays focused on rendering and events.
 export class UserManagementStore {
   constructor(seed = seedData) {
     this.seed = UserManagementNormalizer.normalizeSeedData(seed);
@@ -94,14 +95,32 @@ export class UserManagementStore {
   }
 
   createInitialState() {
+    // The initial render stays deterministic for SSR; session data is restored after mount.
     return {
       users: this.seed.users,
       teams: this.seed.teams,
-      authUserId: readJSON(STORAGE_KEYS.authUserId, null),
-      page: readJSON(STORAGE_KEYS.page, PAGE_OPTIONS.USERS),
+      authUserId: null,
+      page: PAGE_OPTIONS.USERS,
       modal: null,
       notice: "",
       seedSignature: this.seedSignature,
+    };
+  }
+
+  restoreSession(state) {
+    // Local browser data wins over the seed so refreshes keep the latest user edits.
+    const storedUsers = readJSON(STORAGE_KEYS.users, null);
+    const storedTeams = readJSON(STORAGE_KEYS.teams, null);
+    const users = Array.isArray(storedUsers) && storedUsers.every(UserManagementStore.isValidUser) ? storedUsers : state.users;
+    const teams = Array.isArray(storedTeams) && storedTeams.every(UserManagementStore.isValidTeam) ? storedTeams : state.teams;
+    const authUserId = readJSON(STORAGE_KEYS.authUserId, null);
+
+    return {
+      ...state,
+      users,
+      teams,
+      authUserId: users.some((user) => user.id === authUserId) ? authUserId : null,
+      page: readJSON(STORAGE_KEYS.page, PAGE_OPTIONS.USERS),
     };
   }
 
@@ -130,6 +149,16 @@ export class UserManagementStore {
 
   async hydrateFromFile(state) {
     if (typeof window === "undefined") {
+      return state;
+    }
+
+    // Skip the API snapshot when local edits already exist in the browser.
+    const storedUsers = readJSON(STORAGE_KEYS.users, null);
+    const storedTeams = readJSON(STORAGE_KEYS.teams, null);
+    const hasStoredUsers = Array.isArray(storedUsers) && storedUsers.every(UserManagementStore.isValidUser);
+    const hasStoredTeams = Array.isArray(storedTeams) && storedTeams.every(UserManagementStore.isValidTeam);
+
+    if (hasStoredUsers || hasStoredTeams) {
       return state;
     }
 
@@ -164,6 +193,7 @@ export class UserManagementStore {
   }
 
   login(state, email, password) {
+    // Only active users can authenticate into the dashboard.
     const user = state.users.find(
       (item) =>
         item.email.trim().toLowerCase() === email.trim().toLowerCase() &&
@@ -218,6 +248,7 @@ export class UserManagementStore {
   }
 
   saveUser(state, form) {
+    // User creation and edits are guarded here so every entry point follows the same rules.
     const authUser = UserManagementStore.getUserById(state.users, state.authUserId);
     const isEdit = Boolean(form.id);
     const current = state.users.find((user) => user.id === form.id);
@@ -316,6 +347,7 @@ export class UserManagementStore {
       return state;
     }
 
+    // Prevent the last active super admin from being locked out of the system.
     const nextStatus =
       target.status === STATUS_OPTIONS.ACTIVE ? STATUS_OPTIONS.INACTIVE : STATUS_OPTIONS.ACTIVE;
 
@@ -369,6 +401,9 @@ export class UserManagementStore {
   }
 
   persistSession(state) {
+    // Session and working data are mirrored locally so refreshes keep the latest browser state.
+    writeJSON(STORAGE_KEYS.users, state.users);
+    writeJSON(STORAGE_KEYS.teams, state.teams);
     writeJSON(STORAGE_KEYS.authUserId, state.authUserId);
     writeJSON(STORAGE_KEYS.page, state.page);
     writeJSON(STORAGE_KEYS.seedSignature, state.seedSignature);
@@ -379,6 +414,7 @@ export class UserManagementStore {
       return;
     }
 
+    // The API write is best-effort because the local browser snapshot remains the primary fallback.
     try {
       await fetch("/api/user-management", {
         method: "POST",

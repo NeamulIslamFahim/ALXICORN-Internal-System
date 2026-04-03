@@ -3,7 +3,7 @@ import ButtonRow from "../forms/ButtonRow";
 import FormButton from "../forms/FormButton";
 import styles from "./tables.module.css";
 
-// This table lists all teams.
+// Team table renders summary data and delegates all edits/deletes upward.
 export default class TeamTable extends Component {
   getUserName(userId) {
     const user = this.props.users.find((item) => item.id === userId);

@@ -5,7 +5,7 @@ import InfoCard from "../components/layout/InfoCard";
 import pageStyles from "./pages.module.css";
 import layoutStyles from "../components/layout/layout.module.css";
 
-// Employee screen with only personal info.
+// Profile page is the simplified employee-facing view of the system.
 export default class ProfilePage extends Component {
   static contextType = AppContext;
 

@@ -4,6 +4,7 @@ import { PAGE_OPTIONS, PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STAT
 export const AppContext = createContext(null);
 export { PAGE_OPTIONS, PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS };
 
+// The provider adapts store actions into a React-friendly API for pages and components.
 export class AppProvider extends Component {
   constructor(props) {
     super(props);
@@ -24,8 +25,17 @@ export class AppProvider extends Component {
     this.deleteTeam = this.deleteTeam.bind(this);
   }
 
+  applyStoreAction(actionName, ...args) {
+    this.setState((prevState) => this.store[actionName](prevState, ...args));
+  }
+
   componentDidMount() {
-    this.store.hydrateFromFile(this.state).then((nextState) => {
+    // Restore the last browser session first, then hydrate from the API when no local snapshot exists.
+    const restoredState = this.store.restoreSession(this.state);
+
+    this.setState(restoredState);
+
+    this.store.hydrateFromFile(restoredState).then((nextState) => {
       this.setState(nextState);
     });
   }
@@ -49,53 +59,54 @@ export class AppProvider extends Component {
   }
 
   logout() {
-    this.setState((prevState) => this.store.logout(prevState));
+    this.applyStoreAction("logout");
   }
 
   setPage(page) {
-    this.setState((prevState) => this.store.setPage(prevState, page));
+    this.applyStoreAction("setPage", page);
   }
 
   openUserModal(mode, data = null) {
-    this.setState((prevState) => this.store.openUserModal(prevState, mode, data));
+    this.applyStoreAction("openUserModal", mode, data);
   }
 
   closeUserModal() {
-    this.setState((prevState) => this.store.closeUserModal(prevState));
+    this.applyStoreAction("closeUserModal");
   }
 
   openTeamModal(mode, data = null) {
-    this.setState((prevState) => this.store.openTeamModal(prevState, mode, data));
+    this.applyStoreAction("openTeamModal", mode, data);
   }
 
   closeTeamModal() {
-    this.setState((prevState) => this.store.closeTeamModal(prevState));
+    this.applyStoreAction("closeTeamModal");
   }
 
   saveUser(form) {
-    this.setState((prevState) => this.store.saveUser(prevState, form));
+    this.applyStoreAction("saveUser", form);
   }
 
   deleteUser(userId) {
-    this.setState((prevState) => this.store.deleteUser(prevState, userId));
+    this.applyStoreAction("deleteUser", userId);
   }
 
   toggleUserStatus(userId) {
-    this.setState((prevState) => this.store.toggleUserStatus(prevState, userId));
+    this.applyStoreAction("toggleUserStatus", userId);
   }
 
   saveTeam(form) {
-    this.setState((prevState) => this.store.saveTeam(prevState, form));
+    this.applyStoreAction("saveTeam", form);
   }
 
   deleteTeam(teamId) {
-    this.setState((prevState) => this.store.deleteTeam(prevState, teamId));
+    this.applyStoreAction("deleteTeam", teamId);
   }
 
   render() {
     const currentUser = this.store.getCurrentUser(this.state);
     const permissions = this.store.getPermissions(currentUser);
     const routePage = this.props.routePage || this.state.page;
+    // A single value object keeps page components decoupled from store internals.
     const value = {
       users: this.state.users,
       teams: this.state.teams,

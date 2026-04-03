@@ -3,14 +3,12 @@ import PermissionSelector from "./PermissionSelector";
 import FormField from "./FormField";
 import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
-import FormButton from "./FormButton";
+import ModalActionFooter from "./ModalActionFooter";
 import Modal from "../layout/Modal";
-import ButtonRow from "./ButtonRow";
 import ModalForm from "../layout/ModalForm";
-import { optionsFromStrings } from "../../utils/uiHelpers";
+import { buildOptionsFromItems, optionsFromStrings } from "../../utils/uiHelpers";
 import { ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS } from "../../context/AppContext";
 import formStyles from "./forms.module.css";
-import layoutStyles from "../layout/layout.module.css";
 
 // Create or edit a user.
 export default class UserForm extends ModalForm {
@@ -85,18 +83,12 @@ export default class UserForm extends ModalForm {
         title={isEdit ? "Edit User" : "Create User"}
         subtitle={isEdit ? "Edit" : "Create"}
         footer={
-          <div className={layoutStyles.modalActions}>
-            <span className={layoutStyles.modalNote}>{isEdit ? "Update the saved user." : "Fill the fields and save the user."}</span>
-            <ButtonRow>
-                <FormButton type="button" variant="ghost" onClick={this.props.onClose}>
-                  Cancel
-                </FormButton>
-                <FormButton type="submit" variant="primary">
-                  {isEdit ? "Save changes" : "Create user"}
-                </FormButton>
-              </ButtonRow>
-            </div>
-          }
+          <ModalActionFooter
+            note={isEdit ? "Update the saved user." : "Fill the fields and save the user."}
+            submitLabel={isEdit ? "Save changes" : "Create user"}
+            onCancel={this.props.onClose}
+          />
+        }
         >
           <FormInput
             label="Name"
@@ -126,7 +118,7 @@ export default class UserForm extends ModalForm {
               label="Team"
               value={this.state.form.team_id}
               onChange={(value) => this.updateField("team_id", value)}
-              options={[{ value: "", label: "No team" }, ...this.props.teams.map((team) => ({ value: team.id, label: team.name }))]}
+              options={[{ value: "", label: "No team" }, ...buildOptionsFromItems(this.props.teams)]}
             />
 
             <FormSelect

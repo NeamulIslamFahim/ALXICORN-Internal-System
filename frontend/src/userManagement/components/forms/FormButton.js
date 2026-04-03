@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./forms.module.css";
 
+// One button component keeps variants and loading behavior consistent across the module.
 export default class FormButton extends Component {
   render() {
     const { type = "button", variant = "action", disabled = false, loading = false, onClick, children, className } = this.props;

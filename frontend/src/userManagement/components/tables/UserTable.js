@@ -5,7 +5,7 @@ import FormButton from "../forms/FormButton";
 import { formatRoleLabel, getLabelById } from "../../utils/uiHelpers";
 import styles from "./tables.module.css";
 
-// This table lists all users in the system.
+// User list stays read-only here; all mutations are pushed back to the parent via callbacks.
 export default class UserTable extends Component {
   getTeamName(teamId) {
     return getLabelById(this.props.teams, teamId);

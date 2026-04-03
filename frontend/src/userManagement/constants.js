@@ -1,3 +1,4 @@
+// Shared enums and storage keys keep the UI, store, and API aligned.
 export const ROLE_OPTIONS = {
   SUPER_ADMIN: "SUPER ADMIN",
   ADMIN: "ADMIN",

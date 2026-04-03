@@ -1,6 +1,18 @@
 {
   "users": [
     {
+      "id": "user-ae11ae47-d5f6-4aa5-b8fe-a0f551867c94",
+      "full_name": "Neamul",
+      "email": "neamul@example.com",
+      "password": "123",
+      "role": "EMPLOYEE",
+      "status": "ACTIVE",
+      "permissions": [],
+      "team_id": "team-bb3383fa-94a2-4d60-96e1-0f5cf33b2fe0",
+      "seniority_role": "JUNIOR",
+      "created_at": "2026-04-03T04:47:03.172Z"
+    },
+    {
       "id": "user-super-admin",
       "full_name": "Super Admin",
       "email": "superadmin@example.com",
@@ -27,7 +39,7 @@
         "USER DEACTIVATE",
         "TEAM MANAGE"
       ],
-      "team_id": "user-admin",
+      "team_id": null,
       "seniority_role": "LEAD",
       "created_at": "2026-04-01T00:00:00.000Z"
     },
@@ -39,10 +51,22 @@
       "role": "EMPLOYEE",
       "status": "ACTIVE",
       "permissions": [],
-      "team_id": "team-frontend",
-      "seniority_role": "MID",
+      "team_id": "team-bb3383fa-94a2-4d60-96e1-0f5cf33b2fe0",
+      "seniority_role": "LEAD",
       "created_at": "2026-04-01T00:00:00.000Z"
     }
   ],
-  "teams": []
+  "teams": [
+    {
+      "id": "team-bb3383fa-94a2-4d60-96e1-0f5cf33b2fe0",
+      "name": "Development",
+      "team_lead_id": "user-employee",
+      "members": [
+        {
+          "user_id": "user-employee",
+          "seniority_role": "LEAD"
+        }
+      ]
+    }
+  ]
 }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+// Base class for modal forms that need reset, field update, and submit helpers.
 export default class ModalForm extends Component {
   componentDidUpdate(prevProps) {
     if (this.shouldResetForm(prevProps)) {
@@ -12,12 +13,16 @@ export default class ModalForm extends Component {
   }
 
   updateField(field, value) {
-    this.setState({
-      form: {
-        ...this.state.form,
-        [field]: value,
-      },
-    });
+    this.updateForm((form) => ({
+      ...form,
+      [field]: value,
+    }));
+  }
+
+  updateForm(updater) {
+    this.setState((prevState) => ({
+      form: typeof updater === "function" ? updater(prevState.form) : updater,
+    }));
   }
 
   submitForm(event, callback) {

@@ -1,14 +1,13 @@
 import React from "react";
 import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
-import FormButton from "./FormButton";
+import ModalActionFooter from "./ModalActionFooter";
 import Modal from "../layout/Modal";
 import ModalForm from "../layout/ModalForm";
-import ButtonRow from "./ButtonRow";
 import MemberAdder from "./MemberAdder";
-import { AppContext, SENIORITY_OPTIONS } from "../../context/AppContext";
+import { AppContext } from "../../context/AppContext";
 import formStyles from "./forms.module.css";
-import layoutStyles from "../layout/layout.module.css";
+import { buildOptionsFromItems, filterActiveUsers } from "../../utils/uiHelpers";
 
 // This modal creates or edits one team.
 export default class TeamForm extends ModalForm {
@@ -34,7 +33,7 @@ export default class TeamForm extends ModalForm {
 
   buildForm(props) {
     const isEdit = props.mode === "edit";
-    const availableUsers = props.users.filter((user) => user.status === "ACTIVE");
+    const availableUsers = filterActiveUsers(props.users);
 
     if (isEdit && props.team) {
       return {
@@ -58,24 +57,20 @@ export default class TeamForm extends ModalForm {
       return;
     }
 
-    this.setState({
-      form: {
-        ...this.state.form,
-        members: [
-          ...this.state.form.members.filter((member) => member.user_id !== userId),
-          { user_id: userId, seniority_role: seniorityRole },
-        ],
-      },
-    });
+    this.updateForm((form) => ({
+      ...form,
+      members: [
+        ...form.members.filter((member) => member.user_id !== userId),
+        { user_id: userId, seniority_role: seniorityRole },
+      ],
+    }));
   }
 
   removeMember(userId) {
-    this.setState({
-      form: {
-        ...this.state.form,
-        members: this.state.form.members.filter((member) => member.user_id !== userId),
-      },
-    });
+    this.updateForm((form) => ({
+      ...form,
+      members: form.members.filter((member) => member.user_id !== userId),
+    }));
   }
 
   submit(event) {
@@ -84,7 +79,7 @@ export default class TeamForm extends ModalForm {
 
   render() {
     const isEdit = this.props.mode === "edit";
-    const availableUsers = this.props.users.filter((user) => user.status === "ACTIVE");
+    const availableUsers = filterActiveUsers(this.props.users);
 
     if (!this.props.open) {
       return null;
@@ -96,32 +91,26 @@ export default class TeamForm extends ModalForm {
         onClose={this.props.onClose}
         onSubmit={this.submit}
         title={isEdit ? "Edit Team" : "Create Team"}
-      
         footer={
-          <div className={[layoutStyles.modalActions, layoutStyles.modalActionsEnd].join(" ")}>
-            <ButtonRow>
-                <FormButton type="button" variant="ghost" onClick={this.props.onClose}>
-                  Cancel
-                </FormButton>
-                <FormButton type="submit" variant="primary">
-                  {isEdit ? "Save changes" : "Create team"}
-                </FormButton>
-              </ButtonRow>
-            </div>
-          }
+          <ModalActionFooter
+            submitLabel={isEdit ? "Save changes" : "Create team"}
+            onCancel={this.props.onClose}
+            align="end"
+          />
+        }
         >
         <FormInput
           label="Team name"
           value={this.state.form.name}
-          onChange={(value) => this.setState({ form: { ...this.state.form, name: value } })}
+          onChange={(value) => this.updateField("name", value)}
           required
         />
 
         <FormSelect
           label="Team lead"
           value={this.state.form.team_lead_id}
-          onChange={(value) => this.setState({ form: { ...this.state.form, team_lead_id: value } })}
-          options={availableUsers.map((user) => ({ value: user.id, label: user.full_name }))}
+          onChange={(value) => this.updateField("team_lead_id", value)}
+          options={buildOptionsFromItems(availableUsers, "id", "full_name")}
         />
 
         <div className={formStyles.memberEditor}>

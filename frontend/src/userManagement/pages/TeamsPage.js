@@ -7,7 +7,7 @@ import FormButton from "../components/forms/FormButton";
 import pageStyles from "./pages.module.css";
 import layoutStyles from "../components/layout/layout.module.css";
 
-// Teams page.
+// Teams page coordinates the team list and the create/edit modal.
 export default class TeamsPage extends Component {
   static contextType = AppContext;
 

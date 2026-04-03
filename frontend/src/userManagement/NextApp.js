@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import App from "./App";
 import { getHomeRouteForRole, getPageFromPath, getRouteForPage } from "./routing";
 
+// Connect the framework router to the class-based user-management app.
 export default function NextApp() {
   const pathname = usePathname();
   const router = useRouter();

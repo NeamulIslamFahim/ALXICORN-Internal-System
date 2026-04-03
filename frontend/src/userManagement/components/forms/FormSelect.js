@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./forms.module.css";
 
+// Standard select wrapper so field spacing and labels stay uniform.
 export default class FormSelect extends Component {
   render() {
     const { label, value, onChange, options = [], disabled = false, required = false, className, selectClassName } = this.props;

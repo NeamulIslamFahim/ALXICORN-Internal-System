@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import FormButton from "../forms/FormButton";
 import styles from "./layout.module.css";
 
+// Lightweight modal shell that leaves form content and footer actions to callers.
 export default class Modal extends Component {
   render() {
     if (!this.props.open) {

@@ -7,6 +7,7 @@ import TeamsPage from "./pages/TeamsPage";
 import ProfilePage from "./pages/ProfilePage";
 import styles from "./AppShell.module.css";
 
+// Admin roles switch between dashboard pages, while employees get a single profile view.
 const DASHBOARD_PAGES = {
   [PAGE_OPTIONS.USERS]: UsersPage,
   [PAGE_OPTIONS.TEAMS]: TeamsPage,
@@ -40,6 +41,7 @@ class AppContent extends Component {
   render() {
     const currentUser = this.context?.currentUser;
 
+    // The same shell wrapper is used for both auth and app screens so tokens stay consistent.
     return (
       <div className={styles.theme}>
         {!currentUser || currentUser.status !== STATUS_OPTIONS.ACTIVE ? <LoginPage /> : <AppShell />}

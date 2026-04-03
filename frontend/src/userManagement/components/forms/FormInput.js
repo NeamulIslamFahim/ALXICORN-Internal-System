@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./forms.module.css";
 
+// Standard text input wrapper with a shared label and styling contract.
 export default class FormInput extends Component {
   render() {
     const {
