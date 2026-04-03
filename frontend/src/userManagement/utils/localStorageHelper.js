@@ -1,6 +1,10 @@
 export function readJSON(key, fallback) {
   // Read a JSON value safely from localStorage.
   try {
+    if (typeof window === "undefined") {
+      return fallback;
+    }
+
     const value = localStorage.getItem(key);
     return value ? JSON.parse(value) : fallback;
   } catch {
@@ -11,6 +15,10 @@ export function readJSON(key, fallback) {
 export function writeJSON(key, value) {
   // Save a JSON value safely so the app does not crash on storage errors.
   try {
+    if (typeof window === "undefined") {
+      return;
+    }
+
     localStorage.setItem(key, JSON.stringify(value));
   } catch {
     // Ignore storage write errors so the app can still render.

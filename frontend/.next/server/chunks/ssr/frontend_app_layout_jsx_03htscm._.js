@@ -1,0 +1,3 @@
+module.exports=[17158,a=>{"use strict";var b=a.i(7997);a.s(["default",0,function({children:a}){return(0,b.jsx)("html",{lang:"en",suppressHydrationWarning:!0,children:(0,b.jsx)("body",{suppressHydrationWarning:!0,children:a})})},"metadata",0,{title:"ALXICORN Internal System Dashboard",description:"Internal user management dashboard powered by Next.js."}])},89199,a=>{a.n(a.i(17158))}];
+
+//# sourceMappingURL=frontend_app_layout_jsx_03htscm._.js.map

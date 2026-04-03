@@ -1,6 +1,6 @@
 # ALXICORN Internal System Dashboard
 
-A lightweight React dashboard for the governance requirements.
+A lightweight Next.js dashboard for the governance requirements.
 
 ## What is included
 
@@ -13,7 +13,7 @@ A lightweight React dashboard for the governance requirements.
 ## Tech
 
 - React
-- Vite
+- Next.js
 - Plain CSS
 
 ## Run locally
@@ -33,10 +33,9 @@ This repository is configured so you can import the project from the repository 
 2. Go to Vercel and click `Add New -> Project`.
 3. Import the GitHub repository.
 4. Keep the project root as the repository root.
-5. Vercel should use:
+5. Vercel should detect Next.js automatically and use:
    - Install Command: `npm install`
    - Build Command: `npm run build`
-   - Output Directory: `frontend/dist`
 6. Click `Deploy`.
 
 ### Option 2: Vercel CLI
@@ -54,11 +53,12 @@ vercel --prod
 
 ## Notes
 
-- The current repository contains a frontend-only Vite app in `frontend`.
-- There is no separate backend service in this repository yet, so Vercel will deploy the UI as a static site.
+- The current repository contains a frontend-only Next.js app in `frontend`.
+- There is no separate backend service in this repository yet, so Vercel will deploy the UI as a Next.js application.
 
 ## File structure
 
+- `frontend/app/` - Next.js app router entry
 - `frontend/src/userManagement/App.jsx` - dashboard composition
 - `frontend/src/userManagement/pages/` - route-like page screens
 - `frontend/src/userManagement/components/forms/` - form controls and modal editors
