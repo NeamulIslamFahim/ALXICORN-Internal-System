@@ -2,7 +2,7 @@ import "../src/userManagement/styles.css";
 
 export const metadata = {
   title: "ALXICORN Internal System Dashboard",
-  description: "Internal user management dashboard powered by Next.js.",
+  description: "Internal System dashboard powered by ALXICORN",
 };
 
 export default function RootLayout({ children }) {
