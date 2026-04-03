@@ -25,12 +25,18 @@ export class AppProvider extends Component {
   }
 
   componentDidMount() {
-    this.setState((prevState) => this.store.syncSeedIfNeeded(prevState));
+    this.store.hydrateFromFile(this.state).then((nextState) => {
+      this.setState(nextState);
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState !== this.state) {
-      this.store.persist(this.state);
+      this.store.persistSession(this.state);
+    }
+
+    if (prevState.users !== this.state.users || prevState.teams !== this.state.teams) {
+      this.store.persistData(this.state);
     }
   }
 

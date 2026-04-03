@@ -42,6 +42,12 @@
       "namedRegex": "^/_not\\-found(?:/)?$"
     },
     {
+      "page": "/api/user-management",
+      "regex": "^/api/user\\-management(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/user\\-management(?:/)?$"
+    },
+    {
       "page": "/login",
       "regex": "^/login(?:/)?$",
       "routeKeys": {},

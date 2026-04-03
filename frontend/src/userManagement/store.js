@@ -94,22 +94,11 @@ export class UserManagementStore {
   }
 
   createInitialState() {
-    const storedSignature = readJSON(STORAGE_KEYS.seedSignature, "");
-    const seedChanged = storedSignature !== this.seedSignature;
-    const storedUsers = readJSON(STORAGE_KEYS.users, null);
-    const storedTeams = readJSON(STORAGE_KEYS.teams, null);
-    const users = !seedChanged && Array.isArray(storedUsers) && storedUsers.every(UserManagementStore.isValidUser)
-      ? storedUsers
-      : this.seed.users;
-    const teams = !seedChanged && Array.isArray(storedTeams) && storedTeams.every(UserManagementStore.isValidTeam)
-      ? storedTeams
-      : this.seed.teams;
-
     return {
-      users,
-      teams,
-      authUserId: seedChanged ? null : readJSON(STORAGE_KEYS.authUserId, null),
-      page: seedChanged ? PAGE_OPTIONS.USERS : readJSON(STORAGE_KEYS.page, PAGE_OPTIONS.USERS),
+      users: this.seed.users,
+      teams: this.seed.teams,
+      authUserId: readJSON(STORAGE_KEYS.authUserId, null),
+      page: readJSON(STORAGE_KEYS.page, PAGE_OPTIONS.USERS),
       modal: null,
       notice: "",
       seedSignature: this.seedSignature,
@@ -139,15 +128,39 @@ export class UserManagementStore {
     };
   }
 
-  syncSeedIfNeeded(state) {
-    if (state.seedSignature === this.seedSignature) {
+  async hydrateFromFile(state) {
+    if (typeof window === "undefined") {
       return state;
     }
 
-    return {
-      ...this.createInitialState(),
-      notice: "Seed data refreshed.",
-    };
+    try {
+      const response = await fetch("/api/user-management", {
+        method: "GET",
+        cache: "no-store",
+      });
+
+      if (!response.ok) {
+        return state;
+      }
+
+      const data = await response.json();
+      const users = Array.isArray(data.users) && data.users.every(UserManagementStore.isValidUser)
+        ? data.users
+        : state.users;
+      const teams = Array.isArray(data.teams) && data.teams.every(UserManagementStore.isValidTeam)
+        ? data.teams
+        : state.teams;
+      const authUserId = users.some((user) => user.id === state.authUserId) ? state.authUserId : null;
+
+      return {
+        ...state,
+        users,
+        teams,
+        authUserId,
+      };
+    } catch {
+      return state;
+    }
   }
 
   login(state, email, password) {
@@ -355,12 +368,31 @@ export class UserManagementStore {
     };
   }
 
-  persist(state) {
-    writeJSON(STORAGE_KEYS.users, state.users);
-    writeJSON(STORAGE_KEYS.teams, state.teams);
+  persistSession(state) {
     writeJSON(STORAGE_KEYS.authUserId, state.authUserId);
     writeJSON(STORAGE_KEYS.page, state.page);
     writeJSON(STORAGE_KEYS.seedSignature, state.seedSignature);
+  }
+
+  async persistData(state) {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    try {
+      await fetch("/api/user-management", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          users: state.users,
+          teams: state.teams,
+        }),
+      });
+    } catch {
+      // Ignore write errors so the UI remains usable.
+    }
   }
 
 }
