@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import UsersPage from "./pages/UsersPage";
 import TeamsPage from "./pages/TeamsPage";
 import ProfilePage from "./pages/ProfilePage";
+import styles from "./AppShell.module.css";
 
 const DASHBOARD_PAGES = {
   [PAGE_OPTIONS.USERS]: UsersPage,
@@ -19,19 +20,29 @@ class AppShell extends Component {
     const currentUser = app?.currentUser;
     const isEmployee = currentUser?.role === "EMPLOYEE";
 
-    if (!currentUser || currentUser.status !== STATUS_OPTIONS.ACTIVE) {
-      return <LoginPage />;
-    }
-
     const DashboardPage = isEmployee ? ProfilePage : DASHBOARD_PAGES[app.page] || UsersPage;
 
     return (
-      <div className="app-shell">
+      <div className={styles.appShell}>
         <Sidebar />
-        <main className="main-content">
-          {app.notice ? <div className="notice-bar">{app.notice}</div> : null}
+        <main className={styles.mainContent}>
+          {app.notice ? <div className={styles.noticeBar}>{app.notice}</div> : null}
           <DashboardPage />
         </main>
+      </div>
+    );
+  }
+}
+
+class AppContent extends Component {
+  static contextType = AppContext;
+
+  render() {
+    const currentUser = this.context?.currentUser;
+
+    return (
+      <div className={styles.theme}>
+        {!currentUser || currentUser.status !== STATUS_OPTIONS.ACTIVE ? <LoginPage /> : <AppShell />}
       </div>
     );
   }
@@ -46,7 +57,7 @@ export default class App extends Component {
         onNavigateToLogin={this.props.onNavigateToLogin}
         onNavigateToHome={this.props.onNavigateToHome}
       >
-        <AppShell />
+        <AppContent />
       </AppProvider>
     );
   }

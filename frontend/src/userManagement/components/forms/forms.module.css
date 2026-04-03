@@ -1,0 +1,187 @@
+.formField {
+  display: grid;
+  gap: 6px;
+}
+
+.fieldCard {
+  padding: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface-2-color) 80%, transparent);
+}
+
+.fieldCard:focus-within {
+  border-color: rgba(59, 130, 246, 0.35);
+  background: rgba(59, 130, 246, 0.06);
+}
+
+.fieldLabel {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.input,
+.select {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  outline: none;
+  color: var(--text-color);
+  background: var(--surface-color);
+}
+
+.input::placeholder {
+  color: #64748b;
+}
+
+.input:focus,
+.select:focus {
+  border-color: var(--primary-color);
+}
+
+.button {
+  min-height: 38px;
+  padding: 8px 12px;
+  color: var(--text-color);
+  background: var(--surface-2-color);
+}
+
+.buttonPrimary {
+  color: var(--text-color);
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.buttonPrimary:hover {
+  background: var(--primary-hover);
+}
+
+.buttonGhost {
+  background: transparent;
+}
+
+.buttonDanger {
+  color: color-mix(in srgb, var(--danger-color) 20%, white 80%);
+  background: var(--danger-soft);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.buttonRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.compactActions .button,
+.compactActions .buttonDanger {
+  min-width: 92px;
+  min-height: 34px;
+  padding: 0 10px;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.permissionBox {
+  display: grid;
+  gap: 6px;
+  max-height: 170px;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface-2-color) 80%, transparent);
+}
+
+.permissionItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 6px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+}
+
+.permissionItem:hover {
+  background: color-mix(in srgb, var(--surface-color) 92%, white 4%);
+}
+
+.checkbox {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  order: 2;
+  flex: 0 0 auto;
+  accent-color: var(--primary-color);
+}
+
+.permissionText {
+  order: 1;
+  line-height: 1.2;
+}
+
+.memberEditor {
+  display: grid;
+  gap: 10px;
+}
+
+.memberLabel {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.memberList {
+  display: grid;
+  gap: 8px;
+}
+
+.memberChip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface-2-color) 80%, transparent);
+}
+
+.memberAdder {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.memberAdder .select {
+  min-width: 160px;
+}
+
+.memberAdder .button,
+.memberChip .button {
+  min-height: 34px;
+}
+
+@media (max-width: 980px) {
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+}

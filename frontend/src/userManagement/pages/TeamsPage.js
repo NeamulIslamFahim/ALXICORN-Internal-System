@@ -4,6 +4,8 @@ import PageHeader from "../components/layout/PageHeader";
 import TeamTable from "../components/tables/TeamTable";
 import TeamForm from "../components/forms/TeamForm";
 import FormButton from "../components/forms/FormButton";
+import pageStyles from "./pages.module.css";
+import layoutStyles from "../components/layout/layout.module.css";
 
 // Teams page.
 export default class TeamsPage extends Component {
@@ -22,12 +24,12 @@ export default class TeamsPage extends Component {
     } = this.context;
 
     return (
-      <section className="page-card">
+      <section className={pageStyles.pageCard}>
         <PageHeader
           title="Teams"
           note="Create teams and assign members."
           action={
-            <div className="header-actions">
+            <div className={layoutStyles.headerActions}>
               <FormButton
                 type="button"
                 variant="primary"
@@ -40,7 +42,7 @@ export default class TeamsPage extends Component {
           }
         />
 
-        <div className="hint-box">Teams are available for permitted roles.</div>
+        <div className={pageStyles.hintBox}>Teams are available for permitted roles.</div>
 
         <TeamTable
           teams={teams}

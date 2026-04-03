@@ -1,13 +1,16 @@
 import React, { Component } from "react";
+import styles from "./forms.module.css";
 
 export default class FormSelect extends Component {
   render() {
-    const { label, value, onChange, options = [], disabled = false, required = false } = this.props;
+    const { label, value, onChange, options = [], disabled = false, required = false, className, selectClassName } = this.props;
+    const wrapperClassName = [styles.formField, styles.fieldCard, className].filter(Boolean).join(" ");
+    const controlClassName = [styles.select, selectClassName].filter(Boolean).join(" ");
 
     return (
-      <label className="form-field">
-        {label ? <span>{label}</span> : null}
-        <select value={value} onChange={(event) => onChange(event.target.value)} disabled={disabled} required={required}>
+      <label className={wrapperClassName}>
+        {label ? <span className={styles.fieldLabel}>{label}</span> : null}
+        <select className={controlClassName} value={value} onChange={(event) => onChange(event.target.value)} disabled={disabled} required={required}>
           {options.map((option) => {
             if (typeof option === "string") {
               return (

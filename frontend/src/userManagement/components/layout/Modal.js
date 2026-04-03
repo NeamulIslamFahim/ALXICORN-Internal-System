@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import FormButton from "../forms/FormButton";
+import styles from "./layout.module.css";
 
 export default class Modal extends Component {
   render() {
@@ -8,15 +9,15 @@ export default class Modal extends Component {
     }
 
     return (
-      <div className="modal-backdrop">
-        <div className="modal-card">
-          <div className="modal-head">
+      <div className={styles.modalBackdrop}>
+        <div className={styles.modalCard}>
+          <div className={styles.modalHead}>
             {this.props.header ? (
               this.props.header
             ) : (
               <div>
-                {this.props.subtitle ? <p className="eyebrow">{this.props.subtitle}</p> : null}
-                {this.props.title ? <h3>{this.props.title}</h3> : null}
+                {this.props.subtitle ? <p className={styles.eyebrow}>{this.props.subtitle}</p> : null}
+                {this.props.title ? <h3 className={styles.modalTitle}>{this.props.title}</h3> : null}
               </div>
             )}
             <FormButton type="button" variant="ghost" onClick={this.props.onClose}>
@@ -24,8 +25,8 @@ export default class Modal extends Component {
             </FormButton>
           </div>
 
-          <form className="modal-form" onSubmit={this.props.onSubmit}>
-            <div className="modal-body">{this.props.children}</div>
+          <form className={styles.modalForm} onSubmit={this.props.onSubmit}>
+            <div className={styles.modalBody}>{this.props.children}</div>
             {this.props.footer || null}
           </form>
         </div>

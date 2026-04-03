@@ -7,6 +7,8 @@ import FormInput from "../components/forms/FormInput";
 import FormSelect from "../components/forms/FormSelect";
 import FormButton from "../components/forms/FormButton";
 import { filterUsers } from "../utils/uiHelpers";
+import pageStyles from "./pages.module.css";
+import layoutStyles from "../components/layout/layout.module.css";
 
 // Users page.
 export default class UsersPage extends Component {
@@ -39,12 +41,12 @@ export default class UsersPage extends Component {
     const filteredUsers = filterUsers(users, this.state.search, this.state.roleFilter, this.state.statusFilter);
 
     return (
-      <section className="page-card">
+      <section className={pageStyles.pageCard}>
         <PageHeader
           title="Users"
           note="Search and manage accounts."
           action={
-            <div className="header-actions">
+            <div className={layoutStyles.headerActions}>
               <FormButton
                 type="button"
                 variant="primary"
@@ -57,7 +59,7 @@ export default class UsersPage extends Component {
           }
         />
 
-        <div className="filter-row">
+        <div className={pageStyles.filterRow}>
           <FormInput
             label=""
             value={this.state.search}
@@ -87,7 +89,7 @@ export default class UsersPage extends Component {
         </div>
 
         {/* Small helper text so the active user is obvious. */}
-        <div className="hint-box">{currentUser ? `${currentUser.full_name} · ${currentUser.role}` : "No user"}</div>
+        <div className={pageStyles.hintBox}>{currentUser ? `${currentUser.full_name} · ${currentUser.role}` : "No user"}</div>
 
         {/* Table shows the current filtered user list. */}
         <UserTable

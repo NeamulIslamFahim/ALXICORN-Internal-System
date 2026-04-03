@@ -1,19 +1,21 @@
 import React, { Component } from "react";
+import styles from "./forms.module.css";
 
 export default class FormButton extends Component {
   render() {
-    const { type = "button", variant = "action", disabled = false, loading = false, onClick, children } = this.props;
+    const { type = "button", variant = "action", disabled = false, loading = false, onClick, children, className } = this.props;
     const variantClass =
       variant === "primary"
-        ? "primary-button"
+        ? styles.buttonPrimary
         : variant === "ghost"
-        ? "ghost-button"
+        ? styles.buttonGhost
         : variant === "danger"
-        ? "danger-button"
-        : "action-button";
+        ? styles.buttonDanger
+        : null;
+    const buttonClassName = [styles.button, variantClass, className].filter(Boolean).join(" ");
 
     return (
-      <button type={type} className={variantClass} disabled={disabled || loading} onClick={onClick}>
+      <button type={type} className={buttonClassName} disabled={disabled || loading} onClick={onClick}>
         {loading ? "Loading..." : children}
       </button>
     );

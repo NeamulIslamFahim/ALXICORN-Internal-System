@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { AppContext, PAGE_OPTIONS } from "../../context/AppContext";
 import FormButton from "../forms/FormButton";
+import styles from "./layout.module.css";
 
 // Sidebar for navigation and logout.
 export default class Sidebar extends Component {
@@ -22,22 +23,25 @@ export default class Sidebar extends Component {
         navigateToLogin();
       }
     };
+    const profileButtonClass = [styles.navButton, page === PAGE_OPTIONS.PROFILE ? styles.navButtonActive : null].filter(Boolean).join(" ");
+    const usersButtonClass = [styles.navButton, page === PAGE_OPTIONS.USERS ? styles.navButtonActive : null].filter(Boolean).join(" ");
+    const teamsButtonClass = [styles.navButton, page === PAGE_OPTIONS.TEAMS ? styles.navButtonActive : null].filter(Boolean).join(" ");
 
     return (
-      <aside className="sidebar">
+      <aside className={styles.sidebar}>
         {/* Top section shows the role and user name. */}
         <div>
-          <p className="eyebrow">User system</p>
-          <h1>{currentUser?.role || "Menu"}</h1>
-          <p className="sidebar-note">{currentUser ? currentUser.full_name : ""}</p>
+          <p className={styles.eyebrow}>User system</p>
+          <h1 className={styles.sidebarTitle}>{currentUser?.role || "Menu"}</h1>
+          <p className={styles.sidebarNote}>{currentUser ? currentUser.full_name : ""}</p>
         </div>
 
         {/* Navigation changes based on the logged-in role. */}
-        <nav className="nav-list">
+        <nav className={styles.navList}>
           {isEmployee ? (
             <button
               type="button"
-              className={page === PAGE_OPTIONS.PROFILE ? "nav-button active" : "nav-button"}
+              className={profileButtonClass}
               onClick={() => goToPage(PAGE_OPTIONS.PROFILE)}
             >
               Profile
@@ -46,14 +50,14 @@ export default class Sidebar extends Component {
             <>
               <button
                 type="button"
-                className={page === PAGE_OPTIONS.USERS ? "nav-button active" : "nav-button"}
+                className={usersButtonClass}
                 onClick={() => goToPage(PAGE_OPTIONS.USERS)}
               >
                 Users
               </button>
               <button
                 type="button"
-                className={page === PAGE_OPTIONS.TEAMS ? "nav-button active" : "nav-button"}
+                className={teamsButtonClass}
                 onClick={() => goToPage(PAGE_OPTIONS.TEAMS)}
               >
                 Teams
@@ -63,8 +67,8 @@ export default class Sidebar extends Component {
         </nav>
 
         {/* Logout stays in a small card at the bottom. */}
-        <div className="sidebar-card">
-          <p className="sidebar-note">
+        <div className={styles.sidebarCard}>
+          <p className={styles.sidebarNote}>
             Signed in as <strong>{currentUser?.full_name}</strong>
           </p>
           <FormButton type="button" variant="ghost" onClick={handleLogout}>

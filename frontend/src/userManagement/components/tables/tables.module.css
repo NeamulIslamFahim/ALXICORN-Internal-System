@@ -1,0 +1,57 @@
+.tableWrap {
+  overflow: auto;
+  max-height: 60vh;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--surface-2-color);
+}
+
+.dataTable {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+.dataTable th,
+.dataTable td {
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.dataTable th {
+  position: sticky;
+  top: 0;
+  color: var(--text-color);
+  background: var(--surface-3-color);
+}
+
+.dataTable td:last-child,
+.dataTable th:last-child {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.statusActive {
+  color: color-mix(in srgb, var(--success-color) 50%, white 50%);
+  background: var(--success-soft);
+  border-color: color-mix(in srgb, var(--success-color) 30%, transparent);
+}
+
+.statusInactive,
+.statusTerminated {
+  color: color-mix(in srgb, var(--danger-color) 20%, white 80%);
+  background: var(--danger-soft);
+  border-color: color-mix(in srgb, var(--danger-color) 30%, transparent);
+}

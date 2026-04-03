@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { AppContext } from "../context/AppContext";
 import FormInput from "../components/forms/FormInput";
 import FormButton from "../components/forms/FormButton";
+import pageStyles from "./pages.module.css";
+import layoutStyles from "../components/layout/layout.module.css";
 
 // Login page.
 export default class LoginPage extends Component {
@@ -38,14 +40,14 @@ export default class LoginPage extends Component {
     // Login, notice, and the loaded users come from the shared app state.
     const { notice } = this.context;
     return (
-      <main className="auth-page">
-        <section className="auth-shell">
+      <main className={pageStyles.authPage}>
+        <section className={pageStyles.authShell}>
           {/* The card only contains the sign-in form now. */}
-          <form className="auth-form" onSubmit={this.submit}>
-            <div className="auth-form-head">
-              <p className="eyebrow">Secure access</p>
-              <h2>Sign in</h2>
-              <p className="auth-text">Use your role email and password to continue.</p>
+          <form className={pageStyles.authForm} onSubmit={this.submit}>
+            <div className={pageStyles.authFormHead}>
+              <p className={layoutStyles.eyebrow}>Secure access</p>
+              <h2 className={pageStyles.authHeading}>Sign in</h2>
+              <p className={pageStyles.authText}>Use your role email and password to continue.</p>
             </div>
 
             <FormInput
@@ -66,12 +68,12 @@ export default class LoginPage extends Component {
               required
             />
 
-            <FormButton type="submit" variant="primary">
+            <FormButton type="submit" variant="primary" className={pageStyles.fullWidthButton}>
               Login
             </FormButton>
 
-            {this.state.error ? <p className="error-note">{this.state.error}</p> : null}
-            {notice ? <p className="login-note">{notice}</p> : null}
+            {this.state.error ? <p className={pageStyles.errorNote}>{this.state.error}</p> : null}
+            {notice ? <p className={pageStyles.loginNote}>{notice}</p> : null}
           </form>
         </section>
       </main>

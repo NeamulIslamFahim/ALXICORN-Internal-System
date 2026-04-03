@@ -1,4 +1,4 @@
-import "../src/userManagement/styles.css";
+import styles from "./layout.module.css";
 
 export const metadata = {
   title: "ALXICORN Internal System Dashboard",
@@ -8,7 +8,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning>{children}</body>
+      <body className={styles.body} suppressHydrationWarning>{children}</body>
     </html>
   );
 }

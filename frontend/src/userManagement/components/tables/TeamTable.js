@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ButtonRow from "../forms/ButtonRow";
 import FormButton from "../forms/FormButton";
+import styles from "./tables.module.css";
 
 // This table lists all teams.
 export default class TeamTable extends Component {
@@ -13,8 +14,8 @@ export default class TeamTable extends Component {
     const { teams, onEdit, onDelete, canManageTeams } = this.props;
 
     return (
-      <div className="table-wrap">
-        <table className="data-table">
+      <div className={styles.tableWrap}>
+        <table className={styles.dataTable}>
           <thead>
             <tr>
               <th>Team name</th>

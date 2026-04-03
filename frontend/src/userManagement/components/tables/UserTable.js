@@ -3,6 +3,7 @@ import StatusBadge from "./StatusBadge";
 import ButtonRow from "../forms/ButtonRow";
 import FormButton from "../forms/FormButton";
 import { formatRoleLabel, getLabelById } from "../../utils/uiHelpers";
+import styles from "./tables.module.css";
 
 // This table lists all users in the system.
 export default class UserTable extends Component {
@@ -18,8 +19,8 @@ export default class UserTable extends Component {
     const { users, onEdit, onToggleStatus, onDelete, canEdit, canDeactivate } = this.props;
 
     return (
-      <div className="table-wrap">
-        <table className="data-table">
+      <div className={styles.tableWrap}>
+        <table className={styles.dataTable}>
           <thead>
             <tr>
               <th>Name</th>

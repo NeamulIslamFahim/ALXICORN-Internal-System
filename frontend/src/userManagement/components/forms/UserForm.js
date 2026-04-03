@@ -9,6 +9,8 @@ import ButtonRow from "./ButtonRow";
 import ModalForm from "../layout/ModalForm";
 import { optionsFromStrings } from "../../utils/uiHelpers";
 import { ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS } from "../../context/AppContext";
+import formStyles from "./forms.module.css";
+import layoutStyles from "../layout/layout.module.css";
 
 // Create or edit a user.
 export default class UserForm extends ModalForm {
@@ -83,8 +85,8 @@ export default class UserForm extends ModalForm {
         title={isEdit ? "Edit User" : "Create User"}
         subtitle={isEdit ? "Edit" : "Create"}
         footer={
-          <div className="modal-actions">
-            <span className="modal-note">{isEdit ? "Update the saved user." : "Fill the fields and save the user."}</span>
+          <div className={layoutStyles.modalActions}>
+            <span className={layoutStyles.modalNote}>{isEdit ? "Update the saved user." : "Fill the fields and save the user."}</span>
             <ButtonRow>
                 <FormButton type="button" variant="ghost" onClick={this.props.onClose}>
                   Cancel
@@ -119,7 +121,7 @@ export default class UserForm extends ModalForm {
             disabled={isEdit}
           />
 
-          <div className="two-col">
+          <div className={formStyles.twoCol}>
             <FormSelect
               label="Team"
               value={this.state.form.team_id}

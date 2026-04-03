@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { SENIORITY_OPTIONS } from "../../context/AppContext";
+import styles from "./forms.module.css";
 
 export default class MemberAdder extends Component {
   constructor(props) {
@@ -18,8 +19,8 @@ export default class MemberAdder extends Component {
 
   render() {
     return (
-      <div className="member-adder">
-        <select value={this.state.userId} onChange={(event) => this.setState({ userId: event.target.value })}>
+      <div className={styles.memberAdder}>
+        <select className={styles.select} value={this.state.userId} onChange={(event) => this.setState({ userId: event.target.value })}>
           {this.props.users.map((user) => (
             <option key={user.id} value={user.id}>
               {user.full_name}
@@ -27,6 +28,7 @@ export default class MemberAdder extends Component {
           ))}
         </select>
         <select
+          className={styles.select}
           value={this.state.seniorityRole}
           onChange={(event) => this.setState({ seniorityRole: event.target.value })}
         >
@@ -38,7 +40,7 @@ export default class MemberAdder extends Component {
         </select>
         <button
           type="button"
-          className="ghost-button"
+          className={[styles.button, styles.buttonGhost].join(" ")}
           onClick={() => this.props.onAdd(this.state.userId, this.state.seniorityRole)}
         >
           Add member

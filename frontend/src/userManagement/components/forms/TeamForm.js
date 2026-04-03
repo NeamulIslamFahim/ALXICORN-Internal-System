@@ -7,6 +7,8 @@ import ModalForm from "../layout/ModalForm";
 import ButtonRow from "./ButtonRow";
 import MemberAdder from "./MemberAdder";
 import { AppContext, SENIORITY_OPTIONS } from "../../context/AppContext";
+import formStyles from "./forms.module.css";
+import layoutStyles from "../layout/layout.module.css";
 
 // This modal creates or edits one team.
 export default class TeamForm extends ModalForm {
@@ -96,7 +98,7 @@ export default class TeamForm extends ModalForm {
         title={isEdit ? "Edit Team" : "Create Team"}
       
         footer={
-          <div className="modal-actions">
+          <div className={[layoutStyles.modalActions, layoutStyles.modalActionsEnd].join(" ")}>
             <ButtonRow>
                 <FormButton type="button" variant="ghost" onClick={this.props.onClose}>
                   Cancel
@@ -122,15 +124,15 @@ export default class TeamForm extends ModalForm {
           options={availableUsers.map((user) => ({ value: user.id, label: user.full_name }))}
         />
 
-        <div className="member-editor">
+        <div className={formStyles.memberEditor}>
           {/* Team members are managed one by one here. */}
-          <span>Members</span>
+          <span className={formStyles.memberLabel}>Members</span>
           <MemberAdder users={availableUsers} onAdd={(userId, seniorityRole) => this.addMember(userId, seniorityRole)} />
-          <div className="member-list">
+          <div className={formStyles.memberList}>
             {this.state.form.members.map((member) => {
               const user = availableUsers.find((item) => item.id === member.user_id);
               return (
-                <div className="member-chip" key={member.user_id}>
+                <div className={formStyles.memberChip} key={member.user_id}>
                   <strong>{user ? user.full_name : member.user_id}</strong>
                   <span>{member.seniority_role}</span>
                   <FormButton type="button" variant="ghost" onClick={() => this.removeMember(member.user_id)}>
