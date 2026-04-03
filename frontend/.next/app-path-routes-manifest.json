@@ -1,5 +1,9 @@
 {
   "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
-  "/page": "/"
+  "/login/page": "/login",
+  "/page": "/",
+  "/profile/page": "/profile",
+  "/teams/page": "/teams",
+  "/users/page": "/users"
 }

@@ -1,6 +1,6 @@
 # ALXICORN Internal System Dashboard
 
-A lightweight Next.js dashboard for the governance requirements.
+A lightweight Next.js dashboard for internal user and team management.
 
 ## What is included
 
@@ -12,8 +12,8 @@ A lightweight Next.js dashboard for the governance requirements.
 
 ## Tech
 
-- React
 - Next.js
+- React
 - Plain CSS
 
 ## Run locally
@@ -53,14 +53,15 @@ vercel --prod
 
 ## Notes
 
-- The current repository contains a frontend-only Next.js app in `frontend`.
+- The repository uses a root workspace with the Next.js app in `frontend`.
 - There is no separate backend service in this repository yet, so Vercel will deploy the UI as a Next.js application.
 
 ## File structure
 
 - `frontend/app/` - Next.js app router entry
-- `frontend/src/userManagement/App.jsx` - dashboard composition
-- `frontend/src/userManagement/pages/` - route-like page screens
+- `frontend/src/userManagement/NextApp.js` - Next-aware client wrapper
+- `frontend/src/userManagement/App.js` - dashboard composition
+- `frontend/src/userManagement/pages/` - screen components used by app routes
 - `frontend/src/userManagement/components/forms/` - form controls and modal editors
 - `frontend/src/userManagement/components/layout/` - layout and shell UI
 - `frontend/src/userManagement/components/tables/` - table views and badges
