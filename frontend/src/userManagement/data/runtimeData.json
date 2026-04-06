@@ -1,6 +1,18 @@
 {
   "users": [
     {
+      "id": "user-a3f87d3a-808c-4d84-8663-f9a405fd568c",
+      "full_name": "y",
+      "email": "y@gmail.com",
+      "password": "123",
+      "role": "EMPLOYEE",
+      "status": "ACTIVE",
+      "permissions": [],
+      "team_id": "team-8f78c233-b7c5-4344-9a40-d764b9264f0c",
+      "seniority_role": "LEAD",
+      "created_at": "2026-04-06T02:17:30.849Z"
+    },
+    {
       "id": "user-ae11ae47-d5f6-4aa5-b8fe-a0f551867c94",
       "full_name": "Neamul",
       "email": "neamul@example.com",
@@ -64,6 +76,17 @@
       "members": [
         {
           "user_id": "user-employee",
+          "seniority_role": "LEAD"
+        }
+      ]
+    },
+    {
+      "id": "team-8f78c233-b7c5-4344-9a40-d764b9264f0c",
+      "name": "r",
+      "team_lead_id": "user-a3f87d3a-808c-4d84-8663-f9a405fd568c",
+      "members": [
+        {
+          "user_id": "user-a3f87d3a-808c-4d84-8663-f9a405fd568c",
           "seniority_role": "LEAD"
         }
       ]
