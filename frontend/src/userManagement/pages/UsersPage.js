@@ -39,12 +39,16 @@ export default class UsersPage extends Component {
     } = this.context;
 
     const filteredUsers = filterUsers(users, this.state.search, this.state.roleFilter, this.state.statusFilter);
+    const activeUsers = users.filter((user) => user.status === "ACTIVE").length;
+    const adminUsers = users.filter((user) => user.role === ROLE_OPTIONS.ADMIN).length;
 
     return (
       <section className={pageStyles.pageCard}>
         <PageHeader
+          eyebrow="People control"
           title="Users"
-          note="Search and manage accounts."
+          note="Manage accounts with a clearer, campaign-style control panel inspired by the reference site."
+          badge={`${filteredUsers.length} visible`}
           action={
             <div className={layoutStyles.headerActions}>
               <FormButton
@@ -58,6 +62,21 @@ export default class UsersPage extends Component {
             </div>
           }
         />
+
+        <div className={pageStyles.metricGrid}>
+          <div className={pageStyles.metricCard}>
+            <span className={pageStyles.metricLabel}>Total users</span>
+            <strong className={pageStyles.metricValue}>{users.length}</strong>
+          </div>
+          <div className={pageStyles.metricCard}>
+            <span className={pageStyles.metricLabel}>Active users</span>
+            <strong className={pageStyles.metricValue}>{activeUsers}</strong>
+          </div>
+          <div className={pageStyles.metricCard}>
+            <span className={pageStyles.metricLabel}>Admins</span>
+            <strong className={pageStyles.metricValue}>{adminUsers}</strong>
+          </div>
+        </div>
 
         <div className={pageStyles.filterRow}>
           <FormInput

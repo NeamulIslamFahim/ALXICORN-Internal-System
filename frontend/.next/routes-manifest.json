@@ -42,10 +42,10 @@
       "namedRegex": "^/_not\\-found(?:/)?$"
     },
     {
-      "page": "/api/user-management",
-      "regex": "^/api/user\\-management(?:/)?$",
+      "page": "/api",
+      "regex": "^/api(?:/)?$",
       "routeKeys": {},
-      "namedRegex": "^/api/user\\-management(?:/)?$"
+      "namedRegex": "^/api(?:/)?$"
     },
     {
       "page": "/login",
@@ -54,22 +54,28 @@
       "namedRegex": "^/login(?:/)?$"
     },
     {
-      "page": "/profile",
-      "regex": "^/profile(?:/)?$",
+      "page": "/UserManagement",
+      "regex": "^/UserManagement(?:/)?$",
       "routeKeys": {},
-      "namedRegex": "^/profile(?:/)?$"
+      "namedRegex": "^/UserManagement(?:/)?$"
     },
     {
-      "page": "/teams",
-      "regex": "^/teams(?:/)?$",
+      "page": "/UserManagement/profile",
+      "regex": "^/UserManagement/profile(?:/)?$",
       "routeKeys": {},
-      "namedRegex": "^/teams(?:/)?$"
+      "namedRegex": "^/UserManagement/profile(?:/)?$"
     },
     {
-      "page": "/users",
-      "regex": "^/users(?:/)?$",
+      "page": "/UserManagement/teams",
+      "regex": "^/UserManagement/teams(?:/)?$",
       "routeKeys": {},
-      "namedRegex": "^/users(?:/)?$"
+      "namedRegex": "^/UserManagement/teams(?:/)?$"
+    },
+    {
+      "page": "/UserManagement/users",
+      "regex": "^/UserManagement/users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/UserManagement/users(?:/)?$"
     }
   ],
   "dataRoutes": [],

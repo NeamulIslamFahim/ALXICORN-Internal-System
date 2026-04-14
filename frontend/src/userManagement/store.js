@@ -163,7 +163,7 @@ export class UserManagementStore {
     }
 
     try {
-      const response = await fetch("/api/user-management", {
+      const response = await fetch("/api", {
         method: "GET",
         cache: "no-store",
       });
@@ -416,7 +416,7 @@ export class UserManagementStore {
 
     // The API write is best-effort because the local browser snapshot remains the primary fallback.
     try {
-      await fetch("/api/user-management", {
+      await fetch("/api", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,5 +1,1 @@
-import NextApp from "../src/userManagement/NextApp";
-
-export default function HomePage() {
-  return <NextApp />;
-}
+export { default } from "./UserManagement/page";

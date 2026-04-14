@@ -26,8 +26,10 @@ export default class TeamsPage extends Component {
     return (
       <section className={pageStyles.pageCard}>
         <PageHeader
+          eyebrow="Team structure"
           title="Teams"
-          note="Create teams and assign members."
+          note="Keep group ownership and staffing organized in a more polished, section-led layout."
+          badge={`${teams.length} teams`}
           action={
             <div className={layoutStyles.headerActions}>
               <FormButton
@@ -41,6 +43,21 @@ export default class TeamsPage extends Component {
             </div>
           }
         />
+
+        <div className={pageStyles.metricGrid}>
+          <div className={pageStyles.metricCard}>
+            <span className={pageStyles.metricLabel}>Teams</span>
+            <strong className={pageStyles.metricValue}>{teams.length}</strong>
+          </div>
+          <div className={pageStyles.metricCard}>
+            <span className={pageStyles.metricLabel}>Members</span>
+            <strong className={pageStyles.metricValue}>{users.length}</strong>
+          </div>
+          <div className={pageStyles.metricCard}>
+            <span className={pageStyles.metricLabel}>Access</span>
+            <strong className={pageStyles.metricValue}>{permissions.canManageTeams ? "Open" : "Limited"}</strong>
+          </div>
+        </div>
 
         <div className={pageStyles.hintBox}>Teams are available for permitted roles.</div>
 

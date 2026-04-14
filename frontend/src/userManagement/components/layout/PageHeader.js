@@ -12,7 +12,10 @@ export default class PageHeader extends Component {
           <h2 className={styles.pageTitle}>{this.props.title}</h2>
           {this.props.note ? <p className={styles.pageNote}>{this.props.note}</p> : null}
         </div>
-        {this.props.action}
+        <div className={styles.headerActions}>
+          {this.props.badge ? <span className={styles.headerBadge}>{this.props.badge}</span> : null}
+          {this.props.action}
+        </div>
       </div>
     );
   }

@@ -29,11 +29,19 @@ export default class Sidebar extends Component {
 
     return (
       <aside className={styles.sidebar}>
+        <div className={styles.brandBlock}>
+          <div>
+            <p className={styles.eyebrow}>ALXICORN</p>
+            <h1 className={styles.sidebarTitle}>Internal System</h1>
+            <p className={styles.sidebarNote}>Operations, people, and team control in one place.</p>
+          </div>
+        </div>
+
         {/* Top section shows the role and user name. */}
-        <div>
-          <p className={styles.eyebrow}>User system</p>
-          <h1 className={styles.sidebarTitle}>{currentUser?.role || "Menu"}</h1>
-          <p className={styles.sidebarNote}>{currentUser ? currentUser.full_name : ""}</p>
+        <div className={styles.sidebarProfile}>
+          <span className={styles.sidebarBadge}>{currentUser?.role || "Menu"}</span>
+          <p className={styles.sidebarName}>{currentUser ? currentUser.full_name : ""}</p>
+          <p className={styles.sidebarNote}>Secure workspace dashboard</p>
         </div>
 
         {/* Navigation changes based on the logged-in role. */}

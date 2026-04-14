@@ -1,10 +1,11 @@
 {
+  "/UserManagement/page": "/UserManagement",
+  "/UserManagement/profile/page": "/UserManagement/profile",
+  "/UserManagement/teams/page": "/UserManagement/teams",
+  "/UserManagement/users/page": "/UserManagement/users",
   "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
-  "/api/user-management/route": "/api/user-management",
+  "/api/route": "/api",
   "/login/page": "/login",
-  "/page": "/",
-  "/profile/page": "/profile",
-  "/teams/page": "/teams",
-  "/users/page": "/users"
+  "/page": "/"
 }

@@ -16,7 +16,36 @@ export default class ProfilePage extends Component {
 
     return (
       <section className={pageStyles.pageCard}>
-        <PageHeader eyebrow="Profile" title={currentUser?.full_name} />
+        <PageHeader
+          eyebrow="Profile"
+          title={currentUser?.full_name}
+          note="A cleaner personal dashboard with the same raised-card style used across the system."
+          badge={currentUser?.status}
+        />
+
+        <div className={pageStyles.heroGrid}>
+          <div className={pageStyles.heroPanel}>
+            <p className={pageStyles.heroLabel}>Personal workspace</p>
+            <h3 className={pageStyles.heroTitle}>Your role, access, and team details at a glance.</h3>
+            <p className={pageStyles.heroText}>
+              This section borrows the reference design&apos;s bold introductory block while keeping the content concise.
+            </p>
+          </div>
+          <div className={pageStyles.metricGrid}>
+            <div className={pageStyles.metricCard}>
+              <span className={pageStyles.metricLabel}>Role</span>
+              <strong className={pageStyles.metricValue}>{currentUser?.role}</strong>
+            </div>
+            <div className={pageStyles.metricCard}>
+              <span className={pageStyles.metricLabel}>Team</span>
+              <strong className={pageStyles.metricValue}>{teamName}</strong>
+            </div>
+            <div className={pageStyles.metricCard}>
+              <span className={pageStyles.metricLabel}>Status</span>
+              <strong className={pageStyles.metricValue}>{currentUser?.status}</strong>
+            </div>
+          </div>
+        </div>
 
         <div className={pageStyles.profileGrid}>
           <InfoCard label="Role" value={currentUser?.role} className={layoutStyles.infoCard} />

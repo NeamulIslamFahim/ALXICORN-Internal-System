@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { AppProvider, AppContext, PAGE_OPTIONS, STATUS_OPTIONS } from "./context/AppContext";
+import { LoginPage } from "../Login";
 import Sidebar from "./components/layout/Sidebar";
-import LoginPage from "./pages/LoginPage";
 import UsersPage from "./pages/UsersPage";
 import TeamsPage from "./pages/TeamsPage";
 import ProfilePage from "./pages/ProfilePage";

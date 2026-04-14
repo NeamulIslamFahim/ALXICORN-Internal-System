@@ -1,16 +1,16 @@
 {
   "users": [
     {
-      "id": "user-a3f87d3a-808c-4d84-8663-f9a405fd568c",
-      "full_name": "y",
-      "email": "y@gmail.com",
+      "id": "user-9002f9d5-e2d1-4645-8d15-3c706906820b",
+      "full_name": "Fahim",
+      "email": "fahim@gmail.com",
       "password": "123",
       "role": "EMPLOYEE",
-      "status": "ACTIVE",
+      "status": "INACTIVE",
       "permissions": [],
-      "team_id": "team-8f78c233-b7c5-4344-9a40-d764b9264f0c",
-      "seniority_role": "LEAD",
-      "created_at": "2026-04-06T02:17:30.849Z"
+      "team_id": "team-dcc50c8b-d1a1-4031-9393-3058afb2b191",
+      "seniority_role": "JUNIOR",
+      "created_at": "2026-04-06T12:06:54.771Z"
     },
     {
       "id": "user-ae11ae47-d5f6-4aa5-b8fe-a0f551867c94",
@@ -20,7 +20,7 @@
       "role": "EMPLOYEE",
       "status": "ACTIVE",
       "permissions": [],
-      "team_id": "team-bb3383fa-94a2-4d60-96e1-0f5cf33b2fe0",
+      "team_id": null,
       "seniority_role": "JUNIOR",
       "created_at": "2026-04-03T04:47:03.172Z"
     },
@@ -63,30 +63,23 @@
       "role": "EMPLOYEE",
       "status": "ACTIVE",
       "permissions": [],
-      "team_id": "team-bb3383fa-94a2-4d60-96e1-0f5cf33b2fe0",
+      "team_id": "team-dcc50c8b-d1a1-4031-9393-3058afb2b191",
       "seniority_role": "LEAD",
       "created_at": "2026-04-01T00:00:00.000Z"
     }
   ],
   "teams": [
     {
-      "id": "team-bb3383fa-94a2-4d60-96e1-0f5cf33b2fe0",
-      "name": "Development",
+      "id": "team-dcc50c8b-d1a1-4031-9393-3058afb2b191",
+      "name": "Dev",
       "team_lead_id": "user-employee",
       "members": [
         {
           "user_id": "user-employee",
           "seniority_role": "LEAD"
-        }
-      ]
-    },
-    {
-      "id": "team-8f78c233-b7c5-4344-9a40-d764b9264f0c",
-      "name": "r",
-      "team_lead_id": "user-a3f87d3a-808c-4d84-8663-f9a405fd568c",
-      "members": [
+        },
         {
-          "user_id": "user-a3f87d3a-808c-4d84-8663-f9a405fd568c",
+          "user_id": "user-9002f9d5-e2d1-4645-8d15-3c706906820b",
           "seniority_role": "LEAD"
         }
       ]

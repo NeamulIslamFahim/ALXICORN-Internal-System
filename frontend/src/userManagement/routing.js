@@ -2,15 +2,18 @@ import { PAGE_OPTIONS, ROLE_OPTIONS } from "./constants";
 
 // Keep route lookups in one place so page navigation stays consistent.
 export const PAGE_ROUTES = {
-  [PAGE_OPTIONS.USERS]: "/users",
-  [PAGE_OPTIONS.TEAMS]: "/teams",
-  [PAGE_OPTIONS.PROFILE]: "/profile",
+  [PAGE_OPTIONS.USERS]: "/UserManagement/users",
+  [PAGE_OPTIONS.TEAMS]: "/UserManagement/teams",
+  [PAGE_OPTIONS.PROFILE]: "/UserManagement/profile",
 };
 
 const ROUTE_PAGES = Object.entries(PAGE_ROUTES).reduce((lookup, [page, route]) => {
   lookup[route] = page;
   return lookup;
-}, {});
+}, {
+  "/": PAGE_OPTIONS.USERS,
+  "/UserManagement": PAGE_OPTIONS.USERS,
+});
 
 export function getPageFromPath(pathname) {
   return ROUTE_PAGES[pathname] || null;

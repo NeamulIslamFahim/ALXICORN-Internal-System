@@ -1,10 +1,10 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { NextResponse } from "next/server";
-import { UserManagementNormalizer } from "../../../src/userManagement/normalizers.js";
-import { PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS } from "../../../src/userManagement/constants.js";
+import { UserManagementNormalizer } from "../../src/UserManagement/normalizers.js";
+import { PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS } from "../../src/UserManagement/constants.js";
 
-const dataDir = path.join(process.cwd(), "src", "userManagement", "data");
+const dataDir = path.join(process.cwd(), "src", "UserManagement", "data");
 const runtimePath = path.join(dataDir, "runtimeData.json");
 const seedPath = path.join(dataDir, "seedData.json");
 const ALLOWED_ROLES = Object.values(ROLE_OPTIONS);
@@ -13,7 +13,7 @@ const ALLOWED_SENIORITY = Object.values(SENIORITY_OPTIONS);
 const ALLOWED_PERMISSIONS = [...PERMISSION_OPTIONS, "ALL ACCESS"];
 
 const ROUTE_CONTRACT = {
-  route: "/api/user-management",
+  route: "/api",
   methods: {
     GET: {
       description: "Returns the current user-management snapshot.",
@@ -374,7 +374,7 @@ export async function POST(request) {
     const validationErrors = validatePayload(payload);
 
     if (validationErrors.length > 0) {
-      return badRequest("Invalid payload for /api/user-management.", validationErrors);
+      return badRequest("Invalid payload for /api.", validationErrors);
     }
 
     const nextData = UserManagementNormalizer.normalizeSeedData({

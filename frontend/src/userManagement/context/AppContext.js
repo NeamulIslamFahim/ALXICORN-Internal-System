@@ -1,8 +1,11 @@
 import React, { Component, createContext } from "react";
-import { PAGE_OPTIONS, PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS, createUserManagementFactory } from "../index";
+import { PAGE_OPTIONS, PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS } from "../constants";
+import { UserManagementStore } from "../store";
 
 export const AppContext = createContext(null);
 export { PAGE_OPTIONS, PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS };
+
+const createUserManagementFactory = () => new UserManagementStore();
 
 // The provider adapts store actions into a React-friendly API for pages and components.
 export class AppProvider extends Component {

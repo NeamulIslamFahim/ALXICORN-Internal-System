@@ -3,7 +3,8 @@
   max-height: 60vh;
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
-  background: var(--surface-2-color);
+  background: linear-gradient(145deg, #fafafa, var(--surface-color));
+  box-shadow: var(--shadow-md), inset 1px 1px 0 rgba(255, 255, 255, 0.96);
 }
 
 .dataTable {
@@ -24,7 +25,7 @@
   position: sticky;
   top: 0;
   color: var(--text-color);
-  background: var(--surface-3-color);
+  background: linear-gradient(180deg, #f6f6f6, var(--surface-3-color));
 }
 
 .dataTable td:last-child,
@@ -44,14 +45,14 @@
 }
 
 .statusActive {
-  color: color-mix(in srgb, var(--success-color) 50%, white 50%);
+  color: #166534;
   background: var(--success-soft);
   border-color: color-mix(in srgb, var(--success-color) 30%, transparent);
 }
 
 .statusInactive,
 .statusTerminated {
-  color: color-mix(in srgb, var(--danger-color) 20%, white 80%);
+  color: #b91c1c;
   background: var(--danger-soft);
   border-color: color-mix(in srgb, var(--danger-color) 30%, transparent);
 }
