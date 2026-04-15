@@ -3,7 +3,7 @@ import { AppContext } from "../../context/AppContext";
 import { BellIcon, SearchIcon, SettingsIcon, UserCircleIcon } from "../icons/WorkspaceIcons";
 import styles from "../../AppShell.module.css";
 
-export default class WorkspaceTopbar extends Component {
+export default class Navbar extends Component {
   static contextType = AppContext;
 
   constructor(props) {

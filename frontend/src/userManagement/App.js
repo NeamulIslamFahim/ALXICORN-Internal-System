@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { AppProvider, AppContext, PAGE_OPTIONS, STATUS_OPTIONS, ROLE_OPTIONS } from "./context/AppContext";
 import LoginPage from "../Login/pages/LoginPage";
 import Sidebar from "./components/layout/Sidebar";
-import WorkspaceTopbar from "./components/layout/WorkspaceTopbar";
+import Navbar from "./components/layout/Navbar";
 import UsersPage from "./pages/UsersPage";
 import TeamsPage from "./pages/TeamsPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -30,7 +30,7 @@ class AppShell extends Component {
       <div className={styles.appShell}>
         <Sidebar />
         <main className={styles.mainContent}>
-          <WorkspaceTopbar />
+          <Navbar />
           {app.notice ? <div className={styles.noticeBar}>{app.notice}</div> : null}
           <ActivePage />
         </main>
