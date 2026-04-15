@@ -1,10 +1,10 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { NextResponse } from "next/server";
-import { UserManagementNormalizer } from "../../src/UserManagement/normalizers.js";
-import { PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS } from "../../src/UserManagement/constants.js";
+import { UserManagementNormalizer } from "../../src/userManagement/normalizers.js";
+import { PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS } from "../../src/userManagement/constants.js";
 
-const dataDir = path.join(process.cwd(), "src", "UserManagement", "data");
+const dataDir = path.join(process.cwd(), "src", "userManagement", "data");
 const runtimePath = path.join(dataDir, "runtimeData.json");
 const seedPath = path.join(dataDir, "seedData.json");
 const ALLOWED_ROLES = Object.values(ROLE_OPTIONS);
