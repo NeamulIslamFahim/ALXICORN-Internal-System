@@ -1,2 +1,5 @@
 node_modules
 next
+.next/
+frontend/.next/
+frontend/node_modules/
