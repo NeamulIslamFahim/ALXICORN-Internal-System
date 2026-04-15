@@ -25,25 +25,25 @@ export default class TeamTable extends Component {
             </tr>
           </thead>
           <tbody>
+            {teams.length === 0 ? (
+              <tr>
+                <td colSpan={4} className={styles.emptyStateCell}>
+                  No teams available yet. Add a team to get started.
+                </td>
+              </tr>
+            ) : null}
+
             {teams.map((team) => (
               <tr key={team.id}>
-                {/* Each row shows one team. */}
                 <td>{team.name}</td>
                 <td>{this.getUserName(team.team_lead_id)}</td>
                 <td>{team.members.length}</td>
                 <td>
-                  {/* Action buttons stay in one line for easier scanning. */}
                   <ButtonRow>
-                    {/* Only users with team permissions can change the table. */}
                     <FormButton type="button" variant="action" onClick={() => onEdit(team)} disabled={!canManageTeams}>
                       Edit
                     </FormButton>
-                    <FormButton
-                      type="button"
-                      variant="danger"
-                      onClick={() => onDelete(team.id)}
-                      disabled={!canManageTeams}
-                    >
+                    <FormButton type="button" variant="danger" onClick={() => onDelete(team.id)} disabled={!canManageTeams}>
                       Delete
                     </FormButton>
                   </ButtonRow>

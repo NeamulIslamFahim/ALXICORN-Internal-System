@@ -21,7 +21,7 @@ export default class UserTable extends Component {
     }
 
     if (normalized === "INACTIVE") {
-      return { label: "Pending", tone: styles.statusPending };
+      return { label: "Inactive", tone: styles.statusPending };
     }
 
     return { label: "Suspended", tone: styles.statusSuspended };
@@ -29,18 +29,18 @@ export default class UserTable extends Component {
 
   getAccessLevel(user) {
     if (user.role === "SUPER ADMIN") {
-      return "Level 5 — System";
+      return "Level 5 - System";
     }
 
     if (user.role === "ADMIN") {
-      return "Level 4 — Global";
+      return "Level 4 - Global";
     }
 
     if (user.team_id) {
-      return "Level 2 — Department";
+      return "Level 2 - Department";
     }
 
-    return "Level 3 — Regional";
+    return "Level 3 - Regional";
   }
 
   render() {
@@ -57,6 +57,8 @@ export default class UserTable extends Component {
         </div>
 
         <div className={styles.tableBody}>
+          {users.length === 0 ? <div className={styles.emptyState}>No users found for the selected filters.</div> : null}
+
           {users.map((user) => {
             const statusMeta = this.getStatusMeta(user.status);
             const toggleLabel = user.status === "ACTIVE" ? "Deactivate" : "Activate";

@@ -10,6 +10,7 @@
   align-items: flex-start;
   min-height: 0;
   gap: 20px;
+
 }
 
 .heroCopy {
@@ -68,18 +69,20 @@
   display: flex;
   gap: 28px;
   padding: 0 24px;
+  min-height: 100px;
+  align-items: flex-end;
   border-bottom: 1px solid #efefef;
 }
 
 .tabButton {
-  min-height: 58px;
+  min-height: 70px;
   padding: 0;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
   background: transparent;
   color: #7b7b7b;
-  font-size: 0.92rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 800;
   box-shadow: none;
   cursor: pointer;
 }
