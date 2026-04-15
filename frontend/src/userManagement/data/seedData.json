@@ -3,6 +3,7 @@
     {
       "id": "user-super-admin",
       "full_name": "Super Admin",
+      "username": "superadmin",
       "email": "superadmin@example.com",
       "password": "SuperAdmin@123",
       "role": "SUPER ADMIN",
@@ -15,6 +16,7 @@
     {
       "id": "user-admin",
       "full_name": "Admin User",
+      "username": "admin",
       "email": "admin@example.com",
       "password": "Admin@123",
       "role": "ADMIN",
@@ -27,6 +29,7 @@
     {
       "id": "user-employee",
       "full_name": "Asif Ahmed",
+      "username": "asif",
       "email": "asif@example.com",
       "password": "asif@123",
       "role": "EMPLOYEE",

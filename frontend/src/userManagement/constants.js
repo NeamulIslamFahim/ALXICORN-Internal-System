@@ -9,6 +9,7 @@ export const PAGE_OPTIONS = {
   USERS: "users",
   TEAMS: "teams",
   PROFILE: "profile",
+  DASHBOARD: "dashboard",
 };
 
 export const STATUS_OPTIONS = {

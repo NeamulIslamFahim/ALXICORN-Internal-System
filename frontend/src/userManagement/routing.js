@@ -5,14 +5,14 @@ export const PAGE_ROUTES = {
   [PAGE_OPTIONS.USERS]: "/UserManagement/users",
   [PAGE_OPTIONS.TEAMS]: "/UserManagement/teams",
   [PAGE_OPTIONS.PROFILE]: "/UserManagement/profile",
+  [PAGE_OPTIONS.DASHBOARD]: "/UserManagement/users",
 };
 
 const ROUTE_PAGES = Object.entries(PAGE_ROUTES).reduce((lookup, [page, route]) => {
   lookup[route] = page;
   return lookup;
 }, {
-  "/": PAGE_OPTIONS.USERS,
-  "/UserManagement": PAGE_OPTIONS.USERS,
+  "/": PAGE_OPTIONS.USERS
 });
 
 export function getPageFromPath(pathname) {

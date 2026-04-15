@@ -1,16 +1,19 @@
 import React, { Component } from "react";
-import { AppProvider, AppContext, PAGE_OPTIONS, STATUS_OPTIONS } from "./context/AppContext";
-import { LoginPage } from "../Login";
+import { AppProvider, AppContext, PAGE_OPTIONS, STATUS_OPTIONS, ROLE_OPTIONS } from "./context/AppContext";
+import LoginPage from "../Login/pages/LoginPage";
 import Sidebar from "./components/layout/Sidebar";
+import WorkspaceTopbar from "./components/layout/WorkspaceTopbar";
 import UsersPage from "./pages/UsersPage";
 import TeamsPage from "./pages/TeamsPage";
 import ProfilePage from "./pages/ProfilePage";
 import styles from "./AppShell.module.css";
 
-// Admin roles switch between dashboard pages, while employees get a single profile view.
+// Admin roles switch between workspace pages, while employees get a single profile view.
 const DASHBOARD_PAGES = {
+  [PAGE_OPTIONS.DASHBOARD]: UsersPage,
   [PAGE_OPTIONS.USERS]: UsersPage,
   [PAGE_OPTIONS.TEAMS]: TeamsPage,
+  [PAGE_OPTIONS.PROFILE]: ProfilePage,
 };
 
 class AppShell extends Component {
@@ -19,16 +22,17 @@ class AppShell extends Component {
   render() {
     const app = this.context;
     const currentUser = app?.currentUser;
-    const isEmployee = currentUser?.role === "EMPLOYEE";
+    const isEmployee = currentUser?.role === ROLE_OPTIONS.EMPLOYEE;
 
-    const DashboardPage = isEmployee ? ProfilePage : DASHBOARD_PAGES[app.page] || UsersPage;
+    const ActivePage = isEmployee ? ProfilePage : DASHBOARD_PAGES[app.page] || UsersPage;
 
     return (
       <div className={styles.appShell}>
         <Sidebar />
         <main className={styles.mainContent}>
+          <WorkspaceTopbar />
           {app.notice ? <div className={styles.noticeBar}>{app.notice}</div> : null}
-          <DashboardPage />
+          <ActivePage />
         </main>
       </div>
     );

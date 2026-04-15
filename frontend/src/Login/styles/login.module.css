@@ -10,12 +10,12 @@
 /* ── Outer card shell ─────────────────────────────────── */
 .authShell {
   position: relative;
-  width: 700px;
+  width: 900px;
   height: 550px;
   max-width: 100%;
   overflow: hidden;
   border-radius: 20px;
-  background: url("../assets/images/Login Background Image.png") no-repeat center center;
+  background: url("../../assets/images/Login_Background_Image.png") no-repeat center bottom;
   background-size: cover;
   box-shadow:
     0 0 0 1px rgba(126, 134, 144, 0.42),
@@ -26,9 +26,9 @@
 /* ── Logo panel ───────────────────────────────────────── */
 .authBrandPanel {
   position: absolute;
-  width: 280px;
-  height: 50px;
-  left: 22px;
+  width: 350px;
+  height: 100px;
+  left: 50px;
   top: 160px;
   z-index: 1;
 }
@@ -42,10 +42,10 @@
 .authForm {
   position: absolute;
   z-index: 1;
-  width: 340px;
+  width: 430px;
   height: 360px;
-  left: 320px;
-  top: 70px;
+  left: 430px;
+  top: 50px;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(-20px);
   border-radius: 20px;
@@ -95,7 +95,7 @@
 }
 
 .fieldLabel {
-  font-size: 0.82rem;
+  font-size: 0.83rem;
   font-weight: 700;
   color: #2c3340;
 }
@@ -152,6 +152,7 @@
 
 .authInput {
   border: none;
+  height: 25px;
   outline: none;
   font-size: 0.50rem;
   color: #1a1f28;
@@ -222,4 +223,78 @@
   font-size: 0.72rem;
   color: #b0b3ba;
   text-align: center;
+}
+
+.popupBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.22);
+}
+
+.popupCard {
+  width: min(420px, 100%);
+  display: grid;
+  gap: 16px;
+  padding: 22px;
+  border: 1px solid rgba(239, 68, 68, 0.18);
+  border-radius: 20px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(255, 245, 245, 0.98));
+  box-shadow:
+    0 18px 42px rgba(15, 23, 42, 0.24),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.86);
+}
+
+.popupIconWrap {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: #b91c1c;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.popupIconSvg {
+  width: 24px;
+  height: 24px;
+  color: inherit;
+}
+
+.popupContent {
+  display: grid;
+  gap: 6px;
+}
+
+.popupTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+.popupMessage {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.popupActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.popupButton {
+  min-width: 96px;
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid #111827;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #deff00 0%, #d7ff00 100%);
+  color: #111827;
+  font-weight: 800;
+  cursor: pointer;
 }

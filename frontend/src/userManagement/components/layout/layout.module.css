@@ -1,107 +1,5 @@
-.eyebrow {
-  margin: 0;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.78rem;
-}
-
-.brandBlock {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 14px;
-  align-items: center;
-  padding: 14px;
-  border: 1px solid var(--border-color);
-  border-radius: calc(var(--radius) + 4px);
-  background: linear-gradient(145deg, #fdfdfd 0%, var(--surface-color) 58%, #e9e9e9 100%);
-  box-shadow: var(--shadow-md), inset 1px 1px 0 rgba(255, 255, 255, 0.96);
-}
-
-.brandMark {
-  width: 52px;
-  height: 52px;
-  display: grid;
-  place-items: center;
-  border-radius: 16px;
-  color: #ffffff;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  background: linear-gradient(145deg, #4a83f3, #1d4ed8);
-  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.28), 0 10px 22px rgba(37, 99, 235, 0.28);
-}
-
-.sidebarProfile {
-  display: grid;
-  gap: 8px;
-}
-
-.sidebarBadge {
-  width: fit-content;
-  padding: 6px 12px;
-  border: 1px solid rgba(37, 99, 235, 0.18);
-  border-radius: 999px;
-  color: #1d4ed8;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(37, 99, 235, 0.08));
-}
-
-.sidebarName {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.sidebar {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 20px;
-  background: linear-gradient(145deg, #fafafa 0%, var(--surface-color) 55%, #ececec 100%);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-lg), inset 1px 1px 0 rgba(255, 255, 255, 0.96);
-}
-
 .sidebarTitle {
   margin: 0;
-}
-
-.sidebarNote {
-  color: var(--text-muted);
-}
-
-.navList {
-  display: grid;
-  gap: 8px;
-}
-
-.navButton {
-  min-height: 38px;
-  padding: 8px 12px;
-  text-align: left;
-  color: var(--text-color);
-  background: linear-gradient(145deg, #f8f8f8, var(--surface-2-color));
-}
-
-.navButtonActive {
-  border-color: var(--primary-color);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), var(--primary-soft));
-}
-
-.sidebarCard {
-  display: grid;
-  gap: 10px;
-  padding: 14px;
-  margin-top: auto;
-  background: linear-gradient(145deg, #fafafa, var(--surface-color));
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm), inset 1px 1px 0 rgba(255, 255, 255, 0.95);
 }
 
 .pageHead {
@@ -243,10 +141,6 @@
 }
 
 @media (max-width: 980px) {
-  .sidebar {
-    min-height: auto;
-  }
-
   .pageHead,
   .modalHead,
   .modalActions {

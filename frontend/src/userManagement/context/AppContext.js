@@ -16,6 +16,7 @@ export class AppProvider extends Component {
 
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
+    this.setNotice = this.setNotice.bind(this);
     this.setPage = this.setPage.bind(this);
     this.openUserModal = this.openUserModal.bind(this);
     this.closeUserModal = this.closeUserModal.bind(this);
@@ -53,8 +54,8 @@ export class AppProvider extends Component {
     }
   }
 
-  login(email, password) {
-    const result = this.store.login(this.state, email, password);
+  login(username, password) {
+    const result = this.store.login(this.state, username, password);
     if (result.ok) {
       this.setState(result.state);
     }
@@ -63,6 +64,10 @@ export class AppProvider extends Component {
 
   logout() {
     this.applyStoreAction("logout");
+  }
+
+  setNotice(notice) {
+    this.applyStoreAction("setNotice", notice);
   }
 
   setPage(page) {
@@ -120,6 +125,7 @@ export class AppProvider extends Component {
       permissions,
       login: this.login,
       logout: this.logout,
+      setNotice: this.setNotice,
       setPage: this.setPage,
       navigateToPage: this.props.onNavigateToPage || null,
       navigateToLogin: this.props.onNavigateToLogin || null,

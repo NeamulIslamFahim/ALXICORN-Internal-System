@@ -54,26 +54,201 @@
 .appShell {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
+  grid-template-columns: 330px minmax(0, 1fr);
+  gap: 24px;
+  padding: 24px;
 }
 
 .mainContent {
-  padding: 24px;
+  padding: 0 8px 12px 0;
   display: grid;
+  gap: 8px;
+}
+
+.workspaceTopbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 18px;
+  padding: 12px 18px;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  height: 100px;
+}
+
+.workspaceSearchShell {
+  flex: 1;
+  width: min(480px, 100%);
+  max-width: 480px;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+  background: #fbfbfb;
+}
+
+.workspaceSearchIcon,
+.workspaceBellIcon,
+.workspaceProfileIcon,
+.workspaceMenuItemIcon {
+  color: #6f6f6f;
+}
+
+.workspaceSearchIcon {
+  flex: 0 0 18px;
+}
+
+.workspaceSearchInput {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #7d7d7d;
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+
+.workspaceActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.workspaceMenuShell {
+  position: relative;
+}
+
+.workspaceIconAction {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #e5e5e5;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.workspaceIconAction:hover,
+.workspaceIconAction:focus,
+.workspaceProfileShell:hover,
+.workspaceProfileShell:focus {
+  transform: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.workspaceProfileShell {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 2px 0 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.workspaceBellIcon,
+.workspaceProfileIcon {
+  flex: 0 0 18px;
+}
+
+.workspaceProfileIcon {
+  color: #525252;
+}
+
+.workspaceUserRole {
+  color: #666666;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.workspaceAvatar {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #111827;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.workspaceMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  min-width: 180px;
+  display: grid;
+  gap: 2px;
+  padding: 8px;
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+}
+
+.workspaceMenuEmpty,
+.workspaceMenuItem {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border-radius: 8px;
+  color: #505050;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.workspaceMenuItem {
+  cursor: pointer;
+}
+
+.workspaceMenuItem:hover,
+.workspaceMenuItem:focus {
+  outline: none;
+  background: #f6f6f6;
 }
 
 .noticeBar {
-  padding: 14px;
+  padding: 16px 18px;
   color: var(--text-muted);
   background: linear-gradient(145deg, #fafafa, var(--surface-color));
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm), inset 1px 1px 0 rgba(255, 255, 255, 0.9);
+  font-size: 0.92rem;
+  font-weight: 600;
 }
 
 @media (max-width: 980px) {
   .appShell {
     grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .mainContent {
+    padding: 0;
+  }
+
+  .workspaceTopbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .workspaceSearchShell {
+    width: 100%;
   }
 }

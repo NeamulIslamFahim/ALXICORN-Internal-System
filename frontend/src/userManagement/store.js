@@ -14,7 +14,7 @@ export class UserManagementStore {
     return (
       user &&
       typeof user === "object" &&
-      typeof user.email === "string" &&
+      typeof user.username === "string" &&
       typeof user.password === "string" &&
       Object.values(ROLE_OPTIONS).includes(user.role) &&
       Object.values(STATUS_OPTIONS).includes(user.status)
@@ -192,11 +192,11 @@ export class UserManagementStore {
     }
   }
 
-  login(state, email, password) {
+  login(state, username, password) {
     // Only active users can authenticate into the dashboard.
     const user = state.users.find(
       (item) =>
-        item.email.trim().toLowerCase() === email.trim().toLowerCase() &&
+        item.username.trim().toLowerCase() === username.trim().toLowerCase() &&
         item.password === password &&
         item.status === STATUS_OPTIONS.ACTIVE
     );
@@ -225,6 +225,10 @@ export class UserManagementStore {
       modal: null,
       notice: "",
     };
+  }
+
+  setNotice(state, notice = "") {
+    return { ...state, notice };
   }
 
   setPage(state, page) {
@@ -271,6 +275,7 @@ export class UserManagementStore {
             ? {
                 ...user,
                 full_name: form.full_name,
+                username: form.username,
                 email: form.email,
                 password: form.password || user.password,
                 role: form.role,
@@ -290,6 +295,7 @@ export class UserManagementStore {
           {
             id: makeId("user"),
             full_name: form.full_name,
+            username: form.username,
             email: form.email,
             password: form.password,
             role: form.role,
@@ -402,15 +408,15 @@ export class UserManagementStore {
 
   persistSession(state) {
     // Session and working data are mirrored locally so refreshes keep the latest browser state.
-    writeJSON(STORAGE_KEYS.users, state.users);
-    writeJSON(STORAGE_KEYS.teams, state.teams);
-    writeJSON(STORAGE_KEYS.authUserId, state.authUserId);
-    writeJSON(STORAGE_KEYS.page, state.page);
-    writeJSON(STORAGE_KEYS.seedSignature, state.seedSignature);
+    if (state.users) writeJSON(STORAGE_KEYS.users, state.users);
+    if (state.teams) writeJSON(STORAGE_KEYS.teams, state.teams);
+    writeJSON(STORAGE_KEYS.authUserId, state.authUserId || null);
+    writeJSON(STORAGE_KEYS.page, state.page || PAGE_OPTIONS.USERS);
+    writeJSON(STORAGE_KEYS.seedSignature, state.seedSignature || "");
   }
 
   async persistData(state) {
-    if (typeof window === "undefined") {
+    if (typeof window === "undefined" || !state.users || !state.teams) {
       return;
     }
 

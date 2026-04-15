@@ -87,6 +87,7 @@ export class UserManagementNormalizer {
           .map((user, index) => ({
             id: user.id || makeId(`user-${index}`),
             full_name: String(user.full_name || "").trim() || "User",
+            username: String(user.username || "").trim().toLowerCase(),
             email: String(user.email || "").trim().toLowerCase(),
             password: String(user.password || ""),
             role: this.normalizeRole(user.role),

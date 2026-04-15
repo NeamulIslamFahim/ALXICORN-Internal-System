@@ -1,18 +1,46 @@
 import React, { Component } from "react";
-import StatusBadge from "./StatusBadge";
-import ButtonRow from "../forms/ButtonRow";
-import FormButton from "../forms/FormButton";
-import { formatRoleLabel, getLabelById } from "../../utils/uiHelpers";
+import { formatRoleLabel } from "../../utils/uiHelpers";
 import styles from "./tables.module.css";
 
-// User list stays read-only here; all mutations are pushed back to the parent via callbacks.
 export default class UserTable extends Component {
-  getTeamName(teamId) {
-    return getLabelById(this.props.teams, teamId);
+  getInitials(name) {
+    return String(name || "")
+      .split(" ")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase();
   }
 
-  roleLabel(role) {
-    return formatRoleLabel(role);
+  getStatusMeta(status) {
+    const normalized = String(status || "").toUpperCase();
+
+    if (normalized === "ACTIVE") {
+      return { label: "Active", tone: styles.statusActive };
+    }
+
+    if (normalized === "INACTIVE") {
+      return { label: "Pending", tone: styles.statusPending };
+    }
+
+    return { label: "Suspended", tone: styles.statusSuspended };
+  }
+
+  getAccessLevel(user) {
+    if (user.role === "SUPER ADMIN") {
+      return "Level 5 — System";
+    }
+
+    if (user.role === "ADMIN") {
+      return "Level 4 — Global";
+    }
+
+    if (user.team_id) {
+      return "Level 2 — Department";
+    }
+
+    return "Level 3 — Regional";
   }
 
   render() {
@@ -20,61 +48,96 @@ export default class UserTable extends Component {
 
     return (
       <div className={styles.tableWrap}>
-        <table className={styles.dataTable}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Team</th>
-              <th>Seniority</th>
-              <th>Permissions</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                {/* Each row shows one user record. */}
-                <td>{user.full_name}</td>
-                <td>{user.email}</td>
-                <td>{this.roleLabel(user.role)}</td>
-                <td>
-                  <StatusBadge status={user.status} />
-                </td>
-                <td>{this.getTeamName(user.team_id)}</td>
-                <td>{user.seniority_role}</td>
-                <td>{user.permissions.length ? user.permissions.join(", ") : "-"}</td>
-                <td>
-                  {/* Action buttons stay together in one row. */}
-                  <ButtonRow>
-                    {/* Buttons are disabled when the current user has no permission. */}
-                    <FormButton
-                      type="button"
-                      variant="action"
-                      onClick={() => onToggleStatus(user.id)}
-                      disabled={!canDeactivate}
+        <div className={styles.tableHeader}>
+          <span>Name & Email</span>
+          <span>Role</span>
+          <span>Status</span>
+          <span>Access Level</span>
+          <span>Actions</span>
+        </div>
+
+        <div className={styles.tableBody}>
+          {users.map((user) => {
+            const statusMeta = this.getStatusMeta(user.status);
+            const toggleLabel = user.status === "ACTIVE" ? "Deactivate" : "Activate";
+
+            return (
+              <div key={user.id} className={styles.userRow}>
+                <div className={styles.nameCell}>
+                  <span className={styles.avatar}>{this.getInitials(user.full_name)}</span>
+                  <div className={styles.nameMeta}>
+                    <strong className={styles.userName}>{user.full_name}</strong>
+                    <span className={styles.userEmail}>{user.email}</span>
+                  </div>
+                </div>
+
+                <span className={styles.roleText}>{formatRoleLabel(user.role)}</span>
+                <span className={[styles.statusBadge, statusMeta.tone].join(" ")}>{statusMeta.label}</span>
+                <span className={styles.accessPill}>{this.getAccessLevel(user)}</span>
+
+                <div className={styles.actionMenuShell}>
+                  <div
+                    className={styles.rowAction}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Manage ${user.full_name}`}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                      }
+                    }}
+                  >
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+
+                  <div className={styles.actionMenu}>
+                    <div
+                      className={styles.menuItem}
+                      role="button"
+                      tabIndex={canDeactivate ? 0 : -1}
+                      aria-disabled={canDeactivate ? "false" : "true"}
+                      onClick={() => {
+                        if (canDeactivate) {
+                          onToggleStatus(user.id);
+                        }
+                      }}
                     >
-                      {user.status === "ACTIVE" ? "Deactivate" : "Activate"}
-                    </FormButton>
-                    <FormButton type="button" variant="action" onClick={() => onEdit(user)} disabled={!canEdit}>
+                      {toggleLabel}
+                    </div>
+                    <div
+                      className={styles.menuItem}
+                      role="button"
+                      tabIndex={canEdit ? 0 : -1}
+                      aria-disabled={canEdit ? "false" : "true"}
+                      onClick={() => {
+                        if (canEdit) {
+                          onEdit(user);
+                        }
+                      }}
+                    >
                       Edit
-                    </FormButton>
-                    <FormButton
-                      type="button"
-                      variant="danger"
-                      onClick={() => onDelete(user.id)}
-                      disabled={!canEdit}
+                    </div>
+                    <div
+                      className={[styles.menuItem, styles.menuItemDanger].join(" ")}
+                      role="button"
+                      tabIndex={canEdit ? 0 : -1}
+                      aria-disabled={canEdit ? "false" : "true"}
+                      onClick={() => {
+                        if (canEdit) {
+                          onDelete(user.id);
+                        }
+                      }}
                     >
                       Delete
-                    </FormButton>
-                  </ButtonRow>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }

@@ -1,15 +1,14 @@
 import styles from "../styles/login.module.css";
-import { EyeIcon, KeyIcon, MailIcon } from "./icons/LoginIcons";
+import { AvatarIcon, EyeIcon, KeyIcon } from "./icons/LoginIcons";
 
 export default function LoginFormCard({
-  email,
+  username,
   password,
-  error,
   keepLoggedIn,
   notice,
   showPassword,
   onSubmit,
-  onEmailChange,
+  onUsernameChange,
   onPasswordChange,
   onKeepLoggedInChange,
   onTogglePassword,
@@ -26,13 +25,13 @@ export default function LoginFormCard({
           <span className={styles.fieldLabel}>Username</span>
           <span className={styles.inputShell}>
             <span className={styles.inputIcon}>
-              <MailIcon />
+              <AvatarIcon />
             </span>
             <input
               className={styles.authInput}
               type="text"
-              value={email}
-              onChange={(event) => onEmailChange(event.target.value)}
+              value={username}
+              onChange={(event) => onUsernameChange(event.target.value)}
               placeholder="Username"
               required
               autoComplete="username"
@@ -85,7 +84,6 @@ export default function LoginFormCard({
           Sign In
         </button>
 
-        {error ? <p className={styles.errorNote}>{error}</p> : null}
         {notice ? <p className={styles.loginNote}>{notice}</p> : null}
       </div>
     </form>

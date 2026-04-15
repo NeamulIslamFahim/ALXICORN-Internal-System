@@ -1,0 +1,110 @@
+.eyebrow {
+  margin: 0;
+  color: #666666;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.brandBlock {
+  display: grid;
+  gap: 10px;
+  align-items: start;
+  padding: 28px 28px 18px;
+  border-bottom: 1px solid #efefef;
+}
+
+.logoImage {
+  width: 218px;
+  height: auto;
+}
+
+.sidebar {
+  min-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 22px 16px;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 0;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+.navList {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.navButton {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  text-align: left;
+  color: #9a9a9a;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.navButton:hover,
+.navButton:focus {
+  transform: none;
+  box-shadow: none;
+  outline: none;
+  background: #a3e635;
+  color: #1f1f1f;
+}
+
+.navButtonActive {
+  color: #1f1f1f;
+  background: #a3e635;
+  box-shadow: none;
+}
+
+.navIcon {
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 18px;
+  color: currentColor;
+}
+
+.navTextStack {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.navLabel {
+  color: currentColor;
+  line-height: 1.2;
+}
+
+.navMeta {
+  color: #9f9f9f;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.navButton:hover .navMeta,
+.navButton:focus .navMeta,
+.navButtonActive .navMeta {
+  color: rgba(31, 31, 31, 0.72);
+}
+
+@media (max-width: 980px) {
+  .sidebar {
+    min-height: auto;
+    border-radius: 12px;
+  }
+}

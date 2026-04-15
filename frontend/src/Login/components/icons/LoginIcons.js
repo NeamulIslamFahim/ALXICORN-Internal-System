@@ -10,6 +10,42 @@ export function MailIcon() {
   );
 }
 
+export function AvatarIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={styles.inputIconSvg}>
+      <circle cx="12" cy="8.4" r="3.1" fill="none" stroke="currentColor" strokeWidth="1.55" />
+      <path
+        d="M5.1 18.4c.9-3.1 3.7-4.9 6.9-4.9s6 1.8 6.9 4.9"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.55"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function AlertIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={styles.popupIconSvg}>
+      <path
+        d="M12 3.8 20 18a1.1 1.1 0 0 1-.96 1.65H4.96A1.1 1.1 0 0 1 4 18l8-14.2Z"
+        fill="currentColor"
+        opacity="0.18"
+      />
+      <path
+        d="M12 3.8 20 18a1.1 1.1 0 0 1-.96 1.65H4.96A1.1 1.1 0 0 1 4 18l8-14.2Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.45"
+        strokeLinejoin="round"
+      />
+      <path d="M12 8.4v5.4" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      <circle cx="12" cy="16.7" r="0.9" fill="currentColor" />
+    </svg>
+  );
+}
+
 export function KeyIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className={styles.inputIconSvg}>
