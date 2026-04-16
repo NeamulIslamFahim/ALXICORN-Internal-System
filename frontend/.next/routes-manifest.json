@@ -60,6 +60,12 @@
       "namedRegex": "^/UserManagement(?:/)?$"
     },
     {
+      "page": "/UserManagement/overview",
+      "regex": "^/UserManagement/overview(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/UserManagement/overview(?:/)?$"
+    },
+    {
       "page": "/UserManagement/profile",
       "regex": "^/UserManagement/profile(?:/)?$",
       "routeKeys": {},

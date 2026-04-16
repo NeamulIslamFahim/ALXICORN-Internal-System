@@ -71,9 +71,9 @@ export default class UserForm extends ModalForm {
       return null;
     }
 
-    const allowedRoles = this.props.canCreateAdmin
-      ? [ROLE_OPTIONS.ADMIN, ROLE_OPTIONS.EMPLOYEE]
-      : [ROLE_OPTIONS.EMPLOYEE];
+    const canEditRole =
+      this.props.canCreateAdmin && (!isEdit || this.props.user?.role !== ROLE_OPTIONS.SUPER_ADMIN);
+    const allowedRoles = canEditRole ? [ROLE_OPTIONS.ADMIN, ROLE_OPTIONS.EMPLOYEE] : [this.state.form.role];
 
     return (
       <Modal
@@ -110,7 +110,7 @@ export default class UserForm extends ModalForm {
             value={this.state.form.role}
             onChange={(value) => this.updateField("role", value)}
             options={optionsFromStrings(allowedRoles)}
-            disabled={isEdit}
+            disabled={!canEditRole}
           />
 
           <div className={formStyles.twoCol}>

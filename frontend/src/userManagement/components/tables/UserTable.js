@@ -34,14 +34,14 @@ export default class UserTable extends Component {
     }
 
     if (user.role === "ADMIN") {
-      return "Level 4 - Global";
+      return "Team";
     }
 
     if (user.team_id) {
-      return "Level 2 - Department";
+      return "Department";
     }
 
-    return "Level 3 - Regional";
+    return "Regional";
   }
 
   render() {
@@ -73,7 +73,6 @@ export default class UserTable extends Component {
                     <span className={styles.userEmail}>{user.email}</span>
                   </div>
                 </div>
-
                 <span className={styles.roleText}>{formatRoleLabel(user.role)}</span>
                 <span className={[styles.statusBadge, statusMeta.tone].join(" ")}>{statusMeta.label}</span>
                 <span className={styles.accessPill}>{this.getAccessLevel(user)}</span>

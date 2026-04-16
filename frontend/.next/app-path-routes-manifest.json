@@ -1,4 +1,5 @@
 {
+  "/UserManagement/overview/page": "/UserManagement/overview",
   "/UserManagement/page": "/UserManagement",
   "/UserManagement/profile/page": "/UserManagement/profile",
   "/UserManagement/teams/page": "/UserManagement/teams",

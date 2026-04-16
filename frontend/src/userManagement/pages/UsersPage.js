@@ -1,12 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 import { AppContext, PAGE_OPTIONS, ROLE_OPTIONS } from "../context/AppContext";
 import UserTable from "../components/tables/UserTable";
 import UserForm from "../components/forms/UserForm";
 import { ArrowUpDownIcon, DownloadIcon, PlusIcon } from "../components/icons/WorkspaceIcons";
+import ManagementTabs from "../components/layout/ManagementTabs";
+import CompactSelect from "../components/layout/CompactSelect";
 import { filterUsers } from "../utils/uiHelpers";
+import { downloadRowsAsCsv } from "../utils/exportHelpers";
+import ManagementPage from "./ManagementPage";
 import pageStyles from "./pages.module.css";
 
-export default class UsersPage extends Component {
+export default class UsersPage extends ManagementPage {
   static contextType = AppContext;
 
   constructor(props) {
@@ -19,30 +23,12 @@ export default class UsersPage extends Component {
     };
   }
 
-  downloadUsers(rows) {
-    const headers = Object.keys(rows[0] || { Name: "", Email: "", Role: "", Status: "", Access: "" });
-    const csv = [
-      headers.join(","),
-      ...rows.map((row) => headers.map((header) => `"${String(row[header] || "").replace(/"/g, "\"\"")}"`).join(",")),
-    ].join("\n");
-
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "user-management.csv";
-    link.click();
-    URL.revokeObjectURL(url);
-  }
-
   render() {
     const {
       users,
       teams,
       modal,
       permissions,
-      setPage,
-      navigateToPage,
       openUserModal,
       closeUserModal,
       setNotice,
@@ -74,13 +60,6 @@ export default class UsersPage extends Component {
     const pageStart = (currentPage - 1) * rowsPerPage;
     const paginatedUsers = filteredUsers.slice(pageStart, pageStart + rowsPerPage);
 
-    const goToTeams = () => {
-      setPage(PAGE_OPTIONS.TEAMS);
-      if (navigateToPage) {
-        navigateToPage(PAGE_OPTIONS.TEAMS);
-      }
-    };
-
     const exportRows = filteredUsers.map((user) => ({
       Name: user.full_name,
       Email: user.email,
@@ -88,12 +67,12 @@ export default class UsersPage extends Component {
       Status: user.status,
       Access:
         user.role === "SUPER ADMIN"
-          ? "Level 5 - System"
+          ? "All Access"
           : user.role === "ADMIN"
-            ? "Level 4 - Global"
+            ? "Team"
             : user.team_id
-              ? "Level 2 - Department"
-              : "Level 3 - Regional",
+              ? "Department"
+              : "Project",
     }));
 
     return (
@@ -116,26 +95,7 @@ export default class UsersPage extends Component {
         </div>
 
         <section className={pageStyles.managementShell}>
-          <div className={pageStyles.tabs} role="tablist" aria-label="Management sections">
-            <div role="tab" tabIndex={0} aria-selected="true" className={[pageStyles.tabButton, pageStyles.tabActive].join(" ")}>
-              Account Management
-            </div>
-            <div
-              role="tab"
-              tabIndex={0}
-              aria-selected="false"
-              className={pageStyles.tabButton}
-              onClick={goToTeams}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  goToTeams();
-                }
-              }}
-            >
-              Team Management
-            </div>
-          </div>
+          <ManagementTabs activePage={PAGE_OPTIONS.USERS} onNavigate={(page) => this.navigateToPage(page)} />
 
           <div className={pageStyles.summaryGrid}>
             {[
@@ -154,33 +114,25 @@ export default class UsersPage extends Component {
 
           <div className={pageStyles.toolbarRow}>
             <div className={pageStyles.filters}>
-              <div className={pageStyles.selectWrap}>
-                <select
-                  className={pageStyles.compactSelect}
-                  value={this.state.statusFilter}
-                  onChange={(event) => this.setState({ statusFilter: event.target.value, currentPage: 1 })}
-                >
-                  <option value="ALL">Status: All</option>
-                  <option value="ACTIVE">Status: Active</option>
-                  <option value="INACTIVE">Status: Inactive</option>
-                  <option value="TERMINATED">Status: Terminated</option>
-                </select>
-              </div>
+              <CompactSelect
+                value={this.state.statusFilter}
+                onChange={(value) => this.setState({ statusFilter: value, currentPage: 1 })}
+                options={[
+                  { value: "ALL", label: "Status: All" },
+                  { value: "ACTIVE", label: "Status: Active" },
+                  { value: "INACTIVE", label: "Status: Inactive" },
+                  { value: "TERMINATED", label: "Status: Terminated" },
+                ]}
+              />
 
-              <div className={pageStyles.selectWrap}>
-                <select
-                  className={pageStyles.compactSelect}
-                  value={this.state.roleFilter}
-                  onChange={(event) => this.setState({ roleFilter: event.target.value, currentPage: 1 })}
-                >
-                  <option value="ALL">Role: All</option>
-                  {Object.values(ROLE_OPTIONS).map((role) => (
-                    <option key={role} value={role}>
-                      {role}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <CompactSelect
+                value={this.state.roleFilter}
+                onChange={(value) => this.setState({ roleFilter: value, currentPage: 1 })}
+                options={[
+                  { value: "ALL", label: "Role: All" },
+                  ...Object.values(ROLE_OPTIONS).map((role) => ({ value: role, label: role })),
+                ]}
+              />
             </div>
 
             <div className={pageStyles.toolbarIcons}>
@@ -203,7 +155,7 @@ export default class UsersPage extends Component {
                 className={pageStyles.iconAction}
                 aria-label="Download"
                   onClick={() => {
-                    this.downloadUsers(exportRows);
+                    downloadRowsAsCsv("user-management.csv", exportRows, { Name: "", Email: "", Role: "", Status: "", Access: "" });
                     if (setNotice) {
                       setNotice({
                         title: "Added",

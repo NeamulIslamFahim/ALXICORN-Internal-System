@@ -90,6 +90,9 @@
   font-size: 0.82rem;
 }
 
+.userEmail {
+}
+
 .statusBadge {
   width: fit-content;
   padding: 6px 12px;

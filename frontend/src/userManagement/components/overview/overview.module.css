@@ -1,0 +1,452 @@
+.metricCard {
+  min-height: 108px;
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid #edf0f5;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+
+.metricHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.metricLabel {
+  margin: 0;
+  color: #98a2b3;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.metricIcon {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  border: 1px solid currentColor;
+  background: #f8fafc;
+}
+
+.metricToneGreen {
+  color: #22c55e;
+}
+
+.metricToneBlue {
+  color: #3b82f6;
+}
+
+.metricTonePurple {
+  color: #8b5cf6;
+}
+
+.metricToneOrange {
+  color: #f59e0b;
+}
+
+.metricValue {
+  color: #171717;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.metricDelta {
+  margin: 0;
+  color: #22c55e;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.metricDeltaNegative {
+  color: #ef4444;
+}
+
+.chartCard {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #edf0f5;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+
+.chartCardHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.chartEyebrow {
+  margin: 0 0 4px;
+  color: #344054;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.chartTitle {
+  margin: 0;
+  color: #98a2b3;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.chartBody {
+  display: grid;
+  gap: 14px;
+}
+
+.legendRow {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #667085;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.legendSwatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #171717;
+}
+
+.barChartShell {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.barAxis {
+  min-height: 170px;
+  display: grid;
+  align-items: stretch;
+  color: #98a2b3;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.barAxis span {
+  display: flex;
+  align-items: center;
+}
+
+.barChart {
+  min-height: 170px;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+
+.barGroup {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+}
+
+.barColumns {
+  width: 100%;
+  min-height: 145px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 4px;
+  border-radius: 10px 10px 0 0;
+  background: repeating-linear-gradient(
+    to top,
+    #eef2f7 0,
+    #eef2f7 1px,
+    transparent 1px,
+    transparent 20%
+  );
+}
+
+.barColumn {
+  width: min(12px, 100%);
+  border-radius: 4px 4px 0 0;
+}
+
+.barHours {
+  background: #7c3aed;
+}
+
+.barTasks {
+  background: #22c55e;
+}
+
+.barProjects {
+  background: #f97316;
+}
+
+.barLabel {
+  color: #667085;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.donutShell {
+  display: grid;
+  gap: 14px;
+}
+
+.donutWrap {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+}
+
+.donutSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.donutTrack {
+  fill: none;
+  stroke: #eef2f7;
+  stroke-width: 14;
+}
+
+.donutCenter {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.donutCenter strong {
+  display: block;
+  color: #171717;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.donutCenter span {
+  color: #98a2b3;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.donutLegend {
+  display: grid;
+  gap: 8px;
+}
+
+.donutLegendItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.donutLegendLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #667085;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.donutLegendItem strong {
+  color: #171717;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.progressCardBody {
+  display: grid;
+  gap: 16px;
+}
+
+.progressHeadline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.progressBigValue {
+  display: block;
+  color: #171717;
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.progressSubLabel {
+  color: #98a2b3;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.progressGrowth {
+  color: #22c55e;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.progressScale {
+  display: grid;
+  gap: 8px;
+}
+
+.progressScaleMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #667085;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.progressTrack {
+  width: 100%;
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #eef1f6;
+  display: flex;
+}
+
+.progressBlueFill {
+  display: block;
+  height: 100%;
+  background: #1570ef;
+}
+
+.progressAmberFill {
+  display: block;
+  height: 100%;
+  background: #f59e0b;
+}
+
+.progressAxis {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: #98a2b3;
+  font-size: 0.64rem;
+  font-weight: 700;
+}
+
+.progressStack {
+  display: grid;
+  gap: 12px;
+}
+
+.progressRow {
+  display: grid;
+  gap: 8px;
+}
+
+.progressMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  color: #667085;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.progressMeta strong {
+  color: #171717;
+  font-size: 0.72rem;
+}
+
+.progressTrackMini {
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #eef1f6;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.progressGreen {
+  background: #22c55e;
+}
+
+.progressOrange {
+  background: #f97316;
+}
+
+.progressFooterStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.progressStatPill {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #edf0f5;
+}
+
+.progressStatPill span {
+  color: #98a2b3;
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.progressStatPill strong {
+  color: #171717;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+@media (max-width: 900px) {
+  .barChart {
+    gap: 8px;
+  }
+
+  .barColumns {
+    min-height: 132px;
+    gap: 3px;
+  }
+
+  .donutWrap {
+    width: 148px;
+    height: 148px;
+  }
+
+  .progressFooterStats {
+    grid-template-columns: 1fr;
+  }
+}

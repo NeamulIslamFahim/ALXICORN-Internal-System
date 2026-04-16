@@ -1,4 +1,5 @@
 {
+  "/UserManagement/overview/page": "app/UserManagement/overview/page.js",
   "/UserManagement/page": "app/UserManagement/page.js",
   "/UserManagement/profile/page": "app/UserManagement/profile/page.js",
   "/UserManagement/teams/page": "app/UserManagement/teams/page.js",

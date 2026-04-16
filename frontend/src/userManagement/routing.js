@@ -2,6 +2,7 @@ import { PAGE_OPTIONS, ROLE_OPTIONS } from "./constants";
 
 // Keep route lookups in one place so page navigation stays consistent.
 export const PAGE_ROUTES = {
+  [PAGE_OPTIONS.OVERVIEW]: "/UserManagement/overview",
   [PAGE_OPTIONS.USERS]: "/UserManagement/users",
   [PAGE_OPTIONS.TEAMS]: "/UserManagement/teams",
   [PAGE_OPTIONS.PROFILE]: "/UserManagement/profile",

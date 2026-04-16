@@ -1,11 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 import { AppContext, PAGE_OPTIONS } from "../context/AppContext";
 import TeamTable from "../components/tables/TeamTable";
 import TeamForm from "../components/forms/TeamForm";
 import { ArrowUpDownIcon, DownloadIcon, PlusIcon } from "../components/icons/WorkspaceIcons";
+import ManagementTabs from "../components/layout/ManagementTabs";
+import { downloadRowsAsCsv } from "../utils/exportHelpers";
+import ManagementPage from "./ManagementPage";
 import pageStyles from "./pages.module.css";
 
-export default class TeamsPage extends Component {
+export default class TeamsPage extends ManagementPage {
   static contextType = AppContext;
 
   constructor(props) {
@@ -16,43 +19,18 @@ export default class TeamsPage extends Component {
     };
   }
 
-  downloadTeams(rows) {
-    const headers = Object.keys(rows[0] || { Name: "", Lead: "", Members: "" });
-    const csv = [
-      headers.join(","),
-      ...rows.map((row) => headers.map((header) => `"${String(row[header] || "").replace(/"/g, "\"\"")}"`).join(",")),
-    ].join("\n");
-
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "team-management.csv";
-    link.click();
-    URL.revokeObjectURL(url);
-  }
-
   render() {
     const {
       teams,
       users,
       modal,
       permissions,
-      setPage,
-      navigateToPage,
       openTeamModal,
       closeTeamModal,
       saveTeam,
       deleteTeam,
       setNotice,
     } = this.context;
-
-    const goToUsers = () => {
-      setPage(PAGE_OPTIONS.USERS);
-      if (navigateToPage) {
-        navigateToPage(PAGE_OPTIONS.USERS);
-      }
-    };
 
     const usersById = new Map(users.map((user) => [user.id, user]));
     const sortedTeams = [...teams].sort((left, right) => {
@@ -95,26 +73,7 @@ export default class TeamsPage extends Component {
         </div>
 
         <section className={pageStyles.managementShell}>
-          <div className={pageStyles.tabs} role="tablist" aria-label="Management sections">
-            <div
-              role="tab"
-              tabIndex={0}
-              aria-selected="false"
-              className={pageStyles.tabButton}
-              onClick={goToUsers}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  goToUsers();
-                }
-              }}
-            >
-              Account Management
-            </div>
-            <div role="tab" tabIndex={0} aria-selected="true" className={[pageStyles.tabButton, pageStyles.tabActive].join(" ")}>
-              Team Management
-            </div>
-          </div>
+          <ManagementTabs activePage={PAGE_OPTIONS.TEAMS} onNavigate={(page) => this.navigateToPage(page)} />
 
           <div className={pageStyles.summaryGrid}>
             {[
@@ -151,7 +110,7 @@ export default class TeamsPage extends Component {
                 className={pageStyles.iconAction}
                 aria-label="Download"
                 onClick={() => {
-                  this.downloadTeams(exportRows);
+                  downloadRowsAsCsv("team-management.csv", exportRows, { Name: "", Lead: "", Members: "" });
                   setNotice?.({
                     title: "Added",
                     message: "Team data downloaded as CSV for Excel.",
