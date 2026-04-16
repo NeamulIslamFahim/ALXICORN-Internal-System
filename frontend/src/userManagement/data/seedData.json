@@ -15,7 +15,7 @@
     },
     {
       "id": "user-admin",
-      "full_name": "Admin User",
+      "full_name": "Admin",
       "username": "admin",
       "email": "admin@example.com",
       "password": "Admin@123",
