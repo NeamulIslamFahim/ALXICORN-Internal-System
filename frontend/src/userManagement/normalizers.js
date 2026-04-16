@@ -1,4 +1,3 @@
-import seedData from "./data/seedData.json";
 import { makeId, nowStamp } from "./utils/localStorageHelper";
 import { ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS } from "./constants";
 
@@ -59,7 +58,7 @@ export class UserManagementNormalizer {
     return this.permissionLookup[normalized] || String(value || "").trim().toUpperCase();
   }
 
-  static normalizeSeedData(seed = seedData) {
+  static normalizeSeedData(seed = { users: [], teams: [] }) {
     // Teams are normalized first so user.team_id can be validated against known team ids.
     const teams = Array.isArray(seed?.teams)
       ? seed.teams
