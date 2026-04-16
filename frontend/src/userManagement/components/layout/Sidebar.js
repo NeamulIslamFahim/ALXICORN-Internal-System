@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AppContext, PAGE_OPTIONS } from "../../context/AppContext";
+import { AppContext, PAGE_OPTIONS, SIDEBAR_OPTIONS } from "../../context/AppContext";
 import alxicornLogo from "../../../assets/images/ALXICORN Logo.png";
 import {
   BookOpenIcon,
@@ -17,9 +17,12 @@ export default class Sidebar extends Component {
   static contextType = AppContext;
 
   render() {
-    const { page, setPage, navigateToPage, setNotice } = this.context;
+    const { selectedNavItem, setPage, setSelectedNavItem, navigateToPage, setNotice } = this.context;
+    const activeNavItem = selectedNavItem || SIDEBAR_OPTIONS.USER_MANAGEMENT;
 
     const goToItem = (item) => {
+      setSelectedNavItem(item.id);
+
       if (item.page) {
         setPage(item.page);
         if (navigateToPage) {
@@ -32,14 +35,14 @@ export default class Sidebar extends Component {
     };
 
     const navItems = [
-      { page: PAGE_OPTIONS.USERS, label: "User Management", icon: UsersIcon },
-      { label: "Talent Acquisition", availability: "Not available", icon: BriefcaseIcon },
-      { label: "Onboarding", availability: "Not available", icon: SparklesIcon },
-      { label: "Employee Time Table", availability: "Not available", icon: CalendarIcon },
-      { label: "Document Management", availability: "Not available", icon: FileTextIcon },
-      { label: "Meeting Notes", availability: "Not available", icon: NotebookIcon },
-      { label: "Leave Management", availability: "Not available", icon: PalmIcon },
-      { label: "How to Guideline", availability: "Not available", icon: BookOpenIcon },
+      { id: SIDEBAR_OPTIONS.USER_MANAGEMENT, page: PAGE_OPTIONS.USERS, label: "User Management", icon: UsersIcon },
+      { id: SIDEBAR_OPTIONS.TALENT_ACQUISITION, label: "Talent Acquisition", availability: "Not available", icon: BriefcaseIcon },
+      { id: SIDEBAR_OPTIONS.ONBOARDING, label: "Onboarding", availability: "Not available", icon: SparklesIcon },
+      { id: SIDEBAR_OPTIONS.EMPLOYEE_TIME_TABLE, label: "Employee Time Table", availability: "Not available", icon: CalendarIcon },
+      { id: SIDEBAR_OPTIONS.DOCUMENT_MANAGEMENT, label: "Document Management", availability: "Not available", icon: FileTextIcon },
+      { id: SIDEBAR_OPTIONS.MEETING_NOTES, label: "Meeting Notes", availability: "Not available", icon: NotebookIcon },
+      { id: SIDEBAR_OPTIONS.LEAVE_MANAGEMENT, label: "Leave Management", availability: "Not available", icon: PalmIcon },
+      { id: SIDEBAR_OPTIONS.HOW_TO_GUIDELINE, label: "How to Guideline", availability: "Not available", icon: BookOpenIcon },
     ];
 
     return (
@@ -55,7 +58,8 @@ export default class Sidebar extends Component {
               key={item.label}
               role="button"
               tabIndex={0}
-              className={[styles.navButton, page === item.page ? styles.navButtonActive : null].filter(Boolean).join(" ")}
+              aria-current={activeNavItem === item.id ? "page" : undefined}
+              className={[styles.navButton, activeNavItem === item.id ? styles.navButtonActive : null].filter(Boolean).join(" ")}
               onClick={() => goToItem(item)}
               onKeyDown={(event) => {
                 if (event.key === "Enter" || event.key === " ") {

@@ -1,9 +1,9 @@
 import React, { Component, createContext } from "react";
-import { PAGE_OPTIONS, PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS } from "../constants";
+import { PAGE_OPTIONS, PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, SIDEBAR_OPTIONS, STATUS_OPTIONS } from "../constants";
 import { UserManagementStore } from "../store";
 
 export const AppContext = createContext(null);
-export { PAGE_OPTIONS, PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS };
+export { PAGE_OPTIONS, PERMISSION_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, SIDEBAR_OPTIONS, STATUS_OPTIONS };
 
 const createUserManagementFactory = () => new UserManagementStore();
 
@@ -18,6 +18,7 @@ export class AppProvider extends Component {
     this.logout = this.logout.bind(this);
     this.setNotice = this.setNotice.bind(this);
     this.setPage = this.setPage.bind(this);
+    this.setSelectedNavItem = this.setSelectedNavItem.bind(this);
     this.openUserModal = this.openUserModal.bind(this);
     this.closeUserModal = this.closeUserModal.bind(this);
     this.openTeamModal = this.openTeamModal.bind(this);
@@ -29,6 +30,14 @@ export class AppProvider extends Component {
     this.deleteTeam = this.deleteTeam.bind(this);
   }
 
+  syncRoutePage(routePage) {
+    if (!routePage || routePage === this.state.page) {
+      return;
+    }
+
+    this.setState((prevState) => (prevState.page === routePage ? null : { page: routePage }));
+  }
+
   applyStoreAction(actionName, ...args) {
     this.setState((prevState) => this.store[actionName](prevState, ...args));
   }
@@ -38,6 +47,7 @@ export class AppProvider extends Component {
     const restoredState = this.store.restoreSession(this.state);
 
     this.setState(restoredState);
+    this.syncRoutePage(this.props.routePage);
 
     this.store.hydrateFromFile(restoredState).then((nextState) => {
       this.setState(nextState);
@@ -45,6 +55,10 @@ export class AppProvider extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (prevProps.routePage !== this.props.routePage) {
+      this.syncRoutePage(this.props.routePage);
+    }
+
     if (prevState !== this.state) {
       this.store.persistSession(this.state);
     }
@@ -72,6 +86,10 @@ export class AppProvider extends Component {
 
   setPage(page) {
     this.applyStoreAction("setPage", page);
+  }
+
+  setSelectedNavItem(selectedNavItem) {
+    this.applyStoreAction("setSelectedNavItem", selectedNavItem);
   }
 
   openUserModal(mode, data = null) {
@@ -113,13 +131,13 @@ export class AppProvider extends Component {
   render() {
     const currentUser = this.store.getCurrentUser(this.state);
     const permissions = this.store.getPermissions(currentUser);
-    const routePage = this.props.routePage || this.state.page;
     // A single value object keeps page components decoupled from store internals.
     const value = {
       users: this.state.users,
       teams: this.state.teams,
       currentUser,
-      page: routePage,
+      page: this.state.page,
+      selectedNavItem: this.state.selectedNavItem,
       modal: this.state.modal,
       notice: this.state.notice,
       permissions,
@@ -127,6 +145,7 @@ export class AppProvider extends Component {
       logout: this.logout,
       setNotice: this.setNotice,
       setPage: this.setPage,
+      setSelectedNavItem: this.setSelectedNavItem,
       navigateToPage: this.props.onNavigateToPage || null,
       navigateToLogin: this.props.onNavigateToLogin || null,
       navigateToHome: this.props.onNavigateToHome || null,

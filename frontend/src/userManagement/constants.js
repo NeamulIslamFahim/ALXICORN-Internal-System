@@ -12,6 +12,17 @@ export const PAGE_OPTIONS = {
   DASHBOARD: "dashboard",
 };
 
+export const SIDEBAR_OPTIONS = {
+  USER_MANAGEMENT: "user-management",
+  TALENT_ACQUISITION: "talent-acquisition",
+  ONBOARDING: "onboarding",
+  EMPLOYEE_TIME_TABLE: "employee-time-table",
+  DOCUMENT_MANAGEMENT: "document-management",
+  MEETING_NOTES: "meeting-notes",
+  LEAVE_MANAGEMENT: "leave-management",
+  HOW_TO_GUIDELINE: "how-to-guideline",
+};
+
 export const STATUS_OPTIONS = {
   ACTIVE: "ACTIVE",
   INACTIVE: "INACTIVE",
@@ -32,5 +43,6 @@ export const STORAGE_KEYS = {
   teams: "um_teams",
   authUserId: "um_auth_user_id",
   page: "um_page",
+  selectedNavItem: "um_selected_nav_item",
   seedSignature: "um_seed_signature",
 };

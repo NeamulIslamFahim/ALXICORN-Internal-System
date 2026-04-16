@@ -52,6 +52,13 @@ export default class UsersPage extends Component {
     } = this.context;
 
     const filteredUsers = filterUsers(users, "", this.state.roleFilter, this.state.statusFilter).sort((left, right) => {
+      const leftIsSuperAdmin = left.role === ROLE_OPTIONS.SUPER_ADMIN;
+      const rightIsSuperAdmin = right.role === ROLE_OPTIONS.SUPER_ADMIN;
+
+      if (leftIsSuperAdmin !== rightIsSuperAdmin) {
+        return leftIsSuperAdmin ? -1 : 1;
+      }
+
       const leftName = String(left.full_name || "").toLowerCase();
       const rightName = String(right.full_name || "").toLowerCase();
       return this.state.sortDirection === "asc" ? leftName.localeCompare(rightName) : rightName.localeCompare(leftName);

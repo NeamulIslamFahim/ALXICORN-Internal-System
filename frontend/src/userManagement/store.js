@@ -1,6 +1,6 @@
 import seedData from "./data/seedData.json";
 import { makeId, nowStamp, readJSON, writeJSON } from "./utils/localStorageHelper";
-import { PAGE_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, STATUS_OPTIONS, STORAGE_KEYS } from "./constants";
+import { PAGE_OPTIONS, ROLE_OPTIONS, SENIORITY_OPTIONS, SIDEBAR_OPTIONS, STATUS_OPTIONS, STORAGE_KEYS } from "./constants";
 import { UserManagementNormalizer } from "./normalizers";
 
 // The store owns all business rules so the UI stays focused on rendering and events.
@@ -101,6 +101,7 @@ export class UserManagementStore {
       teams: this.seed.teams,
       authUserId: null,
       page: PAGE_OPTIONS.USERS,
+      selectedNavItem: SIDEBAR_OPTIONS.USER_MANAGEMENT,
       modal: null,
       notice: "",
       seedSignature: this.seedSignature,
@@ -121,6 +122,7 @@ export class UserManagementStore {
       teams,
       authUserId: users.some((user) => user.id === authUserId) ? authUserId : null,
       page: readJSON(STORAGE_KEYS.page, PAGE_OPTIONS.USERS),
+      selectedNavItem: SIDEBAR_OPTIONS.USER_MANAGEMENT,
     };
   }
 
@@ -211,6 +213,7 @@ export class UserManagementStore {
         ...state,
         authUserId: user.id,
         page: user.role === ROLE_OPTIONS.EMPLOYEE ? PAGE_OPTIONS.PROFILE : PAGE_OPTIONS.USERS,
+        selectedNavItem: SIDEBAR_OPTIONS.USER_MANAGEMENT,
         notice: "",
       },
       user,
@@ -222,6 +225,7 @@ export class UserManagementStore {
       ...state,
       authUserId: null,
       page: PAGE_OPTIONS.USERS,
+      selectedNavItem: SIDEBAR_OPTIONS.USER_MANAGEMENT,
       modal: null,
       notice: "",
     };
@@ -232,7 +236,11 @@ export class UserManagementStore {
   }
 
   setPage(state, page) {
-    return { ...state, page };
+    return { ...state, page, selectedNavItem: SIDEBAR_OPTIONS.USER_MANAGEMENT };
+  }
+
+  setSelectedNavItem(state, selectedNavItem) {
+    return { ...state, selectedNavItem };
   }
 
   openUserModal(state, mode, data = null) {
@@ -412,6 +420,7 @@ export class UserManagementStore {
     if (state.teams) writeJSON(STORAGE_KEYS.teams, state.teams);
     writeJSON(STORAGE_KEYS.authUserId, state.authUserId || null);
     writeJSON(STORAGE_KEYS.page, state.page || PAGE_OPTIONS.USERS);
+    writeJSON(STORAGE_KEYS.selectedNavItem, state.selectedNavItem || SIDEBAR_OPTIONS.USER_MANAGEMENT);
     writeJSON(STORAGE_KEYS.seedSignature, state.seedSignature || "");
   }
 
