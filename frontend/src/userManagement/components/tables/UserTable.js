@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { EditIcon, PowerIcon, TrashIcon } from "../icons/WorkspaceIcons";
 import { formatRoleLabel } from "../../utils/uiHelpers";
 import styles from "./tables.module.css";
 
@@ -77,64 +78,49 @@ export default class UserTable extends Component {
                 <span className={[styles.statusBadge, statusMeta.tone].join(" ")}>{statusMeta.label}</span>
                 <span className={styles.accessPill}>{this.getAccessLevel(user)}</span>
 
-                <div className={styles.actionMenuShell}>
-                  <div
+                <div className={styles.actionIcons}>
+                  <button
+                    type="button"
                     className={styles.rowAction}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`Manage ${user.full_name}`}
-                    onKeyDown={(event) => {
-                      if (event.key === "Enter" || event.key === " ") {
-                        event.preventDefault();
+                    aria-label={`${toggleLabel} ${user.full_name}`}
+                    title={toggleLabel}
+                    disabled={!canDeactivate}
+                    onClick={() => {
+                      if (canDeactivate) {
+                        onToggleStatus(user.id);
                       }
                     }}
                   >
-                    <span />
-                    <span />
-                    <span />
-                  </div>
-
-                  <div className={styles.actionMenu}>
-                    <div
-                      className={styles.menuItem}
-                      role="button"
-                      tabIndex={canDeactivate ? 0 : -1}
-                      aria-disabled={canDeactivate ? "false" : "true"}
-                      onClick={() => {
-                        if (canDeactivate) {
-                          onToggleStatus(user.id);
-                        }
-                      }}
-                    >
-                      {toggleLabel}
-                    </div>
-                    <div
-                      className={styles.menuItem}
-                      role="button"
-                      tabIndex={canEdit ? 0 : -1}
-                      aria-disabled={canEdit ? "false" : "true"}
-                      onClick={() => {
-                        if (canEdit) {
-                          onEdit(user);
-                        }
-                      }}
-                    >
-                      Edit
-                    </div>
-                    <div
-                      className={[styles.menuItem, styles.menuItemDanger].join(" ")}
-                      role="button"
-                      tabIndex={canEdit ? 0 : -1}
-                      aria-disabled={canEdit ? "false" : "true"}
-                      onClick={() => {
-                        if (canEdit) {
-                          onDelete(user.id);
-                        }
-                      }}
-                    >
-                      Delete
-                    </div>
-                  </div>
+                    <PowerIcon size={16} strokeWidth={2} />
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.rowAction}
+                    aria-label={`Delete ${user.full_name}`}
+                    title="Delete"
+                    disabled={!canEdit}
+                    onClick={() => {
+                      if (canEdit) {
+                        onDelete(user.id);
+                      }
+                    }}
+                  >
+                    <TrashIcon size={16} strokeWidth={1.9} />
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.rowAction}
+                    aria-label={`Edit ${user.full_name}`}
+                    title="Edit"
+                    disabled={!canEdit}
+                    onClick={() => {
+                      if (canEdit) {
+                        onEdit(user);
+                      }
+                    }}
+                  >
+                    <EditIcon size={16} strokeWidth={1.9} />
+                  </button>
                 </div>
               </div>
             );

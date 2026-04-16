@@ -13,6 +13,8 @@ export default function LoginFormCard({
   onKeepLoggedInChange,
   onTogglePassword,
 }) {
+  const noticeMessage = typeof notice === "string" ? notice : notice?.message || notice?.title || "";
+
   return (
     <form className={styles.authForm} onSubmit={onSubmit}>
       <div className={styles.authTextContainer}>
@@ -70,7 +72,7 @@ export default function LoginFormCard({
           </span>
         </label>
 
-        <label className={styles.rememberRow}>
+        {/* <label className={styles.rememberRow}>
           <input
             type="checkbox"
             className={styles.rememberCheck}
@@ -78,13 +80,13 @@ export default function LoginFormCard({
             onChange={(event) => onKeepLoggedInChange(event.target.checked)}
           />
           <span className={styles.authSubtext}>Keep me logged in for 30 days</span>
-        </label>
+        </label> */}
 
         <button type="submit" className={styles.signInButton}>
-          Sign In
+          Log In
         </button>
 
-        {notice ? <p className={styles.loginNote}>{notice}</p> : null}
+        {noticeMessage ? <p className={styles.loginNote}>{noticeMessage}</p> : null}
       </div>
     </form>
   );

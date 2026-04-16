@@ -10,6 +10,10 @@ export class UserManagementStore {
     this.seedSignature = UserManagementNormalizer.buildSeedSignature(this.seed);
   }
 
+  static createNotice(title, message = "", tone = "info") {
+    return { title, message, tone };
+  }
+
   static isValidUser(user) {
     return (
       user &&
@@ -103,7 +107,7 @@ export class UserManagementStore {
       page: PAGE_OPTIONS.USERS,
       selectedNavItem: SIDEBAR_OPTIONS.USER_MANAGEMENT,
       modal: null,
-      notice: "",
+      notice: null,
       seedSignature: this.seedSignature,
     };
   }
@@ -214,7 +218,7 @@ export class UserManagementStore {
         authUserId: user.id,
         page: user.role === ROLE_OPTIONS.EMPLOYEE ? PAGE_OPTIONS.PROFILE : PAGE_OPTIONS.USERS,
         selectedNavItem: SIDEBAR_OPTIONS.USER_MANAGEMENT,
-        notice: "",
+        notice: null,
       },
       user,
     };
@@ -227,16 +231,24 @@ export class UserManagementStore {
       page: PAGE_OPTIONS.USERS,
       selectedNavItem: SIDEBAR_OPTIONS.USER_MANAGEMENT,
       modal: null,
-      notice: "",
+      notice: null,
     };
   }
 
-  setNotice(state, notice = "") {
+  setNotice(state, notice = null) {
+    if (!notice) {
+      return { ...state, notice: null };
+    }
+
+    if (typeof notice === "string") {
+      return { ...state, notice: UserManagementStore.createNotice("Notice", notice) };
+    }
+
     return { ...state, notice };
   }
 
   setPage(state, page) {
-    return { ...state, page, selectedNavItem: SIDEBAR_OPTIONS.USER_MANAGEMENT };
+    return { ...state, page, selectedNavItem: SIDEBAR_OPTIONS.USER_MANAGEMENT, notice: null };
   }
 
   setSelectedNavItem(state, selectedNavItem) {
@@ -244,7 +256,7 @@ export class UserManagementStore {
   }
 
   openUserModal(state, mode, data = null) {
-    return { ...state, modal: { type: "user", mode, data }, notice: "" };
+    return { ...state, modal: { type: "user", mode, data }, notice: null };
   }
 
   closeUserModal(state) {
@@ -252,7 +264,7 @@ export class UserManagementStore {
   }
 
   openTeamModal(state, mode, data = null) {
-    return { ...state, modal: { type: "team", mode, data }, notice: "" };
+    return { ...state, modal: { type: "team", mode, data }, notice: null };
   }
 
   closeTeamModal(state) {
@@ -266,15 +278,28 @@ export class UserManagementStore {
     const current = state.users.find((user) => user.id === form.id);
 
     if (!isEdit && authUser?.role !== ROLE_OPTIONS.SUPER_ADMIN && form.role === ROLE_OPTIONS.ADMIN) {
-      return { ...state, notice: "Only Super Admin can create Admin." };
+      return {
+        ...state,
+        notice: UserManagementStore.createNotice("Not applicable for Super admin", "Only Super Admin can create Admin.", "warning"),
+      };
     }
 
     if (!isEdit && authUser?.role === ROLE_OPTIONS.EMPLOYEE) {
-      return { ...state, notice: "Employee cannot create users." };
+      return {
+        ...state,
+        notice: UserManagementStore.createNotice("Not applicable", "Employee cannot create users.", "warning"),
+      };
     }
 
     if (isEdit && current?.role === ROLE_OPTIONS.SUPER_ADMIN && UserManagementStore.countActiveSuperAdmins(state.users) <= 1) {
-      return { ...state, notice: "Last Super Admin cannot be changed." };
+      return {
+        ...state,
+        notice: UserManagementStore.createNotice(
+          "Not applicable for Super admin",
+          "Super Admin cannot be changed.",
+          "warning"
+        ),
+      };
     }
 
     const nextUsers = isEdit
@@ -325,7 +350,7 @@ export class UserManagementStore {
       ...state,
       users: nextUsers,
       modal: null,
-      notice: isEdit ? "User updated." : "User created.",
+      notice: UserManagementStore.createNotice(isEdit ? "Updated" : "Added", isEdit ? "User updated successfully." : "User added successfully.", "success"),
     };
   }
 
@@ -336,7 +361,14 @@ export class UserManagementStore {
     }
 
     if (target.role === ROLE_OPTIONS.SUPER_ADMIN && UserManagementStore.countActiveSuperAdmins(state.users) <= 1) {
-      return { ...state, notice: "Last Super Admin cannot be deleted." };
+      return {
+        ...state,
+        notice: UserManagementStore.createNotice(
+          "Not applicable for Super admin",
+          "Super Admin cannot be deleted.",
+          "warning"
+        ),
+      };
     }
 
     const nextUsers = state.users.filter((user) => user.id !== userId);
@@ -351,7 +383,7 @@ export class UserManagementStore {
       users: nextUsers,
       teams: nextTeams,
       authUserId: state.authUserId === userId ? nextUsers[0]?.id || null : state.authUserId,
-      notice: "User deleted.",
+      notice: UserManagementStore.createNotice("Deleted", "User deleted successfully.", "success"),
     };
   }
 
@@ -370,7 +402,14 @@ export class UserManagementStore {
       nextStatus !== STATUS_OPTIONS.ACTIVE &&
       UserManagementStore.countActiveSuperAdmins(state.users) <= 1
     ) {
-      return { ...state, notice: "Last Super Admin cannot be deactivated." };
+      return {
+        ...state,
+        notice: UserManagementStore.createNotice(
+          "Not applicable for Super admin",
+          "Super Admin cannot be deactivated.",
+          "warning"
+        ),
+      };
     }
 
     const nextUsers = state.users.map((user) => (user.id === userId ? { ...user, status: nextStatus } : user));
@@ -384,7 +423,11 @@ export class UserManagementStore {
             nextUsers[0]?.id ||
             null
           : state.authUserId,
-      notice: `User set to ${nextStatus.toLowerCase()}.`,
+      notice: UserManagementStore.createNotice(
+        nextStatus === STATUS_OPTIONS.ACTIVE ? "Activated" : "Deactivated",
+        `User ${nextStatus === STATUS_OPTIONS.ACTIVE ? "activated" : "deactivated"} successfully.`,
+        "success"
+      ),
     };
   }
 
@@ -398,7 +441,7 @@ export class UserManagementStore {
       users: nextUsers,
       teams: nextTeams,
       modal: null,
-      notice: form.id ? "Team updated." : "Team created.",
+      notice: UserManagementStore.createNotice(form.id ? "Updated" : "Added", form.id ? "Team updated successfully." : "Team added successfully.", "success"),
     };
   }
 
@@ -410,7 +453,7 @@ export class UserManagementStore {
       ...state,
       teams: nextTeams,
       users: nextUsers,
-      notice: "Team deleted.",
+      notice: UserManagementStore.createNotice("Deleted", "Team deleted successfully.", "success"),
     };
   }
 

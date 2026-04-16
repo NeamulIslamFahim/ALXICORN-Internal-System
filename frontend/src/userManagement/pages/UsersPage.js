@@ -202,12 +202,16 @@ export default class UsersPage extends Component {
                 type="button"
                 className={pageStyles.iconAction}
                 aria-label="Download"
-                onClick={() => {
-                  this.downloadUsers(exportRows);
-                  if (setNotice) {
-                    setNotice("User data downloaded as CSV for Excel.");
-                  }
-                }}
+                  onClick={() => {
+                    this.downloadUsers(exportRows);
+                    if (setNotice) {
+                      setNotice({
+                        title: "Added",
+                        message: "User data downloaded as CSV for Excel.",
+                        tone: "success",
+                      });
+                    }
+                  }}
               >
                 <DownloadIcon className={pageStyles.toolbarIconSvg} />
               </button>

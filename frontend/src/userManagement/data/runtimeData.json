@@ -1,32 +1,9 @@
 {
   "users": [
     {
-      "id": "user-9002f9d5-e2d1-4645-8d15-3c706906820b",
-      "full_name": "Fahim",
-      "email": "fahim@gmail.com",
-      "password": "123",
-      "role": "EMPLOYEE",
-      "status": "INACTIVE",
-      "permissions": [],
-      "team_id": "team-dcc50c8b-d1a1-4031-9393-3058afb2b191",
-      "seniority_role": "JUNIOR",
-      "created_at": "2026-04-06T12:06:54.771Z"
-    },
-    {
-      "id": "user-ae11ae47-d5f6-4aa5-b8fe-a0f551867c94",
-      "full_name": "Neamul",
-      "email": "neamul@example.com",
-      "password": "123",
-      "role": "EMPLOYEE",
-      "status": "ACTIVE",
-      "permissions": [],
-      "team_id": null,
-      "seniority_role": "JUNIOR",
-      "created_at": "2026-04-03T04:47:03.172Z"
-    },
-    {
       "id": "user-super-admin",
       "full_name": "Super Admin",
+      "username": "superadmin",
       "email": "superadmin@example.com",
       "password": "SuperAdmin@123",
       "role": "SUPER ADMIN",
@@ -41,6 +18,7 @@
     {
       "id": "user-admin",
       "full_name": "Admin User",
+      "username": "admin",
       "email": "admin@example.com",
       "password": "Admin@123",
       "role": "ADMIN",
@@ -58,6 +36,7 @@
     {
       "id": "user-employee",
       "full_name": "Asif Ahmed",
+      "username": "asif",
       "email": "asif@example.com",
       "password": "asif@123",
       "role": "EMPLOYEE",
@@ -76,10 +55,6 @@
       "members": [
         {
           "user_id": "user-employee",
-          "seniority_role": "LEAD"
-        },
-        {
-          "user_id": "user-9002f9d5-e2d1-4645-8d15-3c706906820b",
           "seniority_role": "LEAD"
         }
       ]

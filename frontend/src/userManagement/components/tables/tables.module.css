@@ -9,7 +9,7 @@
 
 .tableHeader {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(140px, 1fr) 110px minmax(160px, 1fr) 44px;
+  grid-template-columns: minmax(0, 2fr) minmax(140px, 1fr) 110px minmax(160px, 1fr) 140px;
   gap: 16px;
   padding: 18px 20px;
   border-bottom: 1px solid #f1f1f1;
@@ -37,7 +37,7 @@
 
 .userRow {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(140px, 1fr) 110px minmax(160px, 1fr) 44px;
+  grid-template-columns: minmax(0, 2fr) minmax(140px, 1fr) 110px minmax(160px, 1fr) 140px;
   align-items: center;
   gap: 16px;
   min-height: 82px;
@@ -124,6 +124,12 @@
   background: #fafafa;
 }
 
+.actionIcons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 .rowAction {
   width: 34px;
   height: 34px;
@@ -138,7 +144,7 @@
   transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
 }
 
-.rowAction:hover {
+.rowAction:hover:not(:disabled) {
   transform: none;
   box-shadow: none;
   background: #f6f7f8;
@@ -153,82 +159,13 @@
   box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
 }
 
-.rowAction span {
-  width: 3px;
-  height: 3px;
-  display: block;
-  border-radius: 999px;
-  background: #8e8e8e;
-  margin: 1px 0;
+.rowAction:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
 }
 
-.actionMenuShell {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.actionMenu {
-  position: absolute;
-  top: calc(100% + 6px);
-  right: 0;
-  z-index: 30;
-  min-width: 146px;
-  display: none;
-  gap: 2px;
-  padding: 8px;
-  border: 1px solid #ececec;
-  border-radius: 10px;
-  background: #ffffff;
-  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
-}
-
-.actionMenuShell:hover .actionMenu,
-.actionMenuShell:focus-within .actionMenu {
-  display: grid;
-}
-
-.actionMenuShell:hover .rowAction,
-.actionMenuShell:focus-within .rowAction {
-  background: #f6f7f8;
-  border-color: #e7eaee;
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
-}
-
-.menuItem {
-  min-height: 38px;
-  padding: 0 12px;
-  display: flex;
-  align-items: center;
-  border-radius: 6px;
-  background: transparent;
-  color: #4b4b4b;
-  font-size: 0.82rem;
-  font-weight: 700;
-  text-align: left;
-  border: 0;
-  box-shadow: none;
-  cursor: pointer;
-}
-
-.menuItem:hover {
-  transform: none;
-  box-shadow: none;
-  background: #f6f6f6;
-}
-
-.menuItem[aria-disabled="true"] {
-  opacity: 0.45;
-  cursor: default;
-}
-
-.menuItem:focus {
-  outline: none;
-  background: #f6f6f6;
-}
-
-.menuItemDanger {
-  color: #c43d3d;
+.rowAction svg {
+  color: #666666;
 }
 
 .dataTable {

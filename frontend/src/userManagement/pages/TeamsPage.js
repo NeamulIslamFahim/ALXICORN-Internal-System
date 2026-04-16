@@ -152,7 +152,11 @@ export default class TeamsPage extends Component {
                 aria-label="Download"
                 onClick={() => {
                   this.downloadTeams(exportRows);
-                  setNotice?.("Team data downloaded as CSV for Excel.");
+                  setNotice?.({
+                    title: "Added",
+                    message: "Team data downloaded as CSV for Excel.",
+                    tone: "success",
+                  });
                 }}
               >
                 <DownloadIcon className={pageStyles.toolbarIconSvg} />

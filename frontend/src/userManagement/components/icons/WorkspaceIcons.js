@@ -171,3 +171,33 @@ export function PlusIcon(props) {
     </SvgIcon>
   );
 }
+
+export function EditIcon(props) {
+  return (
+    <SvgIcon {...props}>
+      <path d="m14 5 5 5" />
+      <path d="M4 20l4.5-1 9-9a2.1 2.1 0 0 0-3-3l-9 9L4 20Z" />
+    </SvgIcon>
+  );
+}
+
+export function TrashIcon(props) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M4.5 7.5h15" />
+      <path d="M9.5 3.5h5" />
+      <path d="M7 7.5l.8 11a2 2 0 0 0 2 1.8h4.4a2 2 0 0 0 2-1.8l.8-11" />
+      <path d="M10 11v5.5" />
+      <path d="M14 11v5.5" />
+    </SvgIcon>
+  );
+}
+
+export function PowerIcon(props) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M12 3.5v7" />
+      <path d="M7.2 6.2a7 7 0 1 0 9.6 0" />
+    </SvgIcon>
+  );
+}

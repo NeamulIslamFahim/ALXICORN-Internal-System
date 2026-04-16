@@ -24,6 +24,7 @@ export default class Sidebar extends Component {
       setSelectedNavItem(item.id);
 
       if (item.page) {
+        setNotice?.(null);
         setPage(item.page);
         if (navigateToPage) {
           navigateToPage(item.page);
@@ -31,7 +32,11 @@ export default class Sidebar extends Component {
         return;
       }
 
-      setNotice?.("Not available.");
+      setNotice?.({
+        title: "Not Available",
+        message: "This module is not available yet.",
+        tone: "warning",
+      });
     };
 
     const navItems = [
