@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AppContext } from "../../UserManagement/context/AppContext";
+import { AppContext } from "../../userManagement/context/AppContext";
 import alxicornLogo from "../../assets/images/ALXICORN Logo.png";
 import pageStyles from "../styles/login.module.css";
 import { LoginBrandPanel, LoginFormCard, LoginPopup } from "../components";

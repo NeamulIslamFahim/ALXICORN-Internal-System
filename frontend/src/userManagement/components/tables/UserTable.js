@@ -29,7 +29,7 @@ export default class UserTable extends Component {
 
   getAccessLevel(user) {
     if (user.role === "SUPER ADMIN") {
-      return "Level 5 - System";
+      return "ALL ACCESS";
     }
 
     if (user.role === "ADMIN") {
