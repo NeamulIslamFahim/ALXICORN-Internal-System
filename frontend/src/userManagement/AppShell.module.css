@@ -179,8 +179,12 @@
   border-radius: 999px;
   background: #111827;
   color: #ffffff;
-  font-size: 0.72rem;
-  font-weight: 800;
+}
+
+.workspaceAvatarIcon {
+  width: 18px;
+  height: 18px;
+  color: #ffffff;
 }
 
 .workspaceMenu {

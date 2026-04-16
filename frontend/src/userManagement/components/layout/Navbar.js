@@ -49,16 +49,6 @@ export default class Navbar extends Component {
     this.closeMenus();
   }
 
-  getInitials(name) {
-    return String(name || "")
-      .split(" ")
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((part) => part[0])
-      .join("")
-      .toUpperCase();
-  }
-
   render() {
     const currentUser = this.context?.currentUser;
 
@@ -115,7 +105,9 @@ export default class Navbar extends Component {
               }}
             >
               <span className={styles.workspaceUserRole}>{currentUser?.role || "Super Admin"}</span>
-              <span className={styles.workspaceAvatar}>{this.getInitials(currentUser?.full_name || "SA")}</span>
+              <span className={styles.workspaceAvatar}>
+                <UserCircleIcon className={styles.workspaceAvatarIcon} />
+              </span>
             </div>
 
             {this.state.profileOpen ? (
