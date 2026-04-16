@@ -118,8 +118,8 @@ export default class TeamsPage extends Component {
 
           <div className={pageStyles.summaryGrid}>
             {[
-              { label: "Total Number of Teams", value: teams.length },
-              { label: "Total Assigned Team Members", value: totalMembers },
+              { label: "Total Teams", value: teams.length },
+              { label: "Total Team Members (Assigned)", value: totalMembers },
             ].map((card) => (
               <article key={card.label} className={pageStyles.summaryMetric}>
                 <p className={pageStyles.summaryLabel}>{card.label}</p>

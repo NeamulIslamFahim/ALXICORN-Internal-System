@@ -1,4 +1,4 @@
-import NextApp from "../../src/userManagement/NextApp";
+import NextApp from "../../src/UserManagement/NextApp";
 
 export default function LoginRoute() {
   return <NextApp />;

@@ -132,11 +132,11 @@ export default class UsersPage extends Component {
 
           <div className={pageStyles.summaryGrid}>
             {[
-              { label: "Total Member", value: users.length },
-              { label: "Total Active Member", value: activeUsers },
-              { label: "Total Deactive Member", value: deactiveUsers },
-              { label: "Number of Members working Today", value: workingToday },
-              { label: "Number of Members on leave Today", value: onLeaveToday },
+              { label: "Total Members", value: users.length },
+              { label: "Total Members (Active)", value: activeUsers },
+              { label: "Total Members (Deactive)", value: deactiveUsers },
+              { label: "Members working Today", value: workingToday },
+              { label: "Members on leave Today", value: onLeaveToday },
             ].map((card) => (
               <article key={card.label} className={pageStyles.summaryMetric}>
                 <p className={pageStyles.summaryLabel}>{card.label}</p>

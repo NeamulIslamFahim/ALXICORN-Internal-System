@@ -131,20 +131,26 @@
   place-items: center;
   padding: 0;
   border-radius: 999px;
-  background: transparent;
-  border: 0;
+  background: #ffffff;
+  border: 1px solid transparent;
   box-shadow: none;
   cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
 }
 
 .rowAction:hover {
   transform: none;
   box-shadow: none;
-  background: #d7ff28;
+  background: #f6f7f8;
+  border-color: #e7eaee;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
 }
 
 .rowAction:focus {
   outline: none;
+  background: #f6f7f8;
+  border-color: #d8dde3;
+  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
 }
 
 .rowAction span {
@@ -184,7 +190,9 @@
 
 .actionMenuShell:hover .rowAction,
 .actionMenuShell:focus-within .rowAction {
-  background: #d7ff28;
+  background: #f6f7f8;
+  border-color: #e7eaee;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
 }
 
 .menuItem {

@@ -108,7 +108,7 @@
 .summaryMetric {
   min-height: 142px;
   display: grid;
-  align-content: center;
+  grid-template-rows: minmax(0, 1fr) auto;
   gap: 12px;
   padding: 20px 22px;
   border: 1px solid #ececec;
@@ -131,6 +131,7 @@
   font-size: 2.3rem;
   font-weight: 800;
   line-height: 1;
+  align-self: end;
 }
 
 .summaryValueCompact {
@@ -138,6 +139,7 @@
   font-size: 1.2rem;
   font-weight: 800;
   line-height: 1.3;
+  align-self: end;
 }
 
 .toolbarRow {
