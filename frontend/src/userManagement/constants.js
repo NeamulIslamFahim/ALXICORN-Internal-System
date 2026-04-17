@@ -6,7 +6,6 @@ export const ROLE_OPTIONS = {
 };
 
 export const PAGE_OPTIONS = {
-  OVERVIEW: "overview",
   USERS: "users",
   TEAMS: "teams",
   PROFILE: "profile",

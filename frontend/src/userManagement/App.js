@@ -7,14 +7,12 @@ import NoticePopup from "./components/layout/NoticePopup";
 import UsersPage from "./pages/UsersPage";
 import TeamsPage from "./pages/TeamsPage";
 import ProfilePage from "./pages/ProfilePage";
-import OverviewPage from "./pages/OverviewPage";
 import styles from "./AppShell.module.css";
 import pageStyles from "./pages/pages.module.css";
 
 // Admin roles switch between workspace pages, while employees get a single profile view.
 const DASHBOARD_PAGES = {
   [PAGE_OPTIONS.DASHBOARD]: UsersPage,
-  [PAGE_OPTIONS.OVERVIEW]: OverviewPage,
   [PAGE_OPTIONS.USERS]: UsersPage,
   [PAGE_OPTIONS.TEAMS]: TeamsPage,
   [PAGE_OPTIONS.PROFILE]: ProfilePage,

@@ -3,7 +3,6 @@ import { PAGE_OPTIONS } from "../../context/AppContext";
 import pageStyles from "../../pages/pages.module.css";
 
 const MANAGEMENT_TABS = [
-  { page: PAGE_OPTIONS.OVERVIEW, label: "Overview" },
   { page: PAGE_OPTIONS.USERS, label: "Account Management" },
   { page: PAGE_OPTIONS.TEAMS, label: "Team Management" },
 ];

@@ -10,6 +10,10 @@ export class UserManagementStore {
     this.seedSignature = UserManagementNormalizer.buildSeedSignature(this.seed);
   }
 
+  static sanitizePage(page) {
+    return page === PAGE_OPTIONS.TEAMS || page === PAGE_OPTIONS.PROFILE ? page : PAGE_OPTIONS.USERS;
+  }
+
   static createNotice(title, message = "", tone = "info") {
     return { title, message, tone };
   }
@@ -125,7 +129,7 @@ export class UserManagementStore {
       users,
       teams,
       authUserId: users.some((user) => user.id === authUserId) ? authUserId : null,
-      page: readJSON(STORAGE_KEYS.page, PAGE_OPTIONS.USERS),
+      page: UserManagementStore.sanitizePage(readJSON(STORAGE_KEYS.page, PAGE_OPTIONS.USERS)),
       selectedNavItem: SIDEBAR_OPTIONS.USER_MANAGEMENT,
     };
   }
@@ -248,7 +252,12 @@ export class UserManagementStore {
   }
 
   setPage(state, page) {
-    return { ...state, page, selectedNavItem: SIDEBAR_OPTIONS.USER_MANAGEMENT, notice: null };
+    return {
+      ...state,
+      page: UserManagementStore.sanitizePage(page),
+      selectedNavItem: SIDEBAR_OPTIONS.USER_MANAGEMENT,
+      notice: null,
+    };
   }
 
   setSelectedNavItem(state, selectedNavItem) {
